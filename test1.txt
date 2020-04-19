@@ -1,0 +1,12 @@
+vint vector = {2, 4, 5, 1, 7, 9}
+int size = 6
+int temp = 0
+for i = 0:size-1 beginfor
+for j = 0: size-1 beginfor
+if vector(j)<vector(j+1) beginif
+temp <- vector(j+1)
+vector(j+1) <- vector(j)
+vector(j) <- temp
+endif
+endfor
+endfor
