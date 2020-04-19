@@ -40,7 +40,7 @@ class MyLexer(object):
     t_L_FIGBRACKET = r'\{'
     t_R_FIGBRACKET = r'\}'
     t_CONTINUE = r'\.\.\.'
-    t_COMMA = r','
+    t_COMMA = r'\,'
 
     def t_VARIABLE(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
