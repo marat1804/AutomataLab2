@@ -17,7 +17,7 @@ class MyLexer(object):
     tokens = ['INT_DEX', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY', 'SPACE',
               'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE', 'L_SQBRACKET', 'R_SQBRACKET',
-              'COMMA'] + list(reserved.values())
+              'COMMA', 'NL'] + list(reserved.values())
 
     t_ASSIGMENT = r'\<\-'
     t_AND = r'&&'
@@ -56,9 +56,10 @@ class MyLexer(object):
         t.value = int(t.value)
         return t
 
-    def t_newline(self, t):
+    def t_NL(self, t):
         r'\n+'
         t.lexer.lineno += len(t.value)
+        return t
 
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
