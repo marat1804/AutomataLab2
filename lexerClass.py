@@ -1,20 +1,11 @@
 import ply.lex as lex
 
 reserved = {
-    'if': 'IF',
-    'for': 'FOR',
-    'and': 'AND',
-    'sum': 'SUM',
-    'begin': 'BEGIN',
-    'end': 'END',
-    'beginfor': 'BEGINFOR',
-    'endfor': 'ENDFOR',
-    'beginif': 'BEGINIF',
-    'endif': 'ENDIF',
-    'true': 'TRUE',
-    'false': 'FALSE',
-    'int': 'INT',
-    'bool': 'BOOL'
+    'if': 'IF', 'for': 'FOR', 'and': 'AND', 'sum': 'SUM', 'begin': 'BEGIN', 'end': 'END', 'beginfor': 'BEGINFOR',
+    'endfor': 'ENDFOR', 'beginif': 'BEGINIF', 'endif': 'ENDIF', 'true': 'TRUE', 'false': 'FALSE', 'int': 'INT',
+    'bool': 'BOOL', 'function': 'FUNCTION', 'move': 'MOVE', 'exit': 'EXIT', 'right': 'RIGHT', 'left': 'LEFT',
+    'wall': 'WALL', 'cint': 'CINT', 'vint': 'VINT', 'cvint': 'CVINT', 'mint': 'MINT', 'cmint': 'CMINT',
+    'cbool': 'CBOOL', 'vbool': 'VBOOL', 'cvbool': 'CVBOOL', 'mbool': 'MBOOL', 'cmbool': 'CMBOOL'
 }
 
 
@@ -25,7 +16,8 @@ class MyLexer(object):
 
     tokens = ['INT_DEX', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY', 'SPACE',
-              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET'] + list(reserved.values())
+              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE', 'L_SQBRACKET', 'R_SQBRACKET',
+              'COMMA'] + list(reserved.values())
 
     t_ASSIGMENT = r'\<\-'
     t_AND = r'&&'
@@ -36,6 +28,8 @@ class MyLexer(object):
     t_PLUS = r'\+'
     t_LBRACKET = r'\('
     t_RBRACKET = r'\)'
+    t_L_SQBRACKET = r'\['
+    t_R_SQBRACKET = r'\]'
     t_COLON = r'\:'
     t_TRANSPOSE = r'\''
     t_DENY = r'\!'
@@ -45,6 +39,8 @@ class MyLexer(object):
     t_MINUS = r'\-'
     t_L_FIGBRACKET = r'\{'
     t_R_FIGBRACKET = r'\}'
+    t_CONTINUE = r'\.\.\.'
+    t_COMMA = r','
 
     def t_VARIABLE(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -77,7 +73,7 @@ class MyLexer(object):
 
 
 if __name__ == '__main__':
-    f = open('1.txt')
+    f = open('test2.txt')
     data = f.read()
     f.close()
     lexer = MyLexer()

@@ -7,7 +7,13 @@ cint
 vint
 int
 mint
+cmint
 bool
+cbool
+vbool
+cvbool
+mbool
+cmbool
 (
 )
 12312+4213
@@ -36,7 +42,7 @@ right
 left
 wall
 exit
-
+...
 function main()
 begin
 vint vector = {2, 4, 5, 1, 7, 9}
