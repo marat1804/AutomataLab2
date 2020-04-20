@@ -39,7 +39,6 @@ class MyLexer(object):
     t_MINUS = r'\-'
     t_L_FIGBRACKET = r'\{'
     t_R_FIGBRACKET = r'\}'
-    t_CONTINUE = r'\.\.\.'
     t_COMMA = r'\,'
 
     def t_VARIABLE(self, t):
@@ -61,6 +60,11 @@ class MyLexer(object):
         t.lexer.lineno += len(t.value)
         return t
 
+    def t_CONTINUE(self, t):
+        r'\.\.\.\n+'
+        t.lexer.lineno += len(t.value)-3
+        pass
+
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
 
@@ -74,7 +78,7 @@ class MyLexer(object):
 
 
 if __name__ == '__main__':
-    f = open('test2.txt')
+    f = open('1.txt')
     data = f.read()
     f.close()
     lexer = MyLexer()

@@ -1,5 +1,6 @@
 23124132
 0101010
+011012354
 true
 false
 cvint
@@ -37,15 +38,17 @@ vector(j+1) <- vector(j)
 vector(j) <- temp
 endif
 endfor
+
 move()
 right
 left
 wall
 exit
 ...
+
 function main()
 begin
 vint vector = {2, 4, 5, 1, 7, 9}
 int size = 6
-bublesort[vector, size]
+bublesort vector, size
 end

@@ -17,5 +17,7 @@ function main()
 begin
 vint vector = {2, 4, 5, 1, 7, 9}
 int size = 6
-bublesort[vector, size]
+bublesort vector, size
 end
+
+main
