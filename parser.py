@@ -69,16 +69,22 @@ class MyParser(object):
                     | assigment NL
                     | for NL
                     | if NL
-                    | operaion NL
+                    | operation NL
                     | function NL
                     | function_call NL"""
         p[0] = p[1]
 
-    #TODO expression
     def p_declaration(self, p):
-        """declaration : type var math_expression
-                        | type var L_FIGBRACKET expression R_FIGBRACKET"""
+        """declaration : type var"""
         p[0] = SyntaxTreeNode('declaration', value=p[1], children=p[2])
+
+    def p_expr_list(self, p):
+        """expr_list : expr_list expression
+                     | expression"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('expr_list', children=p[1])
+        else:
+            p[0] = SyntaxTreeNode('expr_list', children=[p[1], p[2]])
 
     def p_type(self, p):
         """type : int
@@ -104,8 +110,12 @@ class MyParser(object):
         p[0] = p[1]
 
     def p_vars(self, p):
-        """var : VARIABLE EQ expression"""
-        p[0] = SyntaxTreeNode('var', children=[p[1], p[3]])
+        """var : VARIABLE EQ expression
+                | VARIABLE EQ L_FIGBRACKET expr_list R_FIGBRACKET"""
+        if len(p) == 4:
+            p[0] = SyntaxTreeNode('var', children=[p[1], p[3]])
+        else:
+            p[0] = SyntaxTreeNode('var', children=[p[1], p[4]])
 
     def p_expression(self, p):
         """expression : variable
