@@ -91,7 +91,7 @@ class MyLexer(object):
 
 
 if __name__ == '__main__':
-    f = open('testparser.txt')
+    f = open('test2.txt')
     data = f.read()
     f.close()
     lexer = MyLexer()
