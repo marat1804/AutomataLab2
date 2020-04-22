@@ -1,3 +1,5 @@
+import sys
+
 import ply.lex as lex
 
 reserved = {
@@ -16,7 +18,7 @@ class MyLexer(object):
 
     tokens = ['INT_DEX', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY', 'SPACE',
-              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE', 'L_SQBRACKET', 'R_SQBRACKET',
+              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE',
               'COMMA', 'NL'] + list(reserved.values())
 
     t_ASSIGMENT = r'\<\-'
@@ -28,8 +30,6 @@ class MyLexer(object):
     t_PLUS = r'\+'
     t_LBRACKET = r'\('
     t_RBRACKET = r'\)'
-    t_L_SQBRACKET = r'\['
-    t_R_SQBRACKET = r'\]'
     t_COLON = r'\:'
     t_TRANSPOSE = r'\''
     t_DENY = r'\!'
@@ -42,12 +42,13 @@ class MyLexer(object):
     t_COMMA = r'\,'
 
     def t_VARIABLE(self, t):
-        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        r'[a-zA-Z][a-zA-Z_0-9]*'
         t.type = reserved.get(t.value, 'VARIABLE')
         return t
 
     def t_INT_BIN(self, t):
         r'0[01]+'
+        t.value = self.bit_to_dex(t.value)
         return t
 
     def t_INT_DEX(self, t):
@@ -61,12 +62,13 @@ class MyLexer(object):
         return t
 
     def t_CONTINUE(self, t):
-        r'\.\.\.\n+'
+        r'\.\.\.\n'
         t.lexer.lineno += len(t.value)-3
         pass
 
     def t_error(self, t):
-        print("Illegal character '%s'" % t.value[0])
+        sys.stderr.write(f'Illegal character: {t.value[0]} at line {t.lexer.lineno}\n')
+        t.lexer.skip(1)
 
     t_ignore = ' \t'
 
@@ -75,6 +77,17 @@ class MyLexer(object):
 
     def token(self):
         return self.lexer.token()
+
+    def bit_to_dex(self, number):
+        n = []
+        for i in range(len(number)):
+            n.append(number[i])
+        del n[0]
+        n.reverse()
+        result = 0
+        for index in range(len(n)):
+            result += 2**index*int(n[index])
+        return result
 
 
 if __name__ == '__main__':
@@ -89,3 +102,4 @@ if __name__ == '__main__':
             break
         else:
             print(token)
+
