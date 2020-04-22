@@ -16,7 +16,7 @@ class MyLexer(object):
     def __init__(self):
         self.lexer = lex.lex(module=self)
 
-    tokens = ['INT_DEX', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
+    tokens = ['INT_DEC', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY', 'SPACE',
               'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE',
               'COMMA', 'NL'] + list(reserved.values())
@@ -51,7 +51,7 @@ class MyLexer(object):
         t.value = self.bit_to_dex(t.value)
         return t
 
-    def t_INT_DEX(self, t):
+    def t_INT_DEC(self, t):
         r'\d+'
         t.value = int(t.value)
         return t

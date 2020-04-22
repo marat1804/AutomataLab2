@@ -2,56 +2,19 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    AND
-    ASSIGMENT
     BEGIN
     BEGINFOR
     BEGINIF
-    BOOL
-    CBOOL
-    CINT
-    CMBOOL
-    CMINT
-    COLON
-    COMMA
     CONTINUE
-    CVBOOL
-    CVINT
-    DENY
     END
     ENDFOR
     ENDIF
-    EQ
-    EXIT
-    FALSE
     FOR
     FUNCTION
-    GREATER
     IF
-    INT
-    INT_BIN
-    LBRACKET
-    LEFT
-    LESS
     L_FIGBRACKET
-    MBOOL
-    MINT
-    MOVE
-    MUL_ELEM
-    MUL_MATRIX
-    RBRACKET
-    RIGHT
     R_FIGBRACKET
     SPACE
-    STL
-    STR
-    SUM
-    TRANSPOSE
-    TRUE
-    VARIABLE
-    VBOOL
-    VINT
-    WALL
 
 Grammar
 
@@ -59,178 +22,141 @@ Rule 0     S' -> program
 Rule 1     program -> stmt_list
 Rule 2     stmt_list -> stmt_list statement
 Rule 3     stmt_list -> statement
-Rule 4     statement -> al_expression NL
-Rule 5     al_expression -> INT_DEC PLUS INT_DEC
-Rule 6     al_expression -> INT_DEC MINUS INT_DEC
+Rule 4     statement -> declaration NL
+Rule 5     statement -> assigment NL
+Rule 6     statement -> for NL
+Rule 7     statement -> if NL
+Rule 8     statement -> operaion NL
+Rule 9     statement -> function NL
+Rule 10    statement -> function_call NL
+Rule 11    declaration -> type var
+Rule 12    type -> int
+Rule 13    type -> bool
+Rule 14    int -> INT
+Rule 15    int -> CINT
+Rule 16    int -> VINT
+Rule 17    int -> MINT
+Rule 18    int -> CVINT
+Rule 19    int -> CMINT
+Rule 20    bool -> BOOL
+Rule 21    bool -> CBOOL
+Rule 22    bool -> VBOOL
+Rule 23    bool -> MBOOL
+Rule 24    bool -> CVBOOL
+Rule 25    bool -> CMBOOL
+Rule 26    var -> VARIABLE EQ expression
+Rule 27    expression -> variable
+Rule 28    expression -> const
+Rule 29    expression -> math_expression
+Rule 30    math_expression -> expression PLUS expression
+Rule 31    math_expression -> expression MINUS expression
+Rule 32    math_expression -> expression MUL_MATRIX expression
+Rule 33    math_expression -> expression MUL_ELEM expression
+Rule 34    math_expression -> expression TRANSPOSE
+Rule 35    math_expression -> SUM LBRACKET expression RBRACKET
+Rule 36    math_expression -> expression STL
+Rule 37    math_expression -> expression STR
+Rule 38    math_expression -> DENY expression
+Rule 39    math_expression -> expression AND expression
+Rule 40    math_expression -> expression LESS expression
+Rule 41    math_expression -> expression GREATER expression
+Rule 42    const -> TRUE
+Rule 43    const -> FALSE
+Rule 44    const -> INT_DEC
+Rule 45    const -> INT_BIN
+Rule 46    variable -> VARIABLE
+Rule 47    variable -> VARIABLE LBRACKET index RBRACKET
+Rule 48    ind_exp -> expression
+Rule 49    ind_exp -> COLON
+Rule 50    ind_exp -> <empty>
+Rule 51    index -> expression
+Rule 52    index -> ind_exp COMMA ind_exp
+Rule 53    operation -> MOVE LBRACKET math_expression RBRACKET
+Rule 54    operation -> RIGHT
+Rule 55    operation -> LEFT
+Rule 56    operation -> WALL
+Rule 57    operation -> EXIT
+Rule 58    assigment -> variable ASSIGMENT expression
 
 Terminals, with rules where they appear
 
-AND                  : 
-ASSIGMENT            : 
+AND                  : 39
+ASSIGMENT            : 58
 BEGIN                : 
 BEGINFOR             : 
 BEGINIF              : 
-BOOL                 : 
-CBOOL                : 
-CINT                 : 
-CMBOOL               : 
-CMINT                : 
-COLON                : 
-COMMA                : 
+BOOL                 : 20
+CBOOL                : 21
+CINT                 : 15
+CMBOOL               : 25
+CMINT                : 19
+COLON                : 49
+COMMA                : 52
 CONTINUE             : 
-CVBOOL               : 
-CVINT                : 
-DENY                 : 
+CVBOOL               : 24
+CVINT                : 18
+DENY                 : 38
 END                  : 
 ENDFOR               : 
 ENDIF                : 
-EQ                   : 
-EXIT                 : 
-FALSE                : 
+EQ                   : 26
+EXIT                 : 57
+FALSE                : 43
 FOR                  : 
 FUNCTION             : 
-GREATER              : 
+GREATER              : 41
 IF                   : 
-INT                  : 
-INT_BIN              : 
-INT_DEC              : 5 5 6 6
-LBRACKET             : 
-LEFT                 : 
-LESS                 : 
+INT                  : 14
+INT_BIN              : 45
+INT_DEC              : 44
+LBRACKET             : 35 47 53
+LEFT                 : 55
+LESS                 : 40
 L_FIGBRACKET         : 
-MBOOL                : 
-MINT                 : 
-MINUS                : 6
-MOVE                 : 
-MUL_ELEM             : 
-MUL_MATRIX           : 
-NL                   : 4
-PLUS                 : 5
-RBRACKET             : 
-RIGHT                : 
+MBOOL                : 23
+MINT                 : 17
+MINUS                : 31
+MOVE                 : 53
+MUL_ELEM             : 33
+MUL_MATRIX           : 32
+NL                   : 4 5 6 7 8 9 10
+PLUS                 : 30
+RBRACKET             : 35 47 53
+RIGHT                : 54
 R_FIGBRACKET         : 
 SPACE                : 
-STL                  : 
-STR                  : 
-SUM                  : 
-TRANSPOSE            : 
-TRUE                 : 
-VARIABLE             : 
-VBOOL                : 
-VINT                 : 
-WALL                 : 
+STL                  : 36
+STR                  : 37
+SUM                  : 35
+TRANSPOSE            : 34
+TRUE                 : 42
+VARIABLE             : 26 46 47
+VBOOL                : 22
+VINT                 : 16
+WALL                 : 56
 error                : 
 
 Nonterminals, with rules where they appear
 
-al_expression        : 4
+assigment            : 5
+bool                 : 13
+const                : 28
+declaration          : 4
+expression           : 26 30 30 31 31 32 32 33 33 34 35 36 37 38 39 39 40 40 41 41 48 51 58
+for                  : 6
+function             : 9
+function_call        : 10
+if                   : 7
+ind_exp              : 52 52
+index                : 47
+int                  : 12
+math_expression      : 29 53
+operaion             : 8
+operation            : 
 program              : 0
 statement            : 2 3
 stmt_list            : 1 2
-
-Parsing method: LALR
-
-state 0
-
-    (0) S' -> . program
-    (1) program -> . stmt_list
-    (2) stmt_list -> . stmt_list statement
-    (3) stmt_list -> . statement
-    (4) statement -> . al_expression NL
-    (5) al_expression -> . INT_DEC PLUS INT_DEC
-    (6) al_expression -> . INT_DEC MINUS INT_DEC
-
-    INT_DEC         shift and go to state 5
-
-    program                        shift and go to state 1
-    stmt_list                      shift and go to state 2
-    statement                      shift and go to state 3
-    al_expression                  shift and go to state 4
-
-state 1
-
-    (0) S' -> program .
-
-
-
-state 2
-
-    (1) program -> stmt_list .
-    (2) stmt_list -> stmt_list . statement
-    (4) statement -> . al_expression NL
-    (5) al_expression -> . INT_DEC PLUS INT_DEC
-    (6) al_expression -> . INT_DEC MINUS INT_DEC
-
-    $end            reduce using rule 1 (program -> stmt_list .)
-    INT_DEC         shift and go to state 5
-
-    statement                      shift and go to state 6
-    al_expression                  shift and go to state 4
-
-state 3
-
-    (3) stmt_list -> statement .
-
-    INT_DEC         reduce using rule 3 (stmt_list -> statement .)
-    $end            reduce using rule 3 (stmt_list -> statement .)
-
-
-state 4
-
-    (4) statement -> al_expression . NL
-
-    NL              shift and go to state 7
-
-
-state 5
-
-    (5) al_expression -> INT_DEC . PLUS INT_DEC
-    (6) al_expression -> INT_DEC . MINUS INT_DEC
-
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-
-
-state 6
-
-    (2) stmt_list -> stmt_list statement .
-
-    INT_DEC         reduce using rule 2 (stmt_list -> stmt_list statement .)
-    $end            reduce using rule 2 (stmt_list -> stmt_list statement .)
-
-
-state 7
-
-    (4) statement -> al_expression NL .
-
-    INT_DEC         reduce using rule 4 (statement -> al_expression NL .)
-    $end            reduce using rule 4 (statement -> al_expression NL .)
-
-
-state 8
-
-    (5) al_expression -> INT_DEC PLUS . INT_DEC
-
-    INT_DEC         shift and go to state 10
-
-
-state 9
-
-    (6) al_expression -> INT_DEC MINUS . INT_DEC
-
-    INT_DEC         shift and go to state 11
-
-
-state 10
-
-    (5) al_expression -> INT_DEC PLUS INT_DEC .
-
-    NL              reduce using rule 5 (al_expression -> INT_DEC PLUS INT_DEC .)
-
-
-state 11
-
-    (6) al_expression -> INT_DEC MINUS INT_DEC .
-
-    NL              reduce using rule 6 (al_expression -> INT_DEC MINUS INT_DEC .)
+type                 : 11
+var                  : 11
+variable             : 27 58
 

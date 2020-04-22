@@ -47,7 +47,7 @@ class MyParser(object):
 
     def p_program(self, p):
         """program : stmt_list"""
-        p[0] = SyntaxTreeNode('program', children=p[1])
+        p[0] = SyntaxTreeNode('program', children=p[1], value='prog')
 
     def parse(self, s):
         try:
@@ -58,20 +58,122 @@ class MyParser(object):
 
     def p_stmt_list(self, p):
         """stmt_list : stmt_list statement
-        | statement"""
+                    | statement"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('stmt_list', children=p[1])
         else:
             p[0] = SyntaxTreeNode('stmt_list', children=[p[1], p[2]])
 
     def p_statement(self, p):
-        """statement : al_expression NL"""
-        p[0] = SyntaxTreeNode('stmt_list', value=p[1])
+        """statement : declaration NL
+                    | assigment NL
+                    | for NL
+                    | if NL
+                    | operaion NL
+                    | function NL
+                    | function_call NL"""
+        p[0] = p[1]
 
-    def p_al_expression(self, p):
-        """al_expression : INT_DEC PLUS INT_DEC
-        | INT_DEC MINUS INT_DEC"""
-        p[0] = SyntaxTreeNode('op', p[2], children=[p[1], p[3]])
+    #TODO expression
+    def p_declaration(self, p):
+        """declaration : type var math_expression
+                        | type var L_FIGBRACKET expression R_FIGBRACKET"""
+        p[0] = SyntaxTreeNode('declaration', value=p[1], children=p[2])
+
+    def p_type(self, p):
+        """type : int
+                | bool"""
+        p[0] = p[1]
+
+    def p_int(self, p):
+        """int : INT
+               | CINT
+               | VINT
+               | MINT
+               | CVINT
+               | CMINT"""
+        p[0] = p[1]
+
+    def p_bool(self, p):
+        """bool : BOOL
+                | CBOOL
+                | VBOOL
+                | MBOOL
+                | CVBOOL
+                | CMBOOL"""
+        p[0] = p[1]
+
+    def p_vars(self, p):
+        """var : VARIABLE EQ expression"""
+        p[0] = SyntaxTreeNode('var', children=[p[1], p[3]])
+
+    def p_expression(self, p):
+        """expression : variable
+                      | const
+                      | math_expression"""
+        p[1] = p[0]
+
+    def p_math_expression(self, p):
+        """math_expression :  expression PLUS expression
+                            | expression MINUS expression
+                            | expression MUL_MATRIX expression
+                            | expression MUL_ELEM expression
+                            | expression TRANSPOSE
+                            | SUM LBRACKET expression RBRACKET
+                            | expression STL
+                            | expression STR
+                            | DENY expression
+                            | expression AND expression
+                            | expression LESS expression
+                            | expression GREATER expression"""
+        if len(p) == 3:
+            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1])
+        else:
+            p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]])
+
+    def p_const(self, p):
+        """const : TRUE
+                 | FALSE
+                 | INT_DEC
+                 | INT_BIN"""
+        p[0] = SyntaxTreeNode('const', value=p[1])
+
+    def p_variable(self, p):
+        """variable : VARIABLE
+                    | VARIABLE LBRACKET index RBRACKET"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('variable', p[1])
+        else:
+            p[0] = SyntaxTreeNode('indexing', p[1], children=p[3])
+
+    def p_ind_exp(self, p):
+        """ind_exp : expression
+                   | COLON
+                   | """
+        p[0] = p[1]
+
+    def p_index(self, p):
+        """index : expression
+                 | ind_exp COMMA ind_exp"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('index', children=p[1])
+        else:
+            p[0] = SyntaxTreeNode('index', children=[p[1], p[3]])
+
+    def p_operation(self, p):
+        """operation : MOVE LBRACKET math_expression RBRACKET
+                     | RIGHT
+                     | LEFT
+                     | WALL
+                     | EXIT"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('operator', p[1])
+        else:
+            p[0] = SyntaxTreeNode('operator', p[1], children=p[3])
+
+    def p_assigment(self, p):
+        """assigment : variable ASSIGMENT expression"""
+        p[0] = SyntaxTreeNode('assigment', p[1], children=p[3])
 
     def p_error(self, p):
         print(f'Syntax error at {p}')
