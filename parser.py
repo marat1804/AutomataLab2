@@ -185,6 +185,11 @@ class MyParser(object):
         """assigment : variable ASSIGMENT expression"""
         p[0] = SyntaxTreeNode('assigment', p[1], children=p[3])
 
+    def p_for(self, p):
+        """for : FOR VARIABLE EQ expression COLON expression BEGINFOR stmt_list ENDFOR
+               | FOR VARIABLE EQ expression COLON expression BEGIN stmt_list END"""
+        p[0] = SyntaxTreeNode('for', children=[p[2], p[4], p[6], p[8]])
+
     def p_error(self, p):
         print(f'Syntax error at {p}')
         self.acc = False

@@ -17,7 +17,7 @@ class MyLexer(object):
         self.lexer = lex.lex(module=self)
 
     tokens = ['INT_DEC', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
-              'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY', 'SPACE',
+              'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY',
               'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE',
               'COMMA', 'NL'] + list(reserved.values())
 
