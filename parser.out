@@ -1,0 +1,236 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    ASSIGMENT
+    BEGIN
+    BEGINFOR
+    BEGINIF
+    BOOL
+    CBOOL
+    CINT
+    CMBOOL
+    CMINT
+    COLON
+    COMMA
+    CONTINUE
+    CVBOOL
+    CVINT
+    DENY
+    END
+    ENDFOR
+    ENDIF
+    EQ
+    EXIT
+    FALSE
+    FOR
+    FUNCTION
+    GREATER
+    IF
+    INT
+    INT_BIN
+    LBRACKET
+    LEFT
+    LESS
+    L_FIGBRACKET
+    MBOOL
+    MINT
+    MOVE
+    MUL_ELEM
+    MUL_MATRIX
+    RBRACKET
+    RIGHT
+    R_FIGBRACKET
+    SPACE
+    STL
+    STR
+    SUM
+    TRANSPOSE
+    TRUE
+    VARIABLE
+    VBOOL
+    VINT
+    WALL
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> stmt_list
+Rule 2     stmt_list -> stmt_list statement
+Rule 3     stmt_list -> statement
+Rule 4     statement -> al_expression NL
+Rule 5     al_expression -> INT_DEC PLUS INT_DEC
+Rule 6     al_expression -> INT_DEC MINUS INT_DEC
+
+Terminals, with rules where they appear
+
+AND                  : 
+ASSIGMENT            : 
+BEGIN                : 
+BEGINFOR             : 
+BEGINIF              : 
+BOOL                 : 
+CBOOL                : 
+CINT                 : 
+CMBOOL               : 
+CMINT                : 
+COLON                : 
+COMMA                : 
+CONTINUE             : 
+CVBOOL               : 
+CVINT                : 
+DENY                 : 
+END                  : 
+ENDFOR               : 
+ENDIF                : 
+EQ                   : 
+EXIT                 : 
+FALSE                : 
+FOR                  : 
+FUNCTION             : 
+GREATER              : 
+IF                   : 
+INT                  : 
+INT_BIN              : 
+INT_DEC              : 5 5 6 6
+LBRACKET             : 
+LEFT                 : 
+LESS                 : 
+L_FIGBRACKET         : 
+MBOOL                : 
+MINT                 : 
+MINUS                : 6
+MOVE                 : 
+MUL_ELEM             : 
+MUL_MATRIX           : 
+NL                   : 4
+PLUS                 : 5
+RBRACKET             : 
+RIGHT                : 
+R_FIGBRACKET         : 
+SPACE                : 
+STL                  : 
+STR                  : 
+SUM                  : 
+TRANSPOSE            : 
+TRUE                 : 
+VARIABLE             : 
+VBOOL                : 
+VINT                 : 
+WALL                 : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+al_expression        : 4
+program              : 0
+statement            : 2 3
+stmt_list            : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . stmt_list
+    (2) stmt_list -> . stmt_list statement
+    (3) stmt_list -> . statement
+    (4) statement -> . al_expression NL
+    (5) al_expression -> . INT_DEC PLUS INT_DEC
+    (6) al_expression -> . INT_DEC MINUS INT_DEC
+
+    INT_DEC         shift and go to state 5
+
+    program                        shift and go to state 1
+    stmt_list                      shift and go to state 2
+    statement                      shift and go to state 3
+    al_expression                  shift and go to state 4
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> stmt_list .
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . al_expression NL
+    (5) al_expression -> . INT_DEC PLUS INT_DEC
+    (6) al_expression -> . INT_DEC MINUS INT_DEC
+
+    $end            reduce using rule 1 (program -> stmt_list .)
+    INT_DEC         shift and go to state 5
+
+    statement                      shift and go to state 6
+    al_expression                  shift and go to state 4
+
+state 3
+
+    (3) stmt_list -> statement .
+
+    INT_DEC         reduce using rule 3 (stmt_list -> statement .)
+    $end            reduce using rule 3 (stmt_list -> statement .)
+
+
+state 4
+
+    (4) statement -> al_expression . NL
+
+    NL              shift and go to state 7
+
+
+state 5
+
+    (5) al_expression -> INT_DEC . PLUS INT_DEC
+    (6) al_expression -> INT_DEC . MINUS INT_DEC
+
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+
+
+state 6
+
+    (2) stmt_list -> stmt_list statement .
+
+    INT_DEC         reduce using rule 2 (stmt_list -> stmt_list statement .)
+    $end            reduce using rule 2 (stmt_list -> stmt_list statement .)
+
+
+state 7
+
+    (4) statement -> al_expression NL .
+
+    INT_DEC         reduce using rule 4 (statement -> al_expression NL .)
+    $end            reduce using rule 4 (statement -> al_expression NL .)
+
+
+state 8
+
+    (5) al_expression -> INT_DEC PLUS . INT_DEC
+
+    INT_DEC         shift and go to state 10
+
+
+state 9
+
+    (6) al_expression -> INT_DEC MINUS . INT_DEC
+
+    INT_DEC         shift and go to state 11
+
+
+state 10
+
+    (5) al_expression -> INT_DEC PLUS INT_DEC .
+
+    NL              reduce using rule 5 (al_expression -> INT_DEC PLUS INT_DEC .)
+
+
+state 11
+
+    (6) al_expression -> INT_DEC MINUS INT_DEC .
+
+    NL              reduce using rule 6 (al_expression -> INT_DEC MINUS INT_DEC .)
+
