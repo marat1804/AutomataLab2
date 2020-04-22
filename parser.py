@@ -109,7 +109,7 @@ class MyParser(object):
                 | CMBOOL"""
         p[0] = p[1]
 
-    def p_vars(self, p):
+    def p_var(self, p):
         """var : VARIABLE EQ expression
                 | VARIABLE EQ L_FIGBRACKET expr_list R_FIGBRACKET"""
         if len(p) == 4:
@@ -121,7 +121,7 @@ class MyParser(object):
         """expression : variable
                       | const
                       | math_expression"""
-        p[1] = p[0]
+        p[0] = p[1]
 
     def p_math_expression(self, p):
         """math_expression :  expression PLUS expression
@@ -190,6 +190,65 @@ class MyParser(object):
                | FOR VARIABLE EQ expression COLON expression BEGIN stmt_list END"""
         p[0] = SyntaxTreeNode('for', children=[p[2], p[4], p[6], p[8]])
 
+    def p_if(self, p):
+        """if : IF math_expression BEGINIF stmt_list ENDIF
+              | IF math_expression BEGIN stmt_list END"""
+        p[0] = SyntaxTreeNode('if', p[2], children=p[4])
+
+    def p_function(self, p):
+        """function : return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN stmt_list END
+                    | FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN stmt_list END
+                    | return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN stmt_list END
+                    | FUNCTION VARIABLE LBRACKET RBRACKET BEGIN stmt_list END"""
+        if len(p) == 10:
+            p[0] = SyntaxTreeNode('function', p[4], children=[p[1], p[6], p[9]])
+        elif len(p) == 8:
+            p[0] = SyntaxTreeNode('function', p[2], children=[p[4], p[7]])
+        elif len(p) == 9:
+            p[0] = SyntaxTreeNode('function', p[4], children=[p[1], p[8]])
+        elif len(p) == 7:
+            p[0] = SyntaxTreeNode('function', p[2], children=p[6])
+
+    def p_function_call(self, p):
+        """function_call : VARIABLE
+                         | VARIABLE call_list"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('function_call', p[1])
+        else:
+            p[0] = SyntaxTreeNode('function_call', p[1], children=p[2])
+
+    def p_return_list(self, p):
+        """return_list : return_list COMMA type VARIABLE
+                        | type VARIABLE"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('return_list',children=[p[1], p[2]])
+        else:
+            p[0] = SyntaxTreeNode('return_list', children=[p[1], p[3], p[4]])
+
+    def p_func_list(self, p):
+        """func_list : func_list COMMA func
+                    | func"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('func_list', children=[p[1], p[2]])
+        else:
+            p[0] = SyntaxTreeNode('func_list', children=[p[1], p[3]])
+
+    def p_func(self, p):
+        """func : type VARIABLE
+                | type VARIABLE EQ const"""
+        if len(p) == 3:
+            p[0] = SyntaxTreeNode('func', children=p[p[1], p[2]])
+        else:
+            p[0] = SyntaxTreeNode('func', children=p[p[1], p[2], p[4]])
+
+    def p_call_list(self, p):
+        """call_list : call_list COMMA expression
+                    | expression"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('call_list', children=p[1])
+        else:
+            p[0] = SyntaxTreeNode('call_list', children=[p[1], p[3]])
+
     def p_error(self, p):
         print(f'Syntax error at {p}')
         self.acc = False
@@ -197,8 +256,10 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    txt = '1+1 \n 1-2 \n'
+    f = open('testparser.txt', 'r')
+    txt = f.read()
+    f.close()
     print(f'INPUT: {txt}')
     tree, func_table = parser.parse(txt)
-    # tree = parser.parser.parse(txt, debug=True)
+    #tree = parser.parser.parse(txt, debug=True)
     tree.print()

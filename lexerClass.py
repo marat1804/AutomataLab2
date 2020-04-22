@@ -18,7 +18,7 @@ class MyLexer(object):
 
     tokens = ['INT_DEC', 'INT_BIN', 'ASSIGMENT', 'PLUS', 'MINUS', 'VARIABLE', 'LBRACKET', 'RBRACKET',
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY',
-              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET', 'CONTINUE',
+              'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET',
               'COMMA', 'NL'] + list(reserved.values())
 
     t_ASSIGMENT = r'\<\-'
@@ -91,7 +91,7 @@ class MyLexer(object):
 
 
 if __name__ == '__main__':
-    f = open('1.txt')
+    f = open('testparser.txt')
     data = f.read()
     f.close()
     lexer = MyLexer()
