@@ -7,7 +7,7 @@ from typing import List, Optional
 
 
 class SyntaxTreeNode:
-    def __init__(self, node_type, value=None, children = [], lineno = None, lexpos = None):
+    def __init__(self, node_type, value=None, children=[], lineno=None, lexpos=None):
         self.type = node_type
         self.value = value
         self.children = children
@@ -74,9 +74,13 @@ class MyParser(object):
         """declaration : type VARIABLE EQ expression
                        | type VARIABLE EQ L_FIGBRACKET expr_list R_FIGBRACKET"""
         if len(p) == 5:
-            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('declaration', value=p[1],
+                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
+                                            p[4]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[5]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('declaration', value=p[1],
+                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
+                                            p[5]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_expr_list(self, p):
         """expr_list : expr_list COMMA expression
@@ -169,9 +173,9 @@ class MyParser(object):
                      | WALL
                      | EXIT"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('operator', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('robot', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('operator', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('robot', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_assigment(self, p):
         """assigment : variable ASSIGMENT expression"""
@@ -180,12 +184,14 @@ class MyParser(object):
     def p_for(self, p):
         """for : FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
                | FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END"""
-        p[0] = SyntaxTreeNode('for', children={'var': p[2], 'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+        p[0] = SyntaxTreeNode('for', children={'var': SyntaxTreeNode('variable', p[2], children=[]),
+                                               'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1),
+                              lexpos=p.lexpos(1))
 
     def p_if(self, p):
         """if : IF math_expression BEGINIF NL stmt_list ENDIF
               | IF math_expression BEGIN NL stmt_list END"""
-        p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[4]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+        p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[5]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_return_list(self, p):
         """return_list : return_list COMMA type VARIABLE
@@ -243,7 +249,8 @@ class MyParser(object):
                                                   lineno=p.lineno(1), lexpos=p.lexpos(1))
             p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 13:
-            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[11], 'param': p[8], 'return': [p[1], p[2]]},
+            self.functions[p[5]] = SyntaxTreeNode('function',
+                                                  children={'body': p[11], 'param': p[8], 'return': [p[1], p[2]]},
                                                   lineno=p.lineno(1), lexpos=p.lexpos(1))
             p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 12 and p[6] == '(':
@@ -266,10 +273,10 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    f = open('test2.txt', 'r')
+    f = open('test1.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
     tree, func_table = parser.parse(txt)
-    #tree = parser.parser.parse(txt, debug=True)
+    # tree = parser.parser.parse(txt, debug=True)
     tree.print()
