@@ -7,34 +7,30 @@ from typing import List, Optional
 
 
 class SyntaxTreeNode:
-    def __init__(self, node_type, value=None, children: Optional[List] = None):
+    def __init__(self, node_type, value=None, children = [], lineno = None, lexpos = None):
         self.type = node_type
         self.value = value
         self.children = children
+        self.lineno = lineno
+        self.lexpos = lexpos
 
     def __repr__(self):
-        return f'''{self.type} {self.value}'''
+        return f'''{self.type} {self.value} {self.lineno} : {self.lexpos}'''
 
     def print(self, level: int = 0):
-        print(' ' * level, ' ', self)
-        if self.children is not None:
-            if isinstance(self.children, SyntaxTreeNode):
-                self.children.print(level + 1)
-            elif isinstance(self.children, str):
-                print(' ' * (level + 1), self.children)
-            elif isinstance(self.children, list):
-                for i in range(len(self.children)):
-                    if isinstance(self.children[i], str):
-                        print(' ' * (level + 1), self.children[i])
-                    else:
-                        self.children[i].print(level + 1)
-            elif isinstance(self.children, dict):
-                for key, value in self.children.items():
-                    print(' ' * (level + 1), key)
-                    if isinstance(value, str):
-                        print(' ' * (level + 2), value)
-                    elif isinstance(value, SyntaxTreeNode):
-                        value.print(level + 2)
+        if self is None:
+            return
+        print(' ' * level, self)
+        if isinstance(self.children, SyntaxTreeNode):
+            self.children.print(level + 1)
+        elif isinstance(self.children, list):
+            for i in range(len(self.children)):
+                self.children[i].print(level + 1)
+        elif isinstance(self.children, dict):
+            for key, value in self.children.items():
+                print(' ' * (level + 1), key)
+                if value:
+                    value.print(level + 2)
 
 
 class MyParser(object):
@@ -47,7 +43,7 @@ class MyParser(object):
 
     def p_program(self, p):
         """program : stmt_list"""
-        p[0] = SyntaxTreeNode('program', children=p[1], value='prog')
+        p[0] = SyntaxTreeNode('program', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def parse(self, s):
         try:
@@ -78,9 +74,9 @@ class MyParser(object):
         """declaration : type VARIABLE EQ expression
                        | type VARIABLE EQ L_FIGBRACKET expr_list R_FIGBRACKET"""
         if len(p) == 5:
-            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[3]])
+            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[5]])
+            p[0] = SyntaxTreeNode('declaration', value=p[1], children=[p[2], p[5]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_expr_list(self, p):
         """expr_list : expr_list COMMA expression
@@ -93,7 +89,7 @@ class MyParser(object):
     def p_type(self, p):
         """type : int
                 | bool"""
-        p[0] = p[1]
+        p[0] = SyntaxTreeNode('type', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_int(self, p):
         """int : INT
@@ -133,16 +129,16 @@ class MyParser(object):
                             | expression LESS expression
                             | expression GREATER expression"""
         if len(p) == 3:
-            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1])
+            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]])
+            p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_const(self, p):
         """const : TRUE
                  | FALSE
                  | INT_DEC
                  | INT_BIN"""
-        p[0] = SyntaxTreeNode('const', value=p[1])
+        p[0] = SyntaxTreeNode('const', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_variable(self, p):
         """variable : VARIABLE
@@ -150,7 +146,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('variable', p[1])
         else:
-            p[0] = SyntaxTreeNode('indexing', p[1], children=p[3])
+            p[0] = SyntaxTreeNode('indexing', p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_ind_exp(self, p):
         """ind_exp : expression
@@ -162,9 +158,9 @@ class MyParser(object):
         """index : expression
                  | ind_exp COMMA ind_exp"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('index', children=p[1])
+            p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('index', children=[p[1], p[3]])
+            p[0] = SyntaxTreeNode('index', children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_operation(self, p):
         """operation : MOVE LBRACKET math_expression RBRACKET
@@ -173,31 +169,31 @@ class MyParser(object):
                      | WALL
                      | EXIT"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('operator', p[1])
+            p[0] = SyntaxTreeNode('operator', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('operator', p[1], children=p[3])
+            p[0] = SyntaxTreeNode('operator', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_assigment(self, p):
         """assigment : variable ASSIGMENT expression"""
-        p[0] = SyntaxTreeNode('assigment', p[1], children=p[3])
+        p[0] = SyntaxTreeNode('assigment', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_for(self, p):
         """for : FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
                | FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END"""
-        p[0] = SyntaxTreeNode('for', children={'var': p[2], 'from': p[4], 'to': p[6], 'body': p[9]})
+        p[0] = SyntaxTreeNode('for', children={'var': p[2], 'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_if(self, p):
         """if : IF math_expression BEGINIF NL stmt_list ENDIF
               | IF math_expression BEGIN NL stmt_list END"""
-        p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[4]})
+        p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[4]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_return_list(self, p):
         """return_list : return_list COMMA type VARIABLE
                         | type VARIABLE"""
         if len(p) == 3:
-            p[0] = SyntaxTreeNode('return_list', children=[p[1], p[2]])
+            p[0] = SyntaxTreeNode('return_list', children=[p[1], p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('return_list', children=[p[1], p[3], p[4]])
+            p[0] = SyntaxTreeNode('return_list', children=[p[1], p[3], p[4]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_func_list(self, p):
         """func_list : func_list COMMA func
@@ -231,31 +227,37 @@ class MyParser(object):
                     | type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
                     | type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END"""
         if len(p) == 12 and p[5] == '(':
-            self.functions[p[4]] = SyntaxTreeNode('function', children={'param': p[6], 'body': p[10], 'return': p[1]})
-            p[0] = SyntaxTreeNode('function_description', value=p[4])
+            self.functions[p[4]] = SyntaxTreeNode('function', children={'param': p[6], 'body': p[10], 'return': p[1]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[4], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 10:
-            self.functions[p[2]] = SyntaxTreeNode('function', children={'param': p[4], 'body': p[8]})
-            p[0] = SyntaxTreeNode('function_description', value=p[2])
+            self.functions[p[2]] = SyntaxTreeNode('function', children={'param': p[4], 'body': p[8]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 11:
-            self.functions[p[4]] = SyntaxTreeNode('function', children={'return': p[1], 'body': p[9]})
-            p[0] = SyntaxTreeNode('function_description', value=p[2])
+            self.functions[p[4]] = SyntaxTreeNode('function', children={'return': p[1], 'body': p[9]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 9:
-            self.functions[p[2]] = SyntaxTreeNode('function', children={'body': p[7]})
-            p[0] = SyntaxTreeNode('function_description', value=p[2])
+            self.functions[p[2]] = SyntaxTreeNode('function', children={'body': p[7]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 13:
-            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[11], 'param': p[8], 'return': [p[1], p[2]]})
-            p[0] = SyntaxTreeNode('function_description', value=p[5])
+            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[11], 'param': p[8], 'return': [p[1], p[2]]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 12 and p[6] == '(':
-            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[10], 'return': [p[1], p[2]]})
-            p[0] = SyntaxTreeNode('function_description', value=p[5])
+            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[10], 'return': [p[1], p[2]]},
+                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_function_call(self, p):
         """function_call : VARIABLE
                          | VARIABLE call_list"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('function_call', p[1])
+            p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('function_call', p[1], children=p[2])
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_error(self, p):
         print(f'Syntax error at {p}')
