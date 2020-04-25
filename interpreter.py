@@ -1,4 +1,3 @@
-from __future__ import annotations
 import sys
 from typing import List
 from parser import MyParser
@@ -36,4 +35,24 @@ class Interpreter:
     def interpreter_node(self, node):
         if node is None:
             return
+        elif node.type == 'program':
+            self.interpreter_node(node.children)
+        elif node.type == 'stmt_list':
+            for ch in node.children:
+                self.interpreter_node(ch)
+
+        # statements
+        elif node.type == 'declaration':
+            declaration_type = node.value.value
+            declaration_child = node.children
+            print(declaration_type, declaration_child)
+
+
+if __name__ == '__main__':
+    i = Interpreter(MyParser, '')
+    prog = open('test1.txt', 'r').read()
+    m = MyParser()
+    tree, f = m.parse(prog)
+    i.interpreter_node(tree)
+
 

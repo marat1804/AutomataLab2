@@ -56,7 +56,7 @@ class MyParser(object):
         """stmt_list : stmt_list statement
                     | statement"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('stmt_list', children=p[1])
+            p[0] = SyntaxTreeNode('stmt_list', children=[p[1]])
         else:
             p[0] = SyntaxTreeNode('stmt_list', children=[p[1], p[2]])
 
@@ -86,7 +86,7 @@ class MyParser(object):
         """expr_list : expr_list COMMA expression
                      | expression"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('expr_list', children=p[1])
+            p[0] = SyntaxTreeNode('expr_list', children=[p[1]])
         else:
             p[0] = SyntaxTreeNode('expr_list', children=[p[1], p[3]])
 
@@ -133,7 +133,7 @@ class MyParser(object):
                             | expression LESS expression
                             | expression GREATER expression"""
         if len(p) == 3:
-            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('un_op', p[2], children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
             p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
@@ -150,7 +150,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('variable', p[1])
         else:
-            p[0] = SyntaxTreeNode('indexing', p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('indexing', p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_ind_exp(self, p):
         """ind_exp : expression
@@ -162,7 +162,7 @@ class MyParser(object):
         """index : expression
                  | ind_exp COMMA ind_exp"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('index', children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
             p[0] = SyntaxTreeNode('index', children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
@@ -175,11 +175,11 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('robot', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('robot', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('robot', value=p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_assigment(self, p):
         """assigment : variable ASSIGMENT expression"""
-        p[0] = SyntaxTreeNode('assigment', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        p[0] = SyntaxTreeNode('assigment', value=p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_for(self, p):
         """for : FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
@@ -205,7 +205,7 @@ class MyParser(object):
         """func_list : func_list COMMA func
                     | func"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('func_list', children=p[1])
+            p[0] = SyntaxTreeNode('func_list', children=[p[1]])
         else:
             p[0] = SyntaxTreeNode('func_list', children=[p[1], p[3]])
 
@@ -221,7 +221,7 @@ class MyParser(object):
         """call_list : call_list COMMA expression
                     | expression"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('call_list', children=p[1])
+            p[0] = SyntaxTreeNode('call_list', children=[p[1]])
         else:
             p[0] = SyntaxTreeNode('call_list', children=[p[1], p[3]])
 
@@ -264,7 +264,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('function_call', value=p[1], children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children=[p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_error(self, p):
         print(f'Syntax error at {p}')
