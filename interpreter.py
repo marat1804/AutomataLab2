@@ -96,6 +96,17 @@ class Interpreter:
             return self.interpreter_node(node.children)
         elif node.type == 'const':
             return self.const_val(node.value)
+        elif node.type == 'decl_list':
+            return self.list_of_smth(self.get_list(node))
+        elif node.type == 'assigment':
+            var = node.value.value
+            if var not in self.symbol_table.keys():
+                print('ERROR') # TODO Error
+            else:
+                _type = self.symbol_table[var].type
+                expression = self.interpreter_node(node.children)
+                # TODO add Try
+                self.assign(_type, var, expression)
         else:
             print('ELSE', node)
         return ''
@@ -103,7 +114,8 @@ class Interpreter:
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
             variable = child[0].value
-            expression = self.get_list(child[1])
+            #expression = self.get_list(child[1])
+            expression = self.interpreter_node(child[1])
             self.declare(type, variable, expression)
         elif child[1].type == 'expression':
             variable = child[0].value
@@ -143,7 +155,8 @@ class Interpreter:
             t, e = self.check_var(type, exp)
         return t, e
 
-    def check_matrix(self, type, exp):
+    def check_matrix(self, type, expr):
+        exp = expr.value
         l = len(exp)
         t = type[1:]
         for i in range(len(exp)):
@@ -155,8 +168,9 @@ class Interpreter:
                 exp[i][j] = self.converser.converse(t, exp[i][j])
         return type, exp
 
-    def check_vector(self, type, exp):
+    def check_vector(self, type, expr):
         t = type[1:]
+        exp = expr.value
         for i in range(len(exp)):
             exp[i] = self.converser.converse(t, exp[i])
         return type, exp
@@ -171,6 +185,28 @@ class Interpreter:
         else:
             return Variable('int', value)
 
+    def list_of_smth(self, value):
+        if isinstance(value[0], list):
+            if isinstance(value[0][0].value, int):
+                return Variable('mint', value)
+            else:
+                return Variable('mbool', value)
+        else:
+            if isinstance(value[0].value, int):
+                return Variable('vint', value)
+            else:
+                return Variable('vbool', value)
+
+    def assign(self, type, var, expression):
+        if type[0] == 'c':
+            print("ERRROR") #TODO ERROR
+        if type == expression.type:
+            self.symbol_table[var] = expression
+        elif type[0] == expression.type[0]:
+            pass
+        print('as', type, var, expression)
+        pass
+
 
 if __name__ == '__main__':
     i = Interpreter(MyParser, TypeConverser())
@@ -178,5 +214,7 @@ if __name__ == '__main__':
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
+
     for k,v in i.symbol_table.items():
         print(k, v)
+
