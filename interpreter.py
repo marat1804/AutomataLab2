@@ -48,7 +48,7 @@ class Interpreter:
         self.converser = converser
         self.map = None
         self.program = None
-        self.symbol_table = [dict()]
+        self.symbol_table = dict()
         self.tree = None
         self.functions = None
         # TODO add errors
@@ -112,8 +112,11 @@ class Interpreter:
             self.declare(type, variable, expression)
 
     def declare(self, type, var, expression):
-        print(type, var, expression)
         type, expression = self.check_type(type, expression)
+        if var in self.symbol_table.keys():
+            pass # TODO ERROR
+        else:
+            self.symbol_table[var] = Variable(type, expression)
 
     def get_list(self, node):
         if isinstance(node.children, SyntaxTreeNode):
@@ -141,7 +144,6 @@ class Interpreter:
         return t, e
 
     def check_matrix(self, type, exp):
-        # check sizes
         l = len(exp)
         t = type[1:]
         for i in range(len(exp)):
@@ -150,15 +152,18 @@ class Interpreter:
                 # TODO Error
         for i in range(l):
             for j in range(l):
-                exp[i][j] = self.converser.converse(t, exp[i][j]).value
-        print(exp)
-        return '', ''
+                exp[i][j] = self.converser.converse(t, exp[i][j])
+        return type, exp
 
     def check_vector(self, type, exp):
-        return '', ''
+        t = type[1:]
+        for i in range(len(exp)):
+            exp[i] = self.converser.converse(t, exp[i])
+        return type, exp
 
     def check_var(self, type, exp):
-        return '', ''
+        exp = self.converser.converse(type, exp)
+        return type, exp
 
     def const_val(self, value):
         if value == 'true' or value == 'false':
@@ -173,3 +178,5 @@ if __name__ == '__main__':
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
+    for k,v in i.symbol_table.items():
+        print(k, v)

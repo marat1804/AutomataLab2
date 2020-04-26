@@ -1,8 +1,8 @@
-vint vector = {2, 4, 5, 1, 7, 9}
+vint vector = {2, 4, 5, true, 7, 9}
 mint matrix = {{2,4,true, 4}, {2,5,false, 4}, {2,5,7, 4}, {1, 2 , 3,4}}
 mint m = {{1,2},{2,3}}
 int size = 6
-int temp = 15 + 1
+
 bool t = true
 for i = 0:size-1 beginfor
 for j = 0: size-1 beginfor
