@@ -114,7 +114,6 @@ class Interpreter:
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
             variable = child[0].value
-            #expression = self.get_list(child[1])
             expression = self.interpreter_node(child[1])
             self.declare(type, variable, expression)
         elif child[1].type == 'expression':
@@ -124,11 +123,12 @@ class Interpreter:
             self.declare(type, variable, expression)
 
     def declare(self, type, var, expression):
-        type, expression = self.check_type(type, expression)
+        expression = self.check_type(type, expression)
         if var in self.symbol_table.keys():
             pass # TODO ERROR
         else:
-            self.symbol_table[var] = Variable(type, expression)
+
+            self.symbol_table[var] = expression
 
     def get_list(self, node):
         if isinstance(node.children, SyntaxTreeNode):
@@ -148,12 +148,12 @@ class Interpreter:
 
     def check_type(self, type, exp):
         if type.find('m') != -1:
-            t, e = self.check_matrix(type, exp)
+            e = self.check_matrix(type, exp)
         elif type.find('v') != -1:
-            t, e = self.check_vector(type, exp)
+            e = self.check_vector(type, exp)
         else:
-            t, e = self.check_var(type, exp)
-        return t, e
+            e = self.check_var(type, exp)
+        return e
 
     def check_matrix(self, type, expr):
         exp = expr.value
@@ -166,18 +166,18 @@ class Interpreter:
         for i in range(l):
             for j in range(l):
                 exp[i][j] = self.converser.converse(t, exp[i][j])
-        return type, exp
+        return Variable(type, exp)
 
     def check_vector(self, type, expr):
         t = type[1:]
         exp = expr.value
         for i in range(len(exp)):
             exp[i] = self.converser.converse(t, exp[i])
-        return type, exp
+        return Variable(type, exp)
 
     def check_var(self, type, exp):
         exp = self.converser.converse(type, exp)
-        return type, exp
+        return exp
 
     def const_val(self, value):
         if value == 'true' or value == 'false':
@@ -203,9 +203,14 @@ class Interpreter:
         if type == expression.type:
             self.symbol_table[var] = expression
         elif type[0] == expression.type[0]:
-            pass
-        print('as', type, var, expression)
-        pass
+            if type[0] == 'v':
+                self.symbol_table[var] = self.check_vector(type, expression)
+            elif type[0] == 'm':
+                self.symbol_table[var] = self.check_matrix(type, expression)
+        elif (type == 'bool' or type == 'int') and (expression.type == 'bool' or expression.type == 'int'):
+            self.symbol_table[var] = self.check_var(type, expression)
+        else:
+            print('ERRORR') #TODO EROOR
 
 
 if __name__ == '__main__':
