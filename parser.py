@@ -84,7 +84,7 @@ class MyParser(object):
 
     def p_decl_list(self, p):
         """decl_list : L_FIGBRACKET expr_list R_FIGBRACKET
-                     | decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET
+                     | decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
                      | expr_list"""
         if len(p) == 4:
             p[0] = SyntaxTreeNode('decl_list', children=p[2])
@@ -128,7 +128,7 @@ class MyParser(object):
         """expression : variable
                       | const
                       | math_expression"""
-        p[0] = p[1]
+        p[0] = SyntaxTreeNode('expression', children=p[1])
 
     def p_math_expression(self, p):
         """math_expression :  expression PLUS expression

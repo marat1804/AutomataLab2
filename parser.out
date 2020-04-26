@@ -16,7 +16,7 @@ Rule 10    statement -> function_call NL
 Rule 11    declaration -> type VARIABLE EQ expression
 Rule 12    declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
 Rule 13    decl_list -> L_FIGBRACKET expr_list R_FIGBRACKET
-Rule 14    decl_list -> decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET
+Rule 14    decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 Rule 15    decl_list -> expr_list
 Rule 16    expr_list -> expr_list COMMA expression
 Rule 17    expr_list -> expression
@@ -149,9 +149,9 @@ assigment            : 5
 bool                 : 19
 call_list            : 74 83
 const                : 33 73
-decl_list            : 12 14
+decl_list            : 12 14 14
 declaration          : 4
-expr_list            : 13 14 15 16
+expr_list            : 13 15 16
 expression           : 11 16 17 35 35 36 36 37 37 38 38 39 40 41 42 43 44 44 45 45 46 46 53 56 63 64 64 65 65 74 75
 for                  : 6
 func                 : 70 71
@@ -2215,7 +2215,7 @@ state 94
 
     (12) declaration -> type VARIABLE EQ L_FIGBRACKET . decl_list R_FIGBRACKET
     (13) decl_list -> . L_FIGBRACKET expr_list R_FIGBRACKET
-    (14) decl_list -> . decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET
+    (14) decl_list -> . decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
     (15) decl_list -> . expr_list
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
@@ -3077,7 +3077,7 @@ state 117
 state 118
 
     (12) declaration -> type VARIABLE EQ L_FIGBRACKET decl_list . R_FIGBRACKET
-    (14) decl_list -> decl_list . COMMA L_FIGBRACKET expr_list R_FIGBRACKET
+    (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
     R_FIGBRACKET    shift and go to state 134
     COMMA           shift and go to state 135
@@ -3525,7 +3525,7 @@ state 134
 
 state 135
 
-    (14) decl_list -> decl_list COMMA . L_FIGBRACKET expr_list R_FIGBRACKET
+    (14) decl_list -> decl_list COMMA . L_FIGBRACKET decl_list R_FIGBRACKET
 
     L_FIGBRACKET    shift and go to state 148
 
@@ -3798,7 +3798,10 @@ state 147
 
 state 148
 
-    (14) decl_list -> decl_list COMMA L_FIGBRACKET . expr_list R_FIGBRACKET
+    (14) decl_list -> decl_list COMMA L_FIGBRACKET . decl_list R_FIGBRACKET
+    (13) decl_list -> . L_FIGBRACKET expr_list R_FIGBRACKET
+    (14) decl_list -> . decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
+    (15) decl_list -> . expr_list
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
     (32) expression -> . variable
@@ -3823,6 +3826,7 @@ state 148
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
 
+    L_FIGBRACKET    shift and go to state 117
     VARIABLE        shift and go to state 46
     TRUE            shift and go to state 53
     FALSE           shift and go to state 54
@@ -3831,7 +3835,8 @@ state 148
     SUM             shift and go to state 57
     DENY            shift and go to state 58
 
-    expr_list                      shift and go to state 159
+    decl_list                      shift and go to state 159
+    expr_list                      shift and go to state 119
     expression                     shift and go to state 120
     variable                       shift and go to state 50
     const                          shift and go to state 51
@@ -4094,11 +4099,11 @@ state 158
 
 state 159
 
-    (14) decl_list -> decl_list COMMA L_FIGBRACKET expr_list . R_FIGBRACKET
-    (16) expr_list -> expr_list . COMMA expression
+    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list . R_FIGBRACKET
+    (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
     R_FIGBRACKET    shift and go to state 168
-    COMMA           shift and go to state 136
+    COMMA           shift and go to state 135
 
 
 state 160
@@ -4482,10 +4487,10 @@ state 167
 
 state 168
 
-    (14) decl_list -> decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET .
+    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .
 
-    R_FIGBRACKET    reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET .)
-    COMMA           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET .)
+    R_FIGBRACKET    reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
+    COMMA           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
 
 
 state 169
