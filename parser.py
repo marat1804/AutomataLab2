@@ -72,7 +72,7 @@ class MyParser(object):
 
     def p_declaration(self, p):
         """declaration : type VARIABLE EQ expression
-                       | type VARIABLE EQ L_FIGBRACKET expr_list R_FIGBRACKET"""
+                       | type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET"""
         if len(p) == 5:
             p[0] = SyntaxTreeNode('declaration', value=p[1],
                                   children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
@@ -81,6 +81,17 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('declaration', value=p[1],
                                   children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
                                             p[5]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+
+    def p_decl_list(self, p):
+        """decl_list : L_FIGBRACKET expr_list R_FIGBRACKET
+                     | decl_list COMMA L_FIGBRACKET expr_list R_FIGBRACKET
+                     | expr_list"""
+        if len(p) == 4:
+            p[0] = SyntaxTreeNode('decl_list', children=p[2])
+        elif len(p) == 2:
+            p[0] = SyntaxTreeNode('decl_list', children=p[1])
+        else:
+            p[0] = SyntaxTreeNode('decl_list', children=[p[1], p[4]])
 
     def p_expr_list(self, p):
         """expr_list : expr_list COMMA expression
@@ -278,5 +289,5 @@ if __name__ == '__main__':
     f.close()
     print(f'INPUT: {txt}')
     tree, func_table = parser.parse(txt)
-    # tree = parser.parser.parse(txt, debug=True)
+    #tree = parser.parser.parse(txt, debug=True)
     tree.print()
