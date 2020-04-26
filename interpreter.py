@@ -35,10 +35,10 @@ class TypeConverser:
 
     @staticmethod
     def bool_to_int(var):
-        if var.value:
+        if var.value == 'true':
             return Variable('int', 1)
         else:
-            return Variable('bool', 0)
+            return Variable('int', 0)
 
 
 class Interpreter:
@@ -95,16 +95,15 @@ class Interpreter:
         elif node.type == 'expression':
             return self.interpreter_node(node.children)
         elif node.type == 'const':
-            return node.value
+            return self.const_val(node.value)
         else:
             print('ELSE', node)
         return ''
 
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
-            variable = child[0]
+            variable = child[0].value
             expression = self.get_list(child[1])
-            print(type, variable, expression)
             self.declare(type, variable, expression)
         elif child[1].type == 'expression':
             variable = child[0].value
@@ -113,13 +112,12 @@ class Interpreter:
             self.declare(type, variable, expression)
 
     def declare(self, type, var, expression):
-
-        pass
+        print(type, var, expression)
+        type, expression = self.check_type(type, expression)
 
     def get_list(self, node):
         if isinstance(node.children, SyntaxTreeNode):
             expression = self.interpreter_node(node.children)
-            #print(node, expression)
             return expression
         elif isinstance(node.children, list):
             expr = []
@@ -133,9 +131,44 @@ class Interpreter:
                     expr = expr[0]
             return expr
 
+    def check_type(self, type, exp):
+        if type.find('m') != -1:
+            t, e = self.check_matrix(type, exp)
+        elif type.find('v') != -1:
+            t, e = self.check_vector(type, exp)
+        else:
+            t, e = self.check_var(type, exp)
+        return t, e
+
+    def check_matrix(self, type, exp):
+        # check sizes
+        l = len(exp)
+        t = type[1:]
+        for i in range(len(exp)):
+            if len(exp[i]) != l:
+                print('ERROR')
+                # TODO Error
+        for i in range(l):
+            for j in range(l):
+                exp[i][j] = self.converser.converse(t, exp[i][j]).value
+        print(exp)
+        return '', ''
+
+    def check_vector(self, type, exp):
+        return '', ''
+
+    def check_var(self, type, exp):
+        return '', ''
+
+    def const_val(self, value):
+        if value == 'true' or value == 'false':
+            return Variable('bool', value)
+        else:
+            return Variable('int', value)
+
 
 if __name__ == '__main__':
-    i = Interpreter(MyParser, '')
+    i = Interpreter(MyParser, TypeConverser())
     prog = open('test1.txt', 'r').read()
     m = MyParser()
     tree, f = m.parse(prog)
