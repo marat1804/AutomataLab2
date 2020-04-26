@@ -189,8 +189,12 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('robot', value=p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_assigment(self, p):
-        """assigment : variable ASSIGMENT expression"""
-        p[0] = SyntaxTreeNode('assigment', value=p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        """assigment : variable ASSIGMENT expression
+                     | variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET"""
+        if len(p) == 4:
+            p[0] = SyntaxTreeNode('assigment', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        else:
+            p[0] = SyntaxTreeNode('assigment', value=p[1], children=p[4], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_for(self, p):
         """for : FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
