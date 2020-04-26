@@ -3,6 +3,42 @@ from typing import List
 from parser import MyParser
 
 
+class Variable:
+    def __init__(self, var_type, var_value):
+        self.type = var_type
+        self.value = var_value
+
+    def __repr__(self):
+        return f'{self.type} {self.value}'
+
+
+class TypeConverser:
+    def __init__(self):
+        pass
+
+    def converse(self, type, var):
+        if type == var.type:
+            return var
+        elif type == 'bool':
+            if var.type == 'int':
+                return self.int_to_bool(var)
+        elif type == 'int':
+            if var.type == 'bool':
+                return self.bool_to_int(var)
+
+    def int_to_bool(self, var):
+        if var.value == 0:
+            return Variable('bool', False)
+        else:
+            return Variable('bool', True)
+
+    def bool_to_int(self, var):
+        if var.value:
+            return Variable('int', 1)
+        else:
+            return Variable('bool', 0)
+
+
 class Interpreter:
 
     # TODO add converser
@@ -49,10 +85,13 @@ class Interpreter:
 
 
 if __name__ == '__main__':
+    '''
     i = Interpreter(MyParser, '')
     prog = open('test1.txt', 'r').read()
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
-
-
+    '''
+    a = Variable('bool', False)
+    c = TypeConverser()
+    print(c.converse('bool', a))
