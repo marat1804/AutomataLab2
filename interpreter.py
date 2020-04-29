@@ -109,6 +109,9 @@ class Interpreter:
                 expression = self.interpreter_node(node.children)
                 # TODO add Try
                 self.assign(_type, var, expression)
+        elif node.type == 'bin_op':
+            if node.value == '+':
+                return self.bin_plus(node.children[0], node.children[1])
         else:
             print('ELSE', node)
         return ''
@@ -206,7 +209,6 @@ class Interpreter:
                 return Variable('vbool', value)
 
     def assign(self, type, var, expression):
-        print(expression)
         if type[0] == 'c':
             print("ERRROR") #TODO ERROR
         if type == expression.type:
@@ -220,6 +222,11 @@ class Interpreter:
             self.symbol_table[var] = self.check_var(type, expression)
         else:
             print('ERRORR') #TODO EROOR
+
+    def bin_plus(self, var1, var2):
+        expr1 = self.converser.converse('int', self.interpreter_node(var1))
+        expr2 = self.converser.converse('int', self.interpreter_node(var2))
+        return Variable('int', expr1.value + expr2.value)
 
 
 if __name__ == '__main__':
