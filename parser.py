@@ -165,7 +165,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('variable', p[1])
         else:
-            p[0] = SyntaxTreeNode('indexing', p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('indexing', p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_ind_exp(self, p):
         """ind_exp : expression
@@ -181,7 +181,7 @@ class MyParser(object):
                  | ind_exp COMMA
                  | COMMA ind_exp"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('index', children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 4:
             p[0] = SyntaxTreeNode('index', children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3 and p[1] == ',':

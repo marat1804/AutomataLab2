@@ -108,7 +108,7 @@ class Interpreter:
         elif node.type == 'assigment':
             var = node.value.value
             if var not in self.symbol_table.keys():
-                print('ERROR')  # TODO Error
+                print('ERROR_assign')  # TODO Error
             else:
                 _type = self.symbol_table[var].type
                 expression = self.interpreter_node(node.children)
@@ -140,6 +140,13 @@ class Interpreter:
                 return self.stl(node.children)
             elif node.value == '>>':
                 return self.str(node.children)
+        elif node.type == 'indexing':
+            return self.indexing(node.value, node.children)
+        elif node.type == 'index':
+            if isinstance(node.children, list):
+                pass
+            else:
+                return self.interpreter_node(node.children)
         else:
             print('ELSE', node)
         return ''
@@ -395,13 +402,13 @@ class Interpreter:
             value = value // 2
         a.reverse()
         digit = a[0]
-        for i in range(len(a)-1):
-            a[i] = a[i+1]
-        a[len(a)-1] = digit
+        for i in range(len(a) - 1):
+            a[i] = a[i + 1]
+        a[len(a) - 1] = digit
         b = 0
         a.reverse()
         for i in range(len(a)):
-            b += a[i] * 2**i
+            b += a[i] * 2 ** i
         return Variable('int', b)
 
     def str(self, var):
@@ -420,6 +427,16 @@ class Interpreter:
         for i in range(len(a)):
             b += a[i] * 2 ** i
         return Variable('int', b)
+
+    def indexing(self, var, children):
+        if var not in self.symbol_table.keys():
+            print("erroor")  # TODO Error
+        print(var, children)
+        if isinstance(children, list):
+            pass
+        else:
+            index = self.interpreter_node(children)
+            return self.symbol_table[var].value[index.value]
 
 
 if __name__ == '__main__':
