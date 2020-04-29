@@ -107,13 +107,16 @@ class Interpreter:
             return self.get_value(node)
         elif node.type == 'assigment':
             var = node.value.value
+            index = None
+            if node.value.type == 'indexing':
+                index = self.interpreter_node(node.value.children)
             if var not in self.symbol_table.keys():
                 print('ERROR_assign')  # TODO Error
             else:
                 _type = self.symbol_table[var].type
                 expression = self.interpreter_node(node.children)
                 # TODO add Try
-                self.assign(_type, var, expression)
+                self.assign(_type, var, expression, index)
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -246,7 +249,7 @@ class Interpreter:
             else:
                 return Variable('vbool', value)
 
-    def assign(self, type, var, expression):
+    def assign(self, type, var, expression, index=None):
         if type[0] == 'c':
             print("ERRROR")  # TODO ERROR
         if type == expression.type:
@@ -258,8 +261,13 @@ class Interpreter:
                 self.symbol_table[var] = self.check_matrix(type, expression)
         elif (type == 'bool' or type == 'int') and (expression.type == 'bool' or expression.type == 'int'):
             self.symbol_table[var] = self.check_var(type, expression)
+        elif index is not None:
+            if type.find('m') != -1:
+                self.symbol_table[var].value[index[0].value][index[1].value] = expression
+            elif type.find('v') != -1:
+                self.symbol_table[var].value[index.value] = expression
         else:
-            print('ERRORR')  # TODO EROOR
+            print('ERRORR_asss')  # TODO EROOR
 
     def bin_plus(self, var1, var2):
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
