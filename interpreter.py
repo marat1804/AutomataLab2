@@ -111,7 +111,9 @@ class Interpreter:
                 print('ERROR')  # TODO Error
             else:
                 _type = self.symbol_table[var].type
+                print(node.children)
                 expression = self.interpreter_node(node.children)
+                print('exp - ', expression)
                 # TODO add Try
                 self.assign(_type, var, expression)
         elif node.type == 'bin_op':
@@ -124,9 +126,15 @@ class Interpreter:
             elif node.value == '.*':
                 return self.element_mul(node.children[0], node.children[1])
             elif node.value == 'and' or node.value == '&&':
-                return self.bin_and(node.children[0], node.children[1])
+                a = self.bin_and(node.children[0], node.children[1])
+                print('and- ',a)
+                return a
             elif node.value == '<':
+                print('less')
                 return self.logic_less(node.children[0], node.children[1])
+            elif node.value == '>':
+                print('more')
+                return self.logic_more(node.children[0], node.children[1])
         elif node.type == 'un_op':
             if node.value == "'":
                 return self.matrix_transpose(node.children)
@@ -231,6 +239,7 @@ class Interpreter:
                 return Variable('vbool', value)
 
     def assign(self, type, var, expression):
+        print('assig', type, var, expression)
         if type[0] == 'c':
             print("ERRROR")  # TODO ERROR
         if type == expression.type:
@@ -374,6 +383,11 @@ class Interpreter:
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
         expr2 = self.converser.converse('int', self.interpreter_node(var2))
         return Variable('bool', expr1.value < expr2.value)
+
+    def logic_more(self, var1, var2):
+        expr1 = self.converser.converse('int', self.interpreter_node(var1))
+        expr2 = self.converser.converse('int', self.interpreter_node(var2))
+        return Variable('bool', expr1.value > expr2.value)
 
 
 if __name__ == '__main__':
