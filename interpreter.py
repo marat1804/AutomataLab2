@@ -112,6 +112,8 @@ class Interpreter:
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
+            elif node.value == '-':
+                return self.bin_minus(node.children[0], node.children[1])
         else:
             print('ELSE', node)
         return ''
@@ -227,6 +229,11 @@ class Interpreter:
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
         expr2 = self.converser.converse('int', self.interpreter_node(var2))
         return Variable('int', expr1.value + expr2.value)
+
+    def bin_minus(self, var1, var2):
+        expr1 = self.converser.converse('int', self.interpreter_node(var1))
+        expr2 = self.converser.converse('int', self.interpreter_node(var2))
+        return Variable('int', expr1.value - expr2.value)
 
 
 if __name__ == '__main__':
