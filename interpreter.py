@@ -463,6 +463,13 @@ class Interpreter:
                         res.append(m[i][index[0].value])
                     type_ = 'v' + type.split('m')[1]
                     return Variable(type_, res)
+                elif isinstance(index[1], Variable) and (index[0] == ':' or index[0] == ','):
+                    res = []
+                    m = self.symbol_table[var].value
+                    for i in range(len(m)):
+                        res.append(m[index[1].value][i])
+                    type_ = 'v' + type.split('m')[1]
+                    return Variable(type_, res)
 
 
 
