@@ -128,6 +128,8 @@ class Interpreter:
                 return self.matrix_transpose(node.children)
             elif node.value == 'sum':
                 return self.element_sum(node.children)
+            elif node.value == '!':
+                return self.deny(node.children)
         else:
             print('ELSE', node)
         return ''
@@ -353,6 +355,11 @@ class Interpreter:
                 for j in range(len(expr.value)):
                     sum += expr.value[i][j].value
         return Variable('int', sum)
+
+    def deny(self, var):
+        expr = self.converser.converse('bool', self.interpreter_node(var))
+        expr.value = not expr.value
+        return expr
 
 
 if __name__ == '__main__':
