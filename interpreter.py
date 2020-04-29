@@ -123,6 +123,8 @@ class Interpreter:
                 return self.matrix_mul(node.children[0], node.children[1])
             elif node.value == '.*':
                 return self.element_mul(node.children[0], node.children[1])
+            elif node.value == 'and' or node.value == '&&':
+                return self.bin_and(node.children[0], node.children[1])
         elif node.type == 'un_op':
             if node.value == "'":
                 return self.matrix_transpose(node.children)
@@ -360,6 +362,11 @@ class Interpreter:
         expr = self.converser.converse('bool', self.interpreter_node(var))
         expr.value = not expr.value
         return expr
+
+    def bin_and(self, var1, var2):
+        expr1 = self.converser.converse('bool', self.interpreter_node(var1))
+        expr2 = self.converser.converse('bool', self.interpreter_node(var2))
+        return Variable('bool', expr1.value and expr2.value)
 
 
 if __name__ == '__main__':
