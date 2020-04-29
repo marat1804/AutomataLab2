@@ -98,6 +98,8 @@ class Interpreter:
             return self.const_val(node.value)
         elif node.type == 'decl_list':
             return self.list_of_smth(self.get_list(node))
+        elif node.type == 'variable':
+            return self.get_value(node)
         elif node.type == 'assigment':
             var = node.value.value
             if var not in self.symbol_table.keys():
@@ -110,6 +112,12 @@ class Interpreter:
         else:
             print('ELSE', node)
         return ''
+
+    def get_value(self, node):
+        if node.value in self.symbol_table.keys():
+            return self.symbol_table[node.value]
+        else:
+            print("ERRROR")
 
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
@@ -198,6 +206,7 @@ class Interpreter:
                 return Variable('vbool', value)
 
     def assign(self, type, var, expression):
+        print(expression)
         if type[0] == 'c':
             print("ERRROR") #TODO ERROR
         if type == expression.type:
