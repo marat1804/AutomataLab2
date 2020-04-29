@@ -179,7 +179,9 @@ class MyParser(object):
         """index : expression
                  | ind_exp COMMA ind_exp
                  | ind_exp COMMA
-                 | COMMA ind_exp"""
+                 | COMMA ind_exp
+                 | decl_list COMMA
+                 | COMMA decl_list"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 4:

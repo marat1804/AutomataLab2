@@ -156,6 +156,7 @@ class Interpreter:
                     ind.append(self.interpreter_node(node.children[i]))
                 return ind
             else:
+
                 return self.interpreter_node(node.children)
         else:
             print('ELSE', node)
@@ -243,12 +244,12 @@ class Interpreter:
 
     def list_of_smth(self, value):
         if isinstance(value[0], list):
-            if isinstance(value[0][0].value, int):
+            if type(value[0][0].value) is int:
                 return Variable('mint', value)
             else:
                 return Variable('mbool', value)
         else:
-            if isinstance(value[0].value, int):
+            if type(value[0].value) is int:
                 return Variable('vint', value)
             else:
                 return Variable('vbool', value)
@@ -435,7 +436,6 @@ class Interpreter:
             value = value // 2
         digit = a[0]
         for i in range(len(a) - 1):
-            print(i)
             a[i] = a[i + 1]
         a[len(a) - 1] = digit
         b = 0
@@ -448,7 +448,7 @@ class Interpreter:
             print("erroor")  # TODO Error
         type = self.symbol_table[var].type
         index = self.interpreter_node(children)
-        print(index)
+        print('indexing', type, index)
         if not isinstance(index, list):
             return self.symbol_table[var].value[index.value]
         else:
@@ -457,19 +457,75 @@ class Interpreter:
                     return self.symbol_table[var].value[index[0].value][index[1].value]
             elif type.find('m') != -1:
                 if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
-                    res = []
-                    m = self.symbol_table[var].value
-                    for i in range(len(m)):
-                        res.append(m[i][index[0].value])
-                    type_ = 'v' + type.split('m')[1]
-                    return Variable(type_, res)
+                    if index[0].type.find('v') == -1 and index[0].type.find('m') == -1:
+                        res = []
+                        index[0] = self.check_var('int', index[0])
+                        m = self.symbol_table[var].value
+                        for i in range(len(m)):
+                            res.append(m[i][index[0].value])
+                        type_ = 'v' + type.split('m')[1]
+                        return Variable(type_, res)
+                    elif index[0].type.find('vint') != -1:
+                        index[0] = self.check_vector('vint', index[0])
+                        value = index[0].value
+                        res = [[] for i in range(len(value))]
+                        m = self.symbol_table[var].value
+                        for j in range(len(value)):
+                            for i in range(len(m)):
+                                res[j].append(m[i][value[j].value])
+                        return Variable(type, res)
+                    elif index[0].type.find('vbool') != -1:
+                        m = self.symbol_table[var].value
+                        if len(index[0].value) != len(m):
+                            print("ERRROR") # TODO ERROR
+                        index[0] = self.check_vector('vbool', index[0])
+                        value = index[0].value
+                        res = []
+                        k = -1
+                        for j in range(len(value)):
+                            if not value[j].value:
+                                continue
+                            res.append([])
+                            k += 1
+                            for i in range(len(m)):
+                                res[k].append(m[i][j])
+                        return Variable(type, res)
                 elif isinstance(index[1], Variable) and (index[0] == ':' or index[0] == ','):
-                    res = []
-                    m = self.symbol_table[var].value
-                    for i in range(len(m)):
-                        res.append(m[index[1].value][i])
-                    type_ = 'v' + type.split('m')[1]
-                    return Variable(type_, res)
+                    if index[1].type.find('v') == -1:
+                        res = []
+                        index[1] = self.check_var('int', index[1])
+                        m = self.symbol_table[var].value
+                        for i in range(len(m)):
+                            res.append(m[index[1].value][i])
+                        type_ = 'v' + type.split('m')[1]
+                        return Variable(type_, res)
+                    elif index[1].type.find('vint') != -1:
+                        index[1] = self.check_vector('vint', index[1])
+                        value = index[1].value
+                        res = [[] for i in range(len(value))]
+                        m = self.symbol_table[var].value
+                        for j in range(len(value)):
+                            for i in range(len(m)):
+                                res[j].append(m[value[j].value][i])
+                        return Variable(type, res)
+                    elif index[1].type.find('vbool') != -1:
+                        m = self.symbol_table[var].value
+                        if len(index[1].value) != len(m):
+                            print("ERRROR")  # TODO ERROR
+                        index[1] = self.check_vector('vbool', index[1])
+                        value = index[1].value
+                        res = []
+                        k = -1
+                        for j in range(len(value)):
+                            if not value[j].value:
+                                continue
+                            res.append([])
+                            k += 1
+                            for i in range(len(m)):
+                                res[k].append(m[j][i])
+                        return Variable(type, res)
+                else:
+                    print('index')
 
 
 
