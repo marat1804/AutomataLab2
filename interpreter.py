@@ -126,6 +126,8 @@ class Interpreter:
         elif node.type == 'un_op':
             if node.value == "'":
                 return self.matrix_transpose(node.children)
+            elif node.value == 'sum':
+                return self.element_sum(node.children)
         else:
             print('ELSE', node)
         return ''
@@ -337,6 +339,20 @@ class Interpreter:
                 for j in range(l):
                     res[j][i] = expr.value[i][j]
             return Variable(expr.type, res)
+
+    def element_sum(self, var):
+        expr = self.interpreter_node(var)
+        if expr.type.find('v') == -1 and expr.type.find('m') == -1:
+            print('Errror')
+        sum = 0
+        if expr.type.find('v') != -1:
+            for i in range(len(expr.value)):
+                sum += expr.value[i].value
+        elif expr.type.find('m') != -1:
+            for i in range(len(expr.value)):
+                for j in range(len(expr.value)):
+                    sum += expr.value[i][j].value
+        return Variable('int', sum)
 
 
 if __name__ == '__main__':
