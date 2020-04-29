@@ -144,7 +144,10 @@ class Interpreter:
             return self.indexing(node.value, node.children)
         elif node.type == 'index':
             if isinstance(node.children, list):
-                pass
+                ind = []
+                for i in range(len(node.children)):
+                    ind.append(self.interpreter_node(node.children[i]))
+                return ind
             else:
                 return self.interpreter_node(node.children)
         else:
@@ -432,11 +435,12 @@ class Interpreter:
         if var not in self.symbol_table.keys():
             print("erroor")  # TODO Error
         print(var, children)
-        if isinstance(children, list):
-            pass
-        else:
-            index = self.interpreter_node(children)
+        index = self.interpreter_node(children)
+        if not isinstance(index, list):
             return self.symbol_table[var].value[index.value]
+        else:
+            if index[0].type == index[1].type:
+                return self.symbol_table[var].value[index[0].value][index[1].value]
 
 
 if __name__ == '__main__':
