@@ -122,7 +122,10 @@ class Interpreter:
             elif node.value == '*':
                 return self.matrix_mul(node.children[0], node.children[1])
             elif node.value == '.*':
-                return  self.element_mul(node.children[0], node.children[1])
+                return self.element_mul(node.children[0], node.children[1])
+        elif node.type == 'un_op':
+            if node.value == "'":
+                return self.matrix_transpose(node.children)
         else:
             print('ELSE', node)
         return ''
@@ -256,7 +259,7 @@ class Interpreter:
         else:
             expr2 = self.check_matrix('mint', self.interpreter_node(var2))
         if len(expr1.value) != len(expr2.value):
-            print('error') # TODO add Erroor
+            print('error')  # TODO add Erroor
         res = []
         l = len(expr1.value)
         for i in range(l):
@@ -321,6 +324,20 @@ class Interpreter:
             m[i] = val
         return m
 
+    def matrix_transpose(self, var):
+        expr = self.interpreter_node(var)
+        if expr.type.find('m') == -1:
+            print('Error')
+        else:
+            res = []
+            l = len(expr.value)
+            for i in range(l):
+                res.append([Variable('int', 0) for j in range(l)])
+            for i in range(l):
+                for j in range(l):
+                    res[j][i] = expr.value[i][j]
+            return Variable(expr.type, res)
+
 
 if __name__ == '__main__':
     i = Interpreter(MyParser, TypeConverser())
@@ -328,5 +345,5 @@ if __name__ == '__main__':
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
-    for k,v in i.symbol_table.items():
+    for k, v in i.symbol_table.items():
         print(k, v)

@@ -144,7 +144,7 @@ class MyParser(object):
                             | expression LESS expression
                             | expression GREATER expression"""
         if len(p) == 3:
-            p[0] = SyntaxTreeNode('un_op', p[2], children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
             p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
