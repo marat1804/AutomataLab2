@@ -101,6 +101,10 @@ class Interpreter:
             return self.interpreter_node(node.children)
         elif node.type == 'const':
             return self.const_val(node.value)
+        elif node.type == 'comma':
+            return node.value
+        elif node.type == 'colon':
+            return node.value
         elif node.type == 'decl_list':
             return self.list_of_smth(self.get_list(node))
         elif node.type == 'variable':
@@ -442,13 +446,24 @@ class Interpreter:
     def indexing(self, var, children):
         if var not in self.symbol_table.keys():
             print("erroor")  # TODO Error
-        print(var, children)
+        type = self.symbol_table[var].type
         index = self.interpreter_node(children)
+        print(index)
         if not isinstance(index, list):
             return self.symbol_table[var].value[index.value]
         else:
-            if index[0].type == index[1].type:
-                return self.symbol_table[var].value[index[0].value][index[1].value]
+            if isinstance(index[0], Variable) and isinstance(index[1], Variable):
+                if index[0].type == index[1].type:
+                    return self.symbol_table[var].value[index[0].value][index[1].value]
+            elif type.find('m') != -1:
+                if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
+                    res = []
+                    m = self.symbol_table[var].value
+                    for i in range(len(m)):
+                        res.append(m[i][index[0].value])
+                    type_ = 'v' + type.split('m')[1]
+                    return Variable(type_, res)
+
 
 
 if __name__ == '__main__':
