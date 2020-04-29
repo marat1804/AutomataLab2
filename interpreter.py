@@ -6,7 +6,12 @@ from parser import MyParser, SyntaxTreeNode
 class Variable:
     def __init__(self, var_type, var_value):
         self.type = var_type
-        self.value = var_value
+        if var_value == 'true':
+            self.value = True
+        elif var_value == 'false':
+            self.value = False
+        else:
+            self.value = var_value
 
     def __repr__(self):
         return f'{self.type} {self.value}'
@@ -35,7 +40,7 @@ class TypeConverser:
 
     @staticmethod
     def bool_to_int(var):
-        if var.value == 'true':
+        if var.value:
             return Variable('int', 1)
         else:
             return Variable('int', 0)
@@ -103,7 +108,7 @@ class Interpreter:
         elif node.type == 'assigment':
             var = node.value.value
             if var not in self.symbol_table.keys():
-                print('ERROR') # TODO Error
+                print('ERROR')  # TODO Error
             else:
                 _type = self.symbol_table[var].type
                 expression = self.interpreter_node(node.children)
@@ -114,6 +119,8 @@ class Interpreter:
                 return self.bin_plus(node.children[0], node.children[1])
             elif node.value == '-':
                 return self.bin_minus(node.children[0], node.children[1])
+            elif node.value == '*':
+                return self.matrix_mul(node.children[0], node.children[1])
         else:
             print('ELSE', node)
         return ''
@@ -138,7 +145,7 @@ class Interpreter:
     def declare(self, type, var, expression):
         expression = self.check_type(type, expression)
         if var in self.symbol_table.keys():
-            pass # TODO ERROR
+            pass  # TODO ERROR
         else:
 
             self.symbol_table[var] = expression
@@ -212,7 +219,7 @@ class Interpreter:
 
     def assign(self, type, var, expression):
         if type[0] == 'c':
-            print("ERRROR") #TODO ERROR
+            print("ERRROR")  # TODO ERROR
         if type == expression.type:
             self.symbol_table[var] = expression
         elif type[0] == expression.type[0]:
@@ -223,7 +230,7 @@ class Interpreter:
         elif (type == 'bool' or type == 'int') and (expression.type == 'bool' or expression.type == 'int'):
             self.symbol_table[var] = self.check_var(type, expression)
         else:
-            print('ERRORR') #TODO EROOR
+            print('ERRORR')  # TODO EROOR
 
     def bin_plus(self, var1, var2):
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
@@ -235,6 +242,36 @@ class Interpreter:
         expr2 = self.converser.converse('int', self.interpreter_node(var2))
         return Variable('int', expr1.value - expr2.value)
 
+    def matrix_mul(self, var1, var2):
+        expr1 = self.interpreter_node(var1)
+        expr2 = self.interpreter_node(var2)
+        if expr1.type.find('m') == -1:
+            print('not_matrix')  # TODO add EROOOR
+        else:
+            expr1 = self.check_matrix('mint', expr1)
+        if expr2.type.find('m') == -1:
+            expr2 = self.converse_to_matrix(expr2, len(expr1.value))
+        else:
+            expr2 = self.check_matrix('mint', self.interpreter_node(var2))
+        res = []
+        l = len(expr1.value)
+        for i in range(l):
+            res.append([Variable('int', 0) for j in range(l)])
+        for i in range(l):
+            for j in range(l):
+                for k in range(l):
+                    res[i][j].value += expr1.value[i][k].value * expr2.value[k][j].value
+        return Variable('mint', res)
+
+    def converse_to_matrix(self, value, size):
+        m = []
+        for i in range(size):
+            m.append([Variable('int', 0) for j in range(size)])
+        val = self.converser.converse('int', value)
+        for i in range(size):
+            m[i][i] = val
+        return m
+
 
 if __name__ == '__main__':
     i = Interpreter(MyParser, TypeConverser())
@@ -242,7 +279,5 @@ if __name__ == '__main__':
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
-
     for k,v in i.symbol_table.items():
         print(k, v)
-
