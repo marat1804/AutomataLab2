@@ -121,6 +121,8 @@ class Interpreter:
                 return self.bin_minus(node.children[0], node.children[1])
             elif node.value == '*':
                 return self.matrix_mul(node.children[0], node.children[1])
+            elif node.value == '.*':
+                return  self.element_mul(node.children[0], node.children[1])
         else:
             print('ELSE', node)
         return ''
@@ -253,6 +255,8 @@ class Interpreter:
             expr2 = self.converse_to_matrix(expr2, len(expr1.value))
         else:
             expr2 = self.check_matrix('mint', self.interpreter_node(var2))
+        if len(expr1.value) != len(expr2.value):
+            print('error') # TODO add Erroor
         res = []
         l = len(expr1.value)
         for i in range(l):
@@ -270,6 +274,51 @@ class Interpreter:
         val = self.converser.converse('int', value)
         for i in range(size):
             m[i][i] = val
+        return m
+
+    def element_mul(self, var1, var2):
+        expr1 = self.interpreter_node(var1)
+        expr2 = self.interpreter_node(var2)
+        if expr1.type.find('v') != -1:
+            expr1 = self.check_vector('vint', expr1)
+        elif expr1.type.find('m') != -1:
+            expr1 = self.check_matrix('mint', expr1)
+        else:
+            print('error')
+        if expr2.type.find('v') != -1:
+            expr2 = self.check_vector('vint', expr2)
+        elif expr2.type.find('m') != -1:
+            expr2 = self.check_matrix('mint', expr2)
+        else:
+            if expr1.type.find('v') != -1:
+                expr2 = self.converse_to_vector(expr2, len(expr1.value))
+            elif expr2.type.find('m') != -1:
+                expr2 = self.converse_to_matrix(expr2, len(expr1.value))
+        if len(expr1.value) != len(expr2.value):
+            print('Eroor')
+        res = []
+        l = len(expr1.value)
+        if expr1.type.find('m') != -1:
+            for i in range(l):
+                res.append([Variable('int', 0) for j in range(l)])
+            for i in range(l):
+                for j in range(l):
+                    res[i][j].value = expr1.value[i][j].value * expr2.value[i][j].value
+            return Variable('mint', res)
+        elif expr1.type.find('v') != -1:
+            for i in range(l):
+                res.append(Variable('int', 0))
+            for i in range(l):
+                res[i].value = expr1.value[i].value * expr2.value[i].value
+            return Variable('vint', res)
+
+    def converse_to_vector(self, value, size):
+        m = []
+        for i in range(size):
+            m.append(Variable('int', 0))
+        val = self.converser.converse('int', value)
+        for i in range(size):
+            m[i] = val
         return m
 
 
