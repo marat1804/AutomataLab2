@@ -168,28 +168,30 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('indexing', p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_ind_exp(self, p):
-        """ind_exp : expression
-                   | COLON"""
-        if p[1] == ':':
+        """ind : COMMA
+               | COMMA COLON
+               | COLON COMMA"""
+        if len(p) == 3 and p[1] == ':':
             p[0] = SyntaxTreeNode('colon', value=p[1])
+        elif len(p) == 3  and p[2] == ':':
+            p[0] = SyntaxTreeNode('colon', value=p[2])
         else:
-            p[0] = p[1]
+            p[0] = SyntaxTreeNode('comma', value=p[1])
 
     def p_index(self, p):
         """index : expression
-                 | ind_exp COMMA ind_exp
-                 | ind_exp COMMA
-                 | COMMA ind_exp
-                 | decl_list COMMA
-                 | COMMA decl_list"""
+                 | expr_list ind expr_list
+                 | expr_list ind
+                 | ind expr_list
+                 | decl_list ind
+                 | ind decl_list"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
-        elif len(p) == 4:
-            p[0] = SyntaxTreeNode('index', children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
-        elif len(p) == 3 and p[1] == ',':
-            p[0] = SyntaxTreeNode('index', children=[SyntaxTreeNode('comma', value=p[1]), p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
-        elif len(p) == 3 and p[2] == ',':
-            p[0] = SyntaxTreeNode('index', children=[p[1], SyntaxTreeNode('comma', value=p[2])], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 3 and (p[2].type == 'colon' or p[2].type == 'comma'):
+            p[0] = SyntaxTreeNode('index', children=[p[1], p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 3 and (p[1].type == 'colon' or p[1].type == 'comma'):
+            p[0] = SyntaxTreeNode('index', children=[p[1], p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+
 
     def p_operation(self, p):
         """operation : MOVE LBRACKET math_expression RBRACKET
