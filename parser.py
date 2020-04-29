@@ -125,9 +125,9 @@ class MyParser(object):
         p[0] = p[1]
 
     def p_expression(self, p):
-        """expression : variable
+        """expression : math_expression
                       | const
-                      | math_expression"""
+                      | variable"""
         p[0] = SyntaxTreeNode('expression', children=p[1])
 
     def p_math_expression(self, p):

@@ -34,9 +34,9 @@ Rule 28    bool -> VBOOL
 Rule 29    bool -> MBOOL
 Rule 30    bool -> CVBOOL
 Rule 31    bool -> CMBOOL
-Rule 32    expression -> variable
+Rule 32    expression -> math_expression
 Rule 33    expression -> const
-Rule 34    expression -> math_expression
+Rule 34    expression -> variable
 Rule 35    math_expression -> expression PLUS expression
 Rule 36    math_expression -> expression MINUS expression
 Rule 37    math_expression -> expression MUL_MATRIX expression
@@ -163,14 +163,14 @@ if                   : 7
 ind_exp              : 57 57
 index                : 52
 int                  : 18
-math_expression      : 34 58 67 68
+math_expression      : 32 58 67 68
 operation            : 8
 program              : 0
 return_list          : 69 77 79
 statement            : 2 3
 stmt_list            : 1 2 65 66 67 68 77 78 79 80 81 82
 type                 : 11 12 69 70 73 74 81 82
-variable             : 32 63 64
+variable             : 34 63 64
 
 Parsing method: LALR
 
@@ -458,15 +458,9 @@ state 12
     (52) variable -> VARIABLE . LBRACKET index RBRACKET
     (75) call_list -> . call_list COMMA expression
     (76) call_list -> . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -479,23 +473,29 @@ state 12
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     NL              reduce using rule 83 (function_call -> VARIABLE .)
     ASSIGMENT       reduce using rule 51 (variable -> VARIABLE .)
     LBRACKET        shift and go to state 48
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     call_list                      shift and go to state 47
     expression                     shift and go to state 49
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 13
 
@@ -529,28 +529,28 @@ state 15
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (34) expression -> . variable
     (47) const -> . TRUE
     (48) const -> . FALSE
     (49) const -> . INT_DEC
     (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
 
     math_expression                shift and go to state 61
     expression                     shift and go to state 62
-    variable                       shift and go to state 50
     const                          shift and go to state 51
+    variable                       shift and go to state 52
 
 state 16
 
@@ -1006,18 +1006,12 @@ state 48
     (52) variable -> VARIABLE LBRACKET . index RBRACKET
     (56) index -> . expression
     (57) index -> . ind_exp COMMA ind_exp
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
+    (34) expression -> . variable
     (53) ind_exp -> . expression
     (54) ind_exp -> . COLON
     (55) ind_exp -> .
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1030,23 +1024,29 @@ state 48
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     COLON           shift and go to state 72
     COMMA           reduce using rule 55 (ind_exp -> .)
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     index                          shift and go to state 69
     expression                     shift and go to state 70
     ind_exp                        shift and go to state 71
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 49
 
@@ -1078,26 +1078,26 @@ state 49
 
 state 50
 
-    (32) expression -> variable .
+    (32) expression -> math_expression .
 
-    PLUS            reduce using rule 32 (expression -> variable .)
-    MINUS           reduce using rule 32 (expression -> variable .)
-    MUL_MATRIX      reduce using rule 32 (expression -> variable .)
-    MUL_ELEM        reduce using rule 32 (expression -> variable .)
-    TRANSPOSE       reduce using rule 32 (expression -> variable .)
-    STL             reduce using rule 32 (expression -> variable .)
-    STR             reduce using rule 32 (expression -> variable .)
-    AND             reduce using rule 32 (expression -> variable .)
-    LESS            reduce using rule 32 (expression -> variable .)
-    GREATER         reduce using rule 32 (expression -> variable .)
-    COMMA           reduce using rule 32 (expression -> variable .)
-    NL              reduce using rule 32 (expression -> variable .)
-    RBRACKET        reduce using rule 32 (expression -> variable .)
-    BEGINIF         reduce using rule 32 (expression -> variable .)
-    BEGIN           reduce using rule 32 (expression -> variable .)
-    R_FIGBRACKET    reduce using rule 32 (expression -> variable .)
-    COLON           reduce using rule 32 (expression -> variable .)
-    BEGINFOR        reduce using rule 32 (expression -> variable .)
+    PLUS            reduce using rule 32 (expression -> math_expression .)
+    MINUS           reduce using rule 32 (expression -> math_expression .)
+    MUL_MATRIX      reduce using rule 32 (expression -> math_expression .)
+    MUL_ELEM        reduce using rule 32 (expression -> math_expression .)
+    TRANSPOSE       reduce using rule 32 (expression -> math_expression .)
+    STL             reduce using rule 32 (expression -> math_expression .)
+    STR             reduce using rule 32 (expression -> math_expression .)
+    AND             reduce using rule 32 (expression -> math_expression .)
+    LESS            reduce using rule 32 (expression -> math_expression .)
+    GREATER         reduce using rule 32 (expression -> math_expression .)
+    COMMA           reduce using rule 32 (expression -> math_expression .)
+    NL              reduce using rule 32 (expression -> math_expression .)
+    RBRACKET        reduce using rule 32 (expression -> math_expression .)
+    BEGINIF         reduce using rule 32 (expression -> math_expression .)
+    BEGIN           reduce using rule 32 (expression -> math_expression .)
+    R_FIGBRACKET    reduce using rule 32 (expression -> math_expression .)
+    COLON           reduce using rule 32 (expression -> math_expression .)
+    BEGINFOR        reduce using rule 32 (expression -> math_expression .)
 
 
 state 51
@@ -1126,29 +1126,74 @@ state 51
 
 state 52
 
-    (34) expression -> math_expression .
+    (34) expression -> variable .
 
-    PLUS            reduce using rule 34 (expression -> math_expression .)
-    MINUS           reduce using rule 34 (expression -> math_expression .)
-    MUL_MATRIX      reduce using rule 34 (expression -> math_expression .)
-    MUL_ELEM        reduce using rule 34 (expression -> math_expression .)
-    TRANSPOSE       reduce using rule 34 (expression -> math_expression .)
-    STL             reduce using rule 34 (expression -> math_expression .)
-    STR             reduce using rule 34 (expression -> math_expression .)
-    AND             reduce using rule 34 (expression -> math_expression .)
-    LESS            reduce using rule 34 (expression -> math_expression .)
-    GREATER         reduce using rule 34 (expression -> math_expression .)
-    COMMA           reduce using rule 34 (expression -> math_expression .)
-    NL              reduce using rule 34 (expression -> math_expression .)
-    RBRACKET        reduce using rule 34 (expression -> math_expression .)
-    BEGINIF         reduce using rule 34 (expression -> math_expression .)
-    BEGIN           reduce using rule 34 (expression -> math_expression .)
-    R_FIGBRACKET    reduce using rule 34 (expression -> math_expression .)
-    COLON           reduce using rule 34 (expression -> math_expression .)
-    BEGINFOR        reduce using rule 34 (expression -> math_expression .)
+    PLUS            reduce using rule 34 (expression -> variable .)
+    MINUS           reduce using rule 34 (expression -> variable .)
+    MUL_MATRIX      reduce using rule 34 (expression -> variable .)
+    MUL_ELEM        reduce using rule 34 (expression -> variable .)
+    TRANSPOSE       reduce using rule 34 (expression -> variable .)
+    STL             reduce using rule 34 (expression -> variable .)
+    STR             reduce using rule 34 (expression -> variable .)
+    AND             reduce using rule 34 (expression -> variable .)
+    LESS            reduce using rule 34 (expression -> variable .)
+    GREATER         reduce using rule 34 (expression -> variable .)
+    COMMA           reduce using rule 34 (expression -> variable .)
+    NL              reduce using rule 34 (expression -> variable .)
+    RBRACKET        reduce using rule 34 (expression -> variable .)
+    BEGINIF         reduce using rule 34 (expression -> variable .)
+    BEGIN           reduce using rule 34 (expression -> variable .)
+    R_FIGBRACKET    reduce using rule 34 (expression -> variable .)
+    COLON           reduce using rule 34 (expression -> variable .)
+    BEGINFOR        reduce using rule 34 (expression -> variable .)
 
 
 state 53
+
+    (40) math_expression -> SUM . LBRACKET expression RBRACKET
+
+    LBRACKET        shift and go to state 83
+
+
+state 54
+
+    (43) math_expression -> DENY . expression
+    (32) expression -> . math_expression
+    (33) expression -> . const
+    (34) expression -> . variable
+    (35) math_expression -> . expression PLUS expression
+    (36) math_expression -> . expression MINUS expression
+    (37) math_expression -> . expression MUL_MATRIX expression
+    (38) math_expression -> . expression MUL_ELEM expression
+    (39) math_expression -> . expression TRANSPOSE
+    (40) math_expression -> . SUM LBRACKET expression RBRACKET
+    (41) math_expression -> . expression STL
+    (42) math_expression -> . expression STR
+    (43) math_expression -> . DENY expression
+    (44) math_expression -> . expression AND expression
+    (45) math_expression -> . expression LESS expression
+    (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
+    VARIABLE        shift and go to state 46
+
+    expression                     shift and go to state 84
+    math_expression                shift and go to state 50
+    const                          shift and go to state 51
+    variable                       shift and go to state 52
+
+state 55
 
     (47) const -> TRUE .
 
@@ -1172,7 +1217,7 @@ state 53
     BEGINFOR        reduce using rule 47 (const -> TRUE .)
 
 
-state 54
+state 56
 
     (48) const -> FALSE .
 
@@ -1196,7 +1241,7 @@ state 54
     BEGINFOR        reduce using rule 48 (const -> FALSE .)
 
 
-state 55
+state 57
 
     (49) const -> INT_DEC .
 
@@ -1220,7 +1265,7 @@ state 55
     BEGINFOR        reduce using rule 49 (const -> INT_DEC .)
 
 
-state 56
+state 58
 
     (50) const -> INT_BIN .
 
@@ -1244,64 +1289,13 @@ state 56
     BEGINFOR        reduce using rule 50 (const -> INT_BIN .)
 
 
-state 57
-
-    (40) math_expression -> SUM . LBRACKET expression RBRACKET
-
-    LBRACKET        shift and go to state 83
-
-
-state 58
-
-    (43) math_expression -> DENY . expression
-    (32) expression -> . variable
-    (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
-    (35) math_expression -> . expression PLUS expression
-    (36) math_expression -> . expression MINUS expression
-    (37) math_expression -> . expression MUL_MATRIX expression
-    (38) math_expression -> . expression MUL_ELEM expression
-    (39) math_expression -> . expression TRANSPOSE
-    (40) math_expression -> . SUM LBRACKET expression RBRACKET
-    (41) math_expression -> . expression STL
-    (42) math_expression -> . expression STR
-    (43) math_expression -> . DENY expression
-    (44) math_expression -> . expression AND expression
-    (45) math_expression -> . expression LESS expression
-    (46) math_expression -> . expression GREATER expression
-
-    VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
-
-    expression                     shift and go to state 84
-    variable                       shift and go to state 50
-    const                          shift and go to state 51
-    math_expression                shift and go to state 52
-
 state 59
 
     (63) assigment -> variable ASSIGMENT . expression
     (64) assigment -> variable ASSIGMENT . L_FIGBRACKET decl_list R_FIGBRACKET
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1314,20 +1308,26 @@ state 59
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     L_FIGBRACKET    shift and go to state 86
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
-    variable                       shift and go to state 50
+    variable                       shift and go to state 52
     expression                     shift and go to state 85
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
 
 state 60
 
@@ -1341,20 +1341,20 @@ state 61
 
     (67) if -> IF math_expression . BEGINIF NL stmt_list ENDIF
     (68) if -> IF math_expression . BEGIN NL stmt_list END
-    (34) expression -> math_expression .
+    (32) expression -> math_expression .
 
     BEGINIF         shift and go to state 88
     BEGIN           shift and go to state 89
-    PLUS            reduce using rule 34 (expression -> math_expression .)
-    MINUS           reduce using rule 34 (expression -> math_expression .)
-    MUL_MATRIX      reduce using rule 34 (expression -> math_expression .)
-    MUL_ELEM        reduce using rule 34 (expression -> math_expression .)
-    TRANSPOSE       reduce using rule 34 (expression -> math_expression .)
-    STL             reduce using rule 34 (expression -> math_expression .)
-    STR             reduce using rule 34 (expression -> math_expression .)
-    AND             reduce using rule 34 (expression -> math_expression .)
-    LESS            reduce using rule 34 (expression -> math_expression .)
-    GREATER         reduce using rule 34 (expression -> math_expression .)
+    PLUS            reduce using rule 32 (expression -> math_expression .)
+    MINUS           reduce using rule 32 (expression -> math_expression .)
+    MUL_MATRIX      reduce using rule 32 (expression -> math_expression .)
+    MUL_ELEM        reduce using rule 32 (expression -> math_expression .)
+    TRANSPOSE       reduce using rule 32 (expression -> math_expression .)
+    STL             reduce using rule 32 (expression -> math_expression .)
+    STR             reduce using rule 32 (expression -> math_expression .)
+    AND             reduce using rule 32 (expression -> math_expression .)
+    LESS            reduce using rule 32 (expression -> math_expression .)
+    GREATER         reduce using rule 32 (expression -> math_expression .)
 
 
 state 62
@@ -1397,28 +1397,28 @@ state 63
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (34) expression -> . variable
     (47) const -> . TRUE
     (48) const -> . FALSE
     (49) const -> . INT_DEC
     (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
 
     math_expression                shift and go to state 90
     expression                     shift and go to state 62
-    variable                       shift and go to state 50
     const                          shift and go to state 51
+    variable                       shift and go to state 52
 
 state 64
 
@@ -1477,15 +1477,9 @@ state 67
     (12) declaration -> type VARIABLE EQ . L_FIGBRACKET decl_list R_FIGBRACKET
     (81) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
     (82) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1498,34 +1492,34 @@ state 67
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     L_FIGBRACKET    shift and go to state 95
     FUNCTION        shift and go to state 96
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 94
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 68
 
     (75) call_list -> call_list COMMA . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1538,19 +1532,25 @@ state 68
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 97
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 69
 
@@ -1606,15 +1606,9 @@ state 72
 state 73
 
     (35) math_expression -> expression PLUS . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1627,32 +1621,32 @@ state 73
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 100
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 74
 
     (36) math_expression -> expression MINUS . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1665,32 +1659,32 @@ state 74
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 101
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 75
 
     (37) math_expression -> expression MUL_MATRIX . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1703,32 +1697,32 @@ state 75
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 102
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 76
 
     (38) math_expression -> expression MUL_ELEM . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1741,19 +1735,25 @@ state 76
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 103
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 77
 
@@ -1830,15 +1830,9 @@ state 79
 state 80
 
     (44) math_expression -> expression AND . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1851,32 +1845,32 @@ state 80
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 104
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 81
 
     (45) math_expression -> expression LESS . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1889,32 +1883,32 @@ state 81
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 105
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 82
 
     (46) math_expression -> expression GREATER . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1927,32 +1921,32 @@ state 82
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 106
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 83
 
     (40) math_expression -> SUM LBRACKET . expression RBRACKET
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1965,19 +1959,25 @@ state 83
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 107
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 84
 
@@ -2069,15 +2069,9 @@ state 86
     (15) decl_list -> . expr_list
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -2090,36 +2084,36 @@ state 86
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     L_FIGBRACKET    shift and go to state 108
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
-    variable                       shift and go to state 50
+    variable                       shift and go to state 52
     decl_list                      shift and go to state 109
     expr_list                      shift and go to state 110
     expression                     shift and go to state 111
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
 
 state 87
 
     (65) for -> FOR VARIABLE EQ . expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (66) for -> FOR VARIABLE EQ . expression COLON expression BEGIN NL stmt_list END
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -2132,19 +2126,25 @@ state 87
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 112
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 88
 
@@ -2163,19 +2163,19 @@ state 89
 state 90
 
     (58) operation -> MOVE LBRACKET math_expression . RBRACKET
-    (34) expression -> math_expression .
+    (32) expression -> math_expression .
 
     RBRACKET        shift and go to state 115
-    PLUS            reduce using rule 34 (expression -> math_expression .)
-    MINUS           reduce using rule 34 (expression -> math_expression .)
-    MUL_MATRIX      reduce using rule 34 (expression -> math_expression .)
-    MUL_ELEM        reduce using rule 34 (expression -> math_expression .)
-    TRANSPOSE       reduce using rule 34 (expression -> math_expression .)
-    STL             reduce using rule 34 (expression -> math_expression .)
-    STR             reduce using rule 34 (expression -> math_expression .)
-    AND             reduce using rule 34 (expression -> math_expression .)
-    LESS            reduce using rule 34 (expression -> math_expression .)
-    GREATER         reduce using rule 34 (expression -> math_expression .)
+    PLUS            reduce using rule 32 (expression -> math_expression .)
+    MINUS           reduce using rule 32 (expression -> math_expression .)
+    MUL_MATRIX      reduce using rule 32 (expression -> math_expression .)
+    MUL_ELEM        reduce using rule 32 (expression -> math_expression .)
+    TRANSPOSE       reduce using rule 32 (expression -> math_expression .)
+    STL             reduce using rule 32 (expression -> math_expression .)
+    STR             reduce using rule 32 (expression -> math_expression .)
+    AND             reduce using rule 32 (expression -> math_expression .)
+    LESS            reduce using rule 32 (expression -> math_expression .)
+    GREATER         reduce using rule 32 (expression -> math_expression .)
 
 
 state 91
@@ -2271,15 +2271,9 @@ state 95
     (15) decl_list -> . expr_list
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -2292,22 +2286,28 @@ state 95
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     L_FIGBRACKET    shift and go to state 108
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     decl_list                      shift and go to state 122
     expr_list                      shift and go to state 110
     expression                     shift and go to state 111
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 96
 
@@ -2376,15 +2376,9 @@ state 99
     (53) ind_exp -> . expression
     (54) ind_exp -> . COLON
     (55) ind_exp -> .
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -2397,22 +2391,28 @@ state 99
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     COLON           shift and go to state 72
     RBRACKET        reduce using rule 55 (ind_exp -> .)
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     ind_exp                        shift and go to state 124
     expression                     shift and go to state 125
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 100
 
@@ -2831,15 +2831,9 @@ state 108
     (13) decl_list -> L_FIGBRACKET . expr_list R_FIGBRACKET
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -2852,20 +2846,26 @@ state 108
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expr_list                      shift and go to state 127
     expression                     shift and go to state 111
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 109
 
@@ -3278,15 +3278,9 @@ state 129
 state 130
 
     (16) expr_list -> expr_list COMMA . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -3299,33 +3293,33 @@ state 130
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 143
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 131
 
     (65) for -> FOR VARIABLE EQ expression COLON . expression BEGINFOR NL stmt_list ENDFOR
     (66) for -> FOR VARIABLE EQ expression COLON . expression BEGIN NL stmt_list END
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -3338,19 +3332,25 @@ state 131
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     expression                     shift and go to state 144
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 132
 
@@ -3699,15 +3699,9 @@ state 142
     (15) decl_list -> . expr_list
     (16) expr_list -> . expr_list COMMA expression
     (17) expr_list -> . expression
-    (32) expression -> . variable
+    (32) expression -> . math_expression
     (33) expression -> . const
-    (34) expression -> . math_expression
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
+    (34) expression -> . variable
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -3720,22 +3714,28 @@ state 142
     (44) math_expression -> . expression AND expression
     (45) math_expression -> . expression LESS expression
     (46) math_expression -> . expression GREATER expression
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     L_FIGBRACKET    shift and go to state 108
+    SUM             shift and go to state 53
+    DENY            shift and go to state 54
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
-    SUM             shift and go to state 57
-    DENY            shift and go to state 58
 
     decl_list                      shift and go to state 155
     expr_list                      shift and go to state 110
     expression                     shift and go to state 111
-    variable                       shift and go to state 50
+    math_expression                shift and go to state 50
     const                          shift and go to state 51
-    math_expression                shift and go to state 52
+    variable                       shift and go to state 52
 
 state 143
 
@@ -3936,10 +3936,10 @@ state 152
     (49) const -> . INT_DEC
     (50) const -> . INT_BIN
 
-    TRUE            shift and go to state 53
-    FALSE           shift and go to state 54
-    INT_DEC         shift and go to state 55
-    INT_BIN         shift and go to state 56
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
 
     const                          shift and go to state 162
 

@@ -111,9 +111,7 @@ class Interpreter:
                 print('ERROR')  # TODO Error
             else:
                 _type = self.symbol_table[var].type
-                print(node.children)
                 expression = self.interpreter_node(node.children)
-                print('exp - ', expression)
                 # TODO add Try
                 self.assign(_type, var, expression)
         elif node.type == 'bin_op':
@@ -126,14 +124,10 @@ class Interpreter:
             elif node.value == '.*':
                 return self.element_mul(node.children[0], node.children[1])
             elif node.value == 'and' or node.value == '&&':
-                a = self.bin_and(node.children[0], node.children[1])
-                print('and- ',a)
-                return a
+                return self.bin_and(node.children[0], node.children[1])
             elif node.value == '<':
-                print('less')
                 return self.logic_less(node.children[0], node.children[1])
             elif node.value == '>':
-                print('more')
                 return self.logic_more(node.children[0], node.children[1])
         elif node.type == 'un_op':
             if node.value == "'":
@@ -142,6 +136,10 @@ class Interpreter:
                 return self.element_sum(node.children)
             elif node.value == '!':
                 return self.deny(node.children)
+            elif node.value == '<<':
+                return self.stl(node.children)
+            elif node.value == '>>':
+                return self.str(node.children)
         else:
             print('ELSE', node)
         return ''
@@ -239,7 +237,6 @@ class Interpreter:
                 return Variable('vbool', value)
 
     def assign(self, type, var, expression):
-        print('assig', type, var, expression)
         if type[0] == 'c':
             print("ERRROR")  # TODO ERROR
         if type == expression.type:
@@ -388,6 +385,41 @@ class Interpreter:
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
         expr2 = self.converser.converse('int', self.interpreter_node(var2))
         return Variable('bool', expr1.value > expr2.value)
+
+    def stl(self, var):
+        expr = self.converser.converse('int', self.interpreter_node(var))
+        a = []
+        value = expr.value
+        while value > 0:
+            a.append(value % 2)
+            value = value // 2
+        a.reverse()
+        digit = a[0]
+        for i in range(len(a)-1):
+            a[i] = a[i+1]
+        a[len(a)-1] = digit
+        b = 0
+        a.reverse()
+        for i in range(len(a)):
+            b += a[i] * 2**i
+        return Variable('int', b)
+
+    def str(self, var):
+        expr = self.converser.converse('int', self.interpreter_node(var))
+        a = []
+        value = expr.value
+        while value > 0:
+            a.append(value % 2)
+            value = value // 2
+        digit = a[0]
+        for i in range(len(a) - 1):
+            print(i)
+            a[i] = a[i + 1]
+        a[len(a) - 1] = digit
+        b = 0
+        for i in range(len(a)):
+            b += a[i] * 2 ** i
+        return Variable('int', b)
 
 
 if __name__ == '__main__':
