@@ -53,7 +53,8 @@ class Interpreter:
         self.converser = converser
         self.map = None
         self.program = None
-        self.symbol_table = dict()
+        self.symbol_table = [dict()]
+        self.scope = 0
         self.tree = None
         self.functions = None
         # TODO add errors
@@ -62,7 +63,7 @@ class Interpreter:
     def interpreter(self, map, program):
         self.map = map
         self.program = program
-        self.symbol_table = dict()
+        self.symbol_table = [dict()]
         try:
             self.tree, self.functions = self.parser.parse(program)
         # TODO Exception
@@ -116,10 +117,10 @@ class Interpreter:
             index = None
             if node.value.type == 'indexing':
                 index = self.interpreter_node(node.value.children)
-            if var not in self.symbol_table.keys():
+            if var not in self.symbol_table[self.scope].keys():
                 print('ERROR_assign')  # TODO Error
             else:
-                _type = self.symbol_table[var].type
+                _type = self.symbol_table[self.scope][var].type
                 expression = self.interpreter_node(node.children)
                 # TODO add Try
                 self.assign(_type, var, expression, index)
@@ -160,13 +161,17 @@ class Interpreter:
             else:
 
                 return self.interpreter_node(node.children)
+        elif node.type == 'if':
+            self.op_if(node)
+        elif node.type == 'for':
+            self.op_for(node)
         else:
             print('ELSE', node)
         return ''
 
     def get_value(self, node):
-        if node.value in self.symbol_table.keys():
-            return self.symbol_table[node.value]
+        if node.value in self.symbol_table[self.scope].keys():
+            return self.symbol_table[self.scope][node.value]
         else:
             print("ERRROR")
 
@@ -183,11 +188,11 @@ class Interpreter:
 
     def declare(self, type, var, expression):
         expression = self.check_type(type, expression)
-        if var in self.symbol_table.keys():
+        if var in self.symbol_table[self.scope].keys():
             pass  # TODO ERROR
         else:
 
-            self.symbol_table[var] = expression
+            self.symbol_table[self.scope][var] = expression
 
     def get_list(self, node):
         if isinstance(node.children, SyntaxTreeNode):
@@ -265,19 +270,19 @@ class Interpreter:
         if type[0] == 'c':
             print("ERRROR")  # TODO ERROR
         if type == expression.type:
-            self.symbol_table[var] = expression
+            self.symbol_table[self.scope][var] = expression
         elif type[0] == expression.type[0]:
             if type[0] == 'v':
-                self.symbol_table[var] = self.check_vector(type, expression)
+                self.symbol_table[self.scope][var] = self.check_vector(type, expression)
             elif type[0] == 'm':
-                self.symbol_table[var] = self.check_matrix(type, expression)
+                self.symbol_table[self.scope][var] = self.check_matrix(type, expression)
         elif (type == 'bool' or type == 'int') and (expression.type == 'bool' or expression.type == 'int'):
-            self.symbol_table[var] = self.check_var(type, expression)
+            self.symbol_table[self.scope][var] = self.check_var(type, expression)
         elif index is not None:
             if type.find('m') != -1:
-                self.symbol_table[var].value[index[0].value][index[1].value] = expression
+                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = expression
             elif type.find('v') != -1:
-                self.symbol_table[var].value[index.value] = expression
+                self.symbol_table[self.scope][var].value[index.value] = expression
         else:
             print('ERRORR_asss')  # TODO EROOR
 
@@ -451,16 +456,16 @@ class Interpreter:
         return Variable('int', b)
 
     def indexing(self, var, children):
-        if var not in self.symbol_table.keys():
+        if var not in self.symbol_table[self.scope].keys():
             print("erroor")  # TODO Error
-        type = self.symbol_table[var].type
+        type = self.symbol_table[self.scope][var].type
         index = self.interpreter_node(children)
-        print('indexing', type, index)
+        # print('indexing', type, index)
         if not isinstance(index, list) and index.type.find('m') == -1 and index.type.find('v') == -1:
-            return self.symbol_table[var].value[index.value]
+            return self.symbol_table[self.scope][var].value[index.value]
         elif isinstance(index, Variable) and index.type.find('m') != -1 and type.find('m') != -1:
-            m = len(self.symbol_table[var].value)
-            n = len(self.symbol_table[var].value[0])
+            m = len(self.symbol_table[self.scope][var].value)
+            n = len(self.symbol_table[self.scope][var].value[0])
             value = index.value
             check, m_, n_ = self.check_bool_matrix(index, m, n)
             if not check:
@@ -469,10 +474,10 @@ class Interpreter:
             for i in range(m):
                 for j in range(n):
                     if value[i][j].value:
-                        res[i].append(self.symbol_table[var].value[i][j])
+                        res[i].append(self.symbol_table[self.scope][var].value[i][j])
             return Variable(type, res)
         elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1:
-            m = len(self.symbol_table[var].value)
+            m = len(self.symbol_table[self.scope][var].value)
             value = index.value
             check = self.check_bool_vector(index, m)
             if not check:
@@ -480,18 +485,18 @@ class Interpreter:
             res = []
             for i in range(m):
                 if value[i].value:
-                    res.append(self.symbol_table[var].value[i])
+                    res.append(self.symbol_table[self.scope][var].value[i])
             return Variable(type, res)
         else:
             if isinstance(index[0], Variable) and isinstance(index[1], Variable):
                 if index[0].type == index[1].type:
-                    return self.symbol_table[var].value[index[0].value][index[1].value]
+                    return self.symbol_table[self.scope][var].value[index[0].value][index[1].value]
             elif type.find('m') != -1:  # indexing for matrix
                 if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
                     if index[0].type.find('v') == -1 and index[0].type.find('m') == -1:
                         res = []
                         index[0] = self.check_var('int', index[0])
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         for i in range(len(m)):
                             res.append(m[i][index[0].value])
                         type_ = 'v' + type.split('m')[1]
@@ -500,13 +505,13 @@ class Interpreter:
                         index[0] = self.check_vector('vint', index[0])
                         value = index[0].value
                         res = [[] for i in range(len(value))]
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         for j in range(len(value)):
                             for i in range(len(m)):
                                 res[j].append(m[i][value[j].value])
                         return Variable(type, res)
                     elif index[0].type.find('vbool') != -1:
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         if len(index[0].value) != len(m):
                             print("ERRROR")  # TODO ERROR
                         index[0] = self.check_vector('vbool', index[0])
@@ -525,7 +530,7 @@ class Interpreter:
                     if index[1].type.find('v') == -1:
                         res = []
                         index[1] = self.check_var('int', index[1])
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         for i in range(len(m)):
                             res.append(m[index[1].value][i])
                         type_ = 'v' + type.split('m')[1]
@@ -534,13 +539,13 @@ class Interpreter:
                         index[1] = self.check_vector('vint', index[1])
                         value = index[1].value
                         res = [[] for i in range(len(value))]
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         for j in range(len(value)):
                             for i in range(len(m)):
                                 res[j].append(m[value[j].value][i])
                         return Variable(type, res)
                     elif index[1].type.find('vbool') != -1:
-                        m = self.symbol_table[var].value
+                        m = self.symbol_table[self.scope][var].value
                         if len(index[1].value) != len(m):
                             print("ERRROR")  # TODO ERROR
                         index[1] = self.check_vector('vbool', index[1])
@@ -599,6 +604,24 @@ class Interpreter:
         else:
             return False
 
+    def op_if(self, node):
+        condition = self.interpreter_node(node.children['condition'])
+        condition = self.converser.converse('bool', condition).value
+        if condition:
+            self.interpreter_node(node.children['body'])
+        # TODO ERRORS
+
+    def op_for(self, node):
+        variable = node.children['var'].value
+        print(node.children)
+        if variable not in self.symbol_table[self.scope].keys():
+            print('ERROOR_FOR')
+        from_ = self.interpreter_node(node.children['from'])
+        to_ = self.interpreter_node(node.children['to'])
+        for i in range(from_.value, to_.value+1):
+            self.symbol_table[self.scope][variable] = Variable('int', i)
+            self.interpreter_node(node.children['body'])
+
 
 if __name__ == '__main__':
     i = Interpreter(MyParser, TypeConverser())
@@ -606,5 +629,6 @@ if __name__ == '__main__':
     m = MyParser()
     tree, f = m.parse(prog)
     i.interpreter_node(tree)
-    for k, v in i.symbol_table.items():
-        print(k, v)
+    for symbol_table in i.symbol_table:
+        for k, v in symbol_table.items():
+            print(k, v)
