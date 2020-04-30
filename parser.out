@@ -59,122 +59,123 @@ Rule 53    ind -> COMMA
 Rule 54    ind -> COMMA COLON
 Rule 55    ind -> COLON COMMA
 Rule 56    index -> expression
-Rule 57    index -> expr_list ind expr_list
+Rule 57    index -> expr_list
 Rule 58    index -> expr_list ind
 Rule 59    index -> ind expr_list
 Rule 60    index -> decl_list ind
 Rule 61    index -> ind decl_list
-Rule 62    operation -> MOVE LBRACKET math_expression RBRACKET
-Rule 63    operation -> RIGHT
-Rule 64    operation -> LEFT
-Rule 65    operation -> WALL
-Rule 66    operation -> EXIT
-Rule 67    assigment -> variable ASSIGMENT expression
-Rule 68    assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-Rule 69    for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-Rule 70    for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-Rule 71    if -> IF math_expression BEGINIF NL stmt_list ENDIF
-Rule 72    if -> IF math_expression BEGIN NL stmt_list END
-Rule 73    return_list -> return_list COMMA type VARIABLE
-Rule 74    return_list -> type VARIABLE
-Rule 75    func_list -> func_list COMMA func
-Rule 76    func_list -> func
-Rule 77    func -> type VARIABLE
-Rule 78    func -> type VARIABLE EQ const
-Rule 79    call_list -> call_list COMMA expression
-Rule 80    call_list -> expression
-Rule 81    function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-Rule 82    function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-Rule 83    function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-Rule 84    function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-Rule 85    function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-Rule 86    function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-Rule 87    function_call -> VARIABLE
-Rule 88    function_call -> VARIABLE call_list
+Rule 62    index -> decl_list
+Rule 63    operation -> MOVE LBRACKET math_expression RBRACKET
+Rule 64    operation -> RIGHT
+Rule 65    operation -> LEFT
+Rule 66    operation -> WALL
+Rule 67    operation -> EXIT
+Rule 68    assigment -> variable ASSIGMENT expression
+Rule 69    assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+Rule 70    for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+Rule 71    for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+Rule 72    if -> IF math_expression BEGINIF NL stmt_list ENDIF
+Rule 73    if -> IF math_expression BEGIN NL stmt_list END
+Rule 74    return_list -> return_list COMMA type VARIABLE
+Rule 75    return_list -> type VARIABLE
+Rule 76    func_list -> func_list COMMA func
+Rule 77    func_list -> func
+Rule 78    func -> type VARIABLE
+Rule 79    func -> type VARIABLE EQ const
+Rule 80    call_list -> call_list COMMA expression
+Rule 81    call_list -> expression
+Rule 82    function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+Rule 83    function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+Rule 84    function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+Rule 85    function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+Rule 86    function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+Rule 87    function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+Rule 88    function_call -> VARIABLE
+Rule 89    function_call -> VARIABLE call_list
 
 Terminals, with rules where they appear
 
 AND                  : 44
-ASSIGMENT            : 67 68
-BEGIN                : 70 72 81 82 83 84 85 86
-BEGINFOR             : 69
-BEGINIF              : 71
+ASSIGMENT            : 68 69
+BEGIN                : 71 73 82 83 84 85 86 87
+BEGINFOR             : 70
+BEGINIF              : 72
 BOOL                 : 26
 CBOOL                : 27
 CINT                 : 21
 CMBOOL               : 31
 CMINT                : 25
-COLON                : 54 55 69 70
-COMMA                : 14 16 53 54 55 73 75 79
+COLON                : 54 55 70 71
+COMMA                : 14 16 53 54 55 74 76 80
 CVBOOL               : 30
 CVINT                : 24
 DENY                 : 43
-END                  : 70 72 81 82 83 84 85 86
-ENDFOR               : 69
-ENDIF                : 71
-EQ                   : 11 12 69 70 78 81 83 85 86
-EXIT                 : 66
+END                  : 71 73 82 83 84 85 86 87
+ENDFOR               : 70
+ENDIF                : 72
+EQ                   : 11 12 70 71 79 82 84 86 87
+EXIT                 : 67
 FALSE                : 48
-FOR                  : 69 70
-FUNCTION             : 81 82 83 84 85 86
+FOR                  : 70 71
+FUNCTION             : 82 83 84 85 86 87
 GREATER              : 46
-IF                   : 71 72
+IF                   : 72 73
 INT                  : 20
 INT_BIN              : 50
 INT_DEC              : 49
-LBRACKET             : 40 52 62 81 82 83 84 85 86
-LEFT                 : 64
+LBRACKET             : 40 52 63 82 83 84 85 86 87
+LEFT                 : 65
 LESS                 : 45
-L_FIGBRACKET         : 12 13 14 68
+L_FIGBRACKET         : 12 13 14 69
 MBOOL                : 29
 MINT                 : 23
 MINUS                : 36
-MOVE                 : 62
+MOVE                 : 63
 MUL_ELEM             : 38
 MUL_MATRIX           : 37
-NL                   : 4 5 6 7 8 9 10 69 70 71 72 81 82 83 84 85 86
+NL                   : 4 5 6 7 8 9 10 70 71 72 73 82 83 84 85 86 87
 PLUS                 : 35
-RBRACKET             : 40 52 62 81 82 83 84 85 86
-RIGHT                : 63
-R_FIGBRACKET         : 12 13 14 68
+RBRACKET             : 40 52 63 82 83 84 85 86 87
+RIGHT                : 64
+R_FIGBRACKET         : 12 13 14 69
 STL                  : 41
 STR                  : 42
 SUM                  : 40
 TRANSPOSE            : 39
 TRUE                 : 47
-VARIABLE             : 11 12 51 52 69 70 73 74 77 78 81 82 83 84 85 85 86 86 87 88
+VARIABLE             : 11 12 51 52 70 71 74 75 78 79 82 83 84 85 86 86 87 87 88 89
 VBOOL                : 28
 VINT                 : 22
-WALL                 : 65
+WALL                 : 66
 error                : 
 
 Nonterminals, with rules where they appear
 
 assigment            : 5
 bool                 : 19
-call_list            : 79 88
-const                : 33 78
-decl_list            : 12 14 14 60 61 68
+call_list            : 80 89
+const                : 33 79
+decl_list            : 12 14 14 60 61 62 69
 declaration          : 4
-expr_list            : 13 15 16 57 57 58 59
-expression           : 11 16 17 35 35 36 36 37 37 38 38 39 40 41 42 43 44 44 45 45 46 46 56 67 69 69 70 70 79 80
+expr_list            : 13 15 16 57 58 59
+expression           : 11 16 17 35 35 36 36 37 37 38 38 39 40 41 42 43 44 44 45 45 46 46 56 68 70 70 71 71 80 81
 for                  : 6
-func                 : 75 76
-func_list            : 75 81 82 85
+func                 : 76 77
+func_list            : 76 82 83 86
 function             : 9
 function_call        : 10
 if                   : 7
-ind                  : 57 58 59 60 61
+ind                  : 58 59 60 61
 index                : 52
 int                  : 18
-math_expression      : 32 62 71 72
+math_expression      : 32 63 72 73
 operation            : 8
 program              : 0
-return_list          : 73 81 83
+return_list          : 74 82 84
 statement            : 2 3
-stmt_list            : 1 2 69 70 71 72 81 82 83 84 85 86
-type                 : 11 12 73 74 77 78 85 86
-variable             : 34 67 68
+stmt_list            : 1 2 70 71 72 73 82 83 84 85 86 87
+type                 : 11 12 74 75 78 79 86 87
+variable             : 34 68 69
 
 Parsing method: LALR
 
@@ -193,31 +194,31 @@ state 0
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -288,31 +289,31 @@ state 2
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -447,21 +448,21 @@ state 11
 
     (11) declaration -> type . VARIABLE EQ expression
     (12) declaration -> type . VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (85) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (74) return_list -> type . VARIABLE
+    (86) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (75) return_list -> type . VARIABLE
 
     VARIABLE        shift and go to state 45
 
 
 state 12
 
-    (87) function_call -> VARIABLE .
-    (88) function_call -> VARIABLE . call_list
+    (88) function_call -> VARIABLE .
+    (89) function_call -> VARIABLE . call_list
     (51) variable -> VARIABLE .
     (52) variable -> VARIABLE . LBRACKET index RBRACKET
-    (79) call_list -> . call_list COMMA expression
-    (80) call_list -> . expression
+    (80) call_list -> . call_list COMMA expression
+    (81) call_list -> . expression
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -484,7 +485,7 @@ state 12
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
-    NL              reduce using rule 87 (function_call -> VARIABLE .)
+    NL              reduce using rule 88 (function_call -> VARIABLE .)
     ASSIGMENT       reduce using rule 51 (variable -> VARIABLE .)
     LBRACKET        shift and go to state 48
     SUM             shift and go to state 53
@@ -503,24 +504,24 @@ state 12
 
 state 13
 
-    (67) assigment -> variable . ASSIGMENT expression
-    (68) assigment -> variable . ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> variable . ASSIGMENT expression
+    (69) assigment -> variable . ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
 
     ASSIGMENT       shift and go to state 59
 
 
 state 14
 
-    (69) for -> FOR . VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR . VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (70) for -> FOR . VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR . VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
 
     VARIABLE        shift and go to state 60
 
 
 state 15
 
-    (71) if -> IF . math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> IF . math_expression BEGIN NL stmt_list END
+    (72) if -> IF . math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> IF . math_expression BEGIN NL stmt_list END
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -558,44 +559,44 @@ state 15
 
 state 16
 
-    (62) operation -> MOVE . LBRACKET math_expression RBRACKET
+    (63) operation -> MOVE . LBRACKET math_expression RBRACKET
 
     LBRACKET        shift and go to state 63
 
 
 state 17
 
-    (63) operation -> RIGHT .
+    (64) operation -> RIGHT .
 
-    NL              reduce using rule 63 (operation -> RIGHT .)
+    NL              reduce using rule 64 (operation -> RIGHT .)
 
 
 state 18
 
-    (64) operation -> LEFT .
+    (65) operation -> LEFT .
 
-    NL              reduce using rule 64 (operation -> LEFT .)
+    NL              reduce using rule 65 (operation -> LEFT .)
 
 
 state 19
 
-    (65) operation -> WALL .
+    (66) operation -> WALL .
 
-    NL              reduce using rule 65 (operation -> WALL .)
+    NL              reduce using rule 66 (operation -> WALL .)
 
 
 state 20
 
-    (66) operation -> EXIT .
+    (67) operation -> EXIT .
 
-    NL              reduce using rule 66 (operation -> EXIT .)
+    NL              reduce using rule 67 (operation -> EXIT .)
 
 
 state 21
 
-    (81) function -> return_list . EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> return_list . EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (73) return_list -> return_list . COMMA type VARIABLE
+    (82) function -> return_list . EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> return_list . EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (74) return_list -> return_list . COMMA type VARIABLE
 
     EQ              shift and go to state 64
     COMMA           shift and go to state 65
@@ -603,8 +604,8 @@ state 21
 
 state 22
 
-    (82) function -> FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (84) function -> FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (83) function -> FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (85) function -> FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
 
     VARIABLE        shift and go to state 66
 
@@ -959,15 +960,15 @@ state 45
 
     (11) declaration -> type VARIABLE . EQ expression
     (12) declaration -> type VARIABLE . EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (85) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (74) return_list -> type VARIABLE .
+    (86) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (75) return_list -> type VARIABLE .
 
   ! shift/reduce conflict for EQ resolved as shift
     EQ              shift and go to state 67
-    COMMA           reduce using rule 74 (return_list -> type VARIABLE .)
+    COMMA           reduce using rule 75 (return_list -> type VARIABLE .)
 
-  ! EQ              [ reduce using rule 74 (return_list -> type VARIABLE .) ]
+  ! EQ              [ reduce using rule 75 (return_list -> type VARIABLE .) ]
 
 
 state 46
@@ -998,10 +999,10 @@ state 46
 
 state 47
 
-    (88) function_call -> VARIABLE call_list .
-    (79) call_list -> call_list . COMMA expression
+    (89) function_call -> VARIABLE call_list .
+    (80) call_list -> call_list . COMMA expression
 
-    NL              reduce using rule 88 (function_call -> VARIABLE call_list .)
+    NL              reduce using rule 89 (function_call -> VARIABLE call_list .)
     COMMA           shift and go to state 68
 
 
@@ -1009,11 +1010,12 @@ state 48
 
     (52) variable -> VARIABLE LBRACKET . index RBRACKET
     (56) index -> . expression
-    (57) index -> . expr_list ind expr_list
+    (57) index -> . expr_list
     (58) index -> . expr_list ind
     (59) index -> . ind expr_list
     (60) index -> . decl_list ind
     (61) index -> . ind decl_list
+    (62) index -> . decl_list
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -1066,7 +1068,7 @@ state 48
 
 state 49
 
-    (80) call_list -> expression .
+    (81) call_list -> expression .
     (35) math_expression -> expression . PLUS expression
     (36) math_expression -> expression . MINUS expression
     (37) math_expression -> expression . MUL_MATRIX expression
@@ -1078,8 +1080,8 @@ state 49
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    COMMA           reduce using rule 80 (call_list -> expression .)
-    NL              reduce using rule 80 (call_list -> expression .)
+    COMMA           reduce using rule 81 (call_list -> expression .)
+    NL              reduce using rule 81 (call_list -> expression .)
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -1307,8 +1309,8 @@ state 58
 
 state 59
 
-    (67) assigment -> variable ASSIGMENT . expression
-    (68) assigment -> variable ASSIGMENT . L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> variable ASSIGMENT . expression
+    (69) assigment -> variable ASSIGMENT . L_FIGBRACKET decl_list R_FIGBRACKET
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -1347,16 +1349,16 @@ state 59
 
 state 60
 
-    (69) for -> FOR VARIABLE . EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR VARIABLE . EQ expression COLON expression BEGIN NL stmt_list END
+    (70) for -> FOR VARIABLE . EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR VARIABLE . EQ expression COLON expression BEGIN NL stmt_list END
 
     EQ              shift and go to state 91
 
 
 state 61
 
-    (71) if -> IF math_expression . BEGINIF NL stmt_list ENDIF
-    (72) if -> IF math_expression . BEGIN NL stmt_list END
+    (72) if -> IF math_expression . BEGINIF NL stmt_list ENDIF
+    (73) if -> IF math_expression . BEGIN NL stmt_list END
     (32) expression -> math_expression .
 
     BEGINIF         shift and go to state 92
@@ -1400,7 +1402,7 @@ state 62
 
 state 63
 
-    (62) operation -> MOVE LBRACKET . math_expression RBRACKET
+    (63) operation -> MOVE LBRACKET . math_expression RBRACKET
     (35) math_expression -> . expression PLUS expression
     (36) math_expression -> . expression MINUS expression
     (37) math_expression -> . expression MUL_MATRIX expression
@@ -1438,15 +1440,15 @@ state 63
 
 state 64
 
-    (81) function -> return_list EQ . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> return_list EQ . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (82) function -> return_list EQ . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> return_list EQ . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
 
     FUNCTION        shift and go to state 95
 
 
 state 65
 
-    (73) return_list -> return_list COMMA . type VARIABLE
+    (74) return_list -> return_list COMMA . type VARIABLE
     (18) type -> . int
     (19) type -> . bool
     (20) int -> . INT
@@ -1481,8 +1483,8 @@ state 65
 
 state 66
 
-    (82) function -> FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (84) function -> FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
+    (83) function -> FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (85) function -> FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
 
     LBRACKET        shift and go to state 97
 
@@ -1491,8 +1493,8 @@ state 67
 
     (11) declaration -> type VARIABLE EQ . expression
     (12) declaration -> type VARIABLE EQ . L_FIGBRACKET decl_list R_FIGBRACKET
-    (85) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type VARIABLE EQ . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -1532,7 +1534,7 @@ state 67
 
 state 68
 
-    (79) call_list -> call_list COMMA . expression
+    (80) call_list -> call_list COMMA . expression
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -1590,9 +1592,10 @@ state 70
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    RBRACKET        reduce using rule 56 (index -> expression .)
+  ! reduce/reduce conflict for RBRACKET resolved using rule 17 (expr_list -> expression .)
     COMMA           reduce using rule 17 (expr_list -> expression .)
     COLON           reduce using rule 17 (expr_list -> expression .)
+    RBRACKET        reduce using rule 17 (expr_list -> expression .)
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -1604,10 +1607,12 @@ state 70
     LESS            shift and go to state 85
     GREATER         shift and go to state 86
 
+  ! RBRACKET        [ reduce using rule 56 (index -> expression .) ]
+
 
 state 71
 
-    (57) index -> expr_list . ind expr_list
+    (57) index -> expr_list .
     (58) index -> expr_list . ind
     (16) expr_list -> expr_list . COMMA expression
     (15) decl_list -> expr_list .
@@ -1616,10 +1621,13 @@ state 71
     (55) ind -> . COLON COMMA
 
   ! shift/reduce conflict for COMMA resolved as shift
+  ! reduce/reduce conflict for RBRACKET resolved using rule 15 (decl_list -> expr_list .)
   ! shift/reduce conflict for COLON resolved as shift
     COMMA           shift and go to state 104
+    RBRACKET        reduce using rule 15 (decl_list -> expr_list .)
     COLON           shift and go to state 75
 
+  ! RBRACKET        [ reduce using rule 57 (index -> expr_list .) ]
   ! COMMA           [ reduce using rule 15 (decl_list -> expr_list .) ]
   ! COLON           [ reduce using rule 15 (decl_list -> expr_list .) ]
 
@@ -1675,11 +1683,13 @@ state 72
 state 73
 
     (60) index -> decl_list . ind
+    (62) index -> decl_list .
     (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
     (53) ind -> . COMMA
     (54) ind -> . COMMA COLON
     (55) ind -> . COLON COMMA
 
+    RBRACKET        reduce using rule 62 (index -> decl_list .)
     COMMA           shift and go to state 109
     COLON           shift and go to state 75
 
@@ -2182,7 +2192,7 @@ state 88
 
 state 89
 
-    (67) assigment -> variable ASSIGMENT expression .
+    (68) assigment -> variable ASSIGMENT expression .
     (35) math_expression -> expression . PLUS expression
     (36) math_expression -> expression . MINUS expression
     (37) math_expression -> expression . MUL_MATRIX expression
@@ -2194,7 +2204,7 @@ state 89
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    NL              reduce using rule 67 (assigment -> variable ASSIGMENT expression .)
+    NL              reduce using rule 68 (assigment -> variable ASSIGMENT expression .)
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -2209,7 +2219,7 @@ state 89
 
 state 90
 
-    (68) assigment -> variable ASSIGMENT L_FIGBRACKET . decl_list R_FIGBRACKET
+    (69) assigment -> variable ASSIGMENT L_FIGBRACKET . decl_list R_FIGBRACKET
     (13) decl_list -> . L_FIGBRACKET expr_list R_FIGBRACKET
     (14) decl_list -> . decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
     (15) decl_list -> . expr_list
@@ -2255,8 +2265,8 @@ state 90
 
 state 91
 
-    (69) for -> FOR VARIABLE EQ . expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR VARIABLE EQ . expression COLON expression BEGIN NL stmt_list END
+    (70) for -> FOR VARIABLE EQ . expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR VARIABLE EQ . expression COLON expression BEGIN NL stmt_list END
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -2294,21 +2304,21 @@ state 91
 
 state 92
 
-    (71) if -> IF math_expression BEGINIF . NL stmt_list ENDIF
+    (72) if -> IF math_expression BEGINIF . NL stmt_list ENDIF
 
     NL              shift and go to state 124
 
 
 state 93
 
-    (72) if -> IF math_expression BEGIN . NL stmt_list END
+    (73) if -> IF math_expression BEGIN . NL stmt_list END
 
     NL              shift and go to state 125
 
 
 state 94
 
-    (62) operation -> MOVE LBRACKET math_expression . RBRACKET
+    (63) operation -> MOVE LBRACKET math_expression . RBRACKET
     (32) expression -> math_expression .
 
     RBRACKET        shift and go to state 126
@@ -2326,27 +2336,27 @@ state 94
 
 state 95
 
-    (81) function -> return_list EQ FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> return_list EQ FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (82) function -> return_list EQ FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> return_list EQ FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
 
     VARIABLE        shift and go to state 127
 
 
 state 96
 
-    (73) return_list -> return_list COMMA type . VARIABLE
+    (74) return_list -> return_list COMMA type . VARIABLE
 
     VARIABLE        shift and go to state 128
 
 
 state 97
 
-    (82) function -> FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
-    (84) function -> FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> . func_list COMMA func
-    (76) func_list -> . func
-    (77) func -> . type VARIABLE
-    (78) func -> . type VARIABLE EQ const
+    (83) function -> FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
+    (85) function -> FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> . func_list COMMA func
+    (77) func_list -> . func
+    (78) func -> . type VARIABLE
+    (79) func -> . type VARIABLE EQ const
     (18) type -> . int
     (19) type -> . bool
     (20) int -> . INT
@@ -2457,15 +2467,15 @@ state 99
 
 state 100
 
-    (85) function -> type VARIABLE EQ FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type VARIABLE EQ FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> type VARIABLE EQ FUNCTION . VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type VARIABLE EQ FUNCTION . VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
 
     VARIABLE        shift and go to state 134
 
 
 state 101
 
-    (79) call_list -> call_list COMMA expression .
+    (80) call_list -> call_list COMMA expression .
     (35) math_expression -> expression . PLUS expression
     (36) math_expression -> expression . MINUS expression
     (37) math_expression -> expression . MUL_MATRIX expression
@@ -2477,8 +2487,8 @@ state 101
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    COMMA           reduce using rule 79 (call_list -> call_list COMMA expression .)
-    NL              reduce using rule 79 (call_list -> call_list COMMA expression .)
+    COMMA           reduce using rule 80 (call_list -> call_list COMMA expression .)
+    NL              reduce using rule 80 (call_list -> call_list COMMA expression .)
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -2518,46 +2528,10 @@ state 102
 
 state 103
 
-    (57) index -> expr_list ind . expr_list
     (58) index -> expr_list ind .
-    (16) expr_list -> . expr_list COMMA expression
-    (17) expr_list -> . expression
-    (32) expression -> . math_expression
-    (33) expression -> . const
-    (34) expression -> . variable
-    (35) math_expression -> . expression PLUS expression
-    (36) math_expression -> . expression MINUS expression
-    (37) math_expression -> . expression MUL_MATRIX expression
-    (38) math_expression -> . expression MUL_ELEM expression
-    (39) math_expression -> . expression TRANSPOSE
-    (40) math_expression -> . SUM LBRACKET expression RBRACKET
-    (41) math_expression -> . expression STL
-    (42) math_expression -> . expression STR
-    (43) math_expression -> . DENY expression
-    (44) math_expression -> . expression AND expression
-    (45) math_expression -> . expression LESS expression
-    (46) math_expression -> . expression GREATER expression
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     RBRACKET        reduce using rule 58 (index -> expr_list ind .)
-    SUM             shift and go to state 53
-    DENY            shift and go to state 54
-    TRUE            shift and go to state 55
-    FALSE           shift and go to state 56
-    INT_DEC         shift and go to state 57
-    INT_BIN         shift and go to state 58
-    VARIABLE        shift and go to state 46
 
-    expr_list                      shift and go to state 135
-    expression                     shift and go to state 107
-    math_expression                shift and go to state 50
-    const                          shift and go to state 51
-    variable                       shift and go to state 52
 
 state 104
 
@@ -2586,13 +2560,6 @@ state 104
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
-  ! shift/reduce conflict for SUM resolved as shift
-  ! shift/reduce conflict for DENY resolved as shift
-  ! shift/reduce conflict for TRUE resolved as shift
-  ! shift/reduce conflict for FALSE resolved as shift
-  ! shift/reduce conflict for INT_DEC resolved as shift
-  ! shift/reduce conflict for INT_BIN resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
     RBRACKET        reduce using rule 53 (ind -> COMMA .)
     COLON           shift and go to state 110
     SUM             shift and go to state 53
@@ -2603,15 +2570,7 @@ state 104
     INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
 
-  ! SUM             [ reduce using rule 53 (ind -> COMMA .) ]
-  ! DENY            [ reduce using rule 53 (ind -> COMMA .) ]
-  ! TRUE            [ reduce using rule 53 (ind -> COMMA .) ]
-  ! FALSE           [ reduce using rule 53 (ind -> COMMA .) ]
-  ! INT_DEC         [ reduce using rule 53 (ind -> COMMA .) ]
-  ! INT_BIN         [ reduce using rule 53 (ind -> COMMA .) ]
-  ! VARIABLE        [ reduce using rule 53 (ind -> COMMA .) ]
-
-    expression                     shift and go to state 136
+    expression                     shift and go to state 135
     math_expression                shift and go to state 50
     const                          shift and go to state 51
     variable                       shift and go to state 52
@@ -2624,7 +2583,7 @@ state 105
 
   ! shift/reduce conflict for COMMA resolved as shift
   ! reduce/reduce conflict for RBRACKET resolved using rule 15 (decl_list -> expr_list .)
-    COMMA           shift and go to state 137
+    COMMA           shift and go to state 136
     RBRACKET        reduce using rule 15 (decl_list -> expr_list .)
 
   ! RBRACKET        [ reduce using rule 59 (index -> ind expr_list .) ]
@@ -2637,7 +2596,7 @@ state 106
     (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
     RBRACKET        reduce using rule 61 (index -> ind decl_list .)
-    COMMA           shift and go to state 138
+    COMMA           shift and go to state 137
 
 
 state 107
@@ -2682,7 +2641,7 @@ state 109
     (53) ind -> COMMA .
     (54) ind -> COMMA . COLON
 
-    L_FIGBRACKET    shift and go to state 139
+    L_FIGBRACKET    shift and go to state 138
     RBRACKET        reduce using rule 53 (ind -> COMMA .)
     COLON           shift and go to state 110
 
@@ -2722,8 +2681,8 @@ state 112
     (13) decl_list -> L_FIGBRACKET expr_list . R_FIGBRACKET
     (16) expr_list -> expr_list . COMMA expression
 
-    R_FIGBRACKET    shift and go to state 140
-    COMMA           shift and go to state 137
+    R_FIGBRACKET    shift and go to state 139
+    COMMA           shift and go to state 136
 
 
 state 113
@@ -3125,7 +3084,7 @@ state 120
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    RBRACKET        shift and go to state 141
+    RBRACKET        shift and go to state 140
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -3140,11 +3099,11 @@ state 120
 
 state 121
 
-    (68) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list . R_FIGBRACKET
+    (69) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list . R_FIGBRACKET
     (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
-    R_FIGBRACKET    shift and go to state 142
-    COMMA           shift and go to state 138
+    R_FIGBRACKET    shift and go to state 141
+    COMMA           shift and go to state 137
 
 
 state 122
@@ -3154,15 +3113,15 @@ state 122
 
   ! shift/reduce conflict for COMMA resolved as shift
     R_FIGBRACKET    reduce using rule 15 (decl_list -> expr_list .)
-    COMMA           shift and go to state 137
+    COMMA           shift and go to state 136
 
   ! COMMA           [ reduce using rule 15 (decl_list -> expr_list .) ]
 
 
 state 123
 
-    (69) for -> FOR VARIABLE EQ expression . COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR VARIABLE EQ expression . COLON expression BEGIN NL stmt_list END
+    (70) for -> FOR VARIABLE EQ expression . COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR VARIABLE EQ expression . COLON expression BEGIN NL stmt_list END
     (35) math_expression -> expression . PLUS expression
     (36) math_expression -> expression . MINUS expression
     (37) math_expression -> expression . MUL_MATRIX expression
@@ -3174,7 +3133,7 @@ state 123
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    COLON           shift and go to state 143
+    COLON           shift and go to state 142
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -3189,7 +3148,7 @@ state 123
 
 state 124
 
-    (71) if -> IF math_expression BEGINIF NL . stmt_list ENDIF
+    (72) if -> IF math_expression BEGINIF NL . stmt_list ENDIF
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -3201,31 +3160,120 @@ state 124
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    stmt_list                      shift and go to state 143
+    statement                      shift and go to state 3
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 125
+
+    (73) if -> IF math_expression BEGIN NL . stmt_list END
+    (2) stmt_list -> . stmt_list statement
+    (3) stmt_list -> . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -3276,148 +3324,59 @@ state 124
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
-state 125
-
-    (72) if -> IF math_expression BEGIN NL . stmt_list END
-    (2) stmt_list -> . stmt_list statement
-    (3) stmt_list -> . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    stmt_list                      shift and go to state 145
-    statement                      shift and go to state 3
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
 state 126
 
-    (62) operation -> MOVE LBRACKET math_expression RBRACKET .
+    (63) operation -> MOVE LBRACKET math_expression RBRACKET .
 
-    NL              reduce using rule 62 (operation -> MOVE LBRACKET math_expression RBRACKET .)
+    NL              reduce using rule 63 (operation -> MOVE LBRACKET math_expression RBRACKET .)
 
 
 state 127
 
-    (81) function -> return_list EQ FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> return_list EQ FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
+    (82) function -> return_list EQ FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> return_list EQ FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
 
-    LBRACKET        shift and go to state 146
+    LBRACKET        shift and go to state 145
 
 
 state 128
 
-    (73) return_list -> return_list COMMA type VARIABLE .
+    (74) return_list -> return_list COMMA type VARIABLE .
 
-    EQ              reduce using rule 73 (return_list -> return_list COMMA type VARIABLE .)
-    COMMA           reduce using rule 73 (return_list -> return_list COMMA type VARIABLE .)
+    EQ              reduce using rule 74 (return_list -> return_list COMMA type VARIABLE .)
+    COMMA           reduce using rule 74 (return_list -> return_list COMMA type VARIABLE .)
 
 
 state 129
 
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> func_list . COMMA func
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> func_list . COMMA func
 
-    RBRACKET        shift and go to state 147
-    COMMA           shift and go to state 148
+    RBRACKET        shift and go to state 146
+    COMMA           shift and go to state 147
 
 
 state 130
 
-    (84) function -> FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
+    (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
 
-    BEGIN           shift and go to state 149
+    BEGIN           shift and go to state 148
 
 
 state 131
 
-    (76) func_list -> func .
+    (77) func_list -> func .
 
-    RBRACKET        reduce using rule 76 (func_list -> func .)
-    COMMA           reduce using rule 76 (func_list -> func .)
+    RBRACKET        reduce using rule 77 (func_list -> func .)
+    COMMA           reduce using rule 77 (func_list -> func .)
 
 
 state 132
 
-    (77) func -> type . VARIABLE
-    (78) func -> type . VARIABLE EQ const
+    (78) func -> type . VARIABLE
+    (79) func -> type . VARIABLE EQ const
 
-    VARIABLE        shift and go to state 150
+    VARIABLE        shift and go to state 149
 
 
 state 133
@@ -3425,28 +3384,19 @@ state 133
     (12) declaration -> type VARIABLE EQ L_FIGBRACKET decl_list . R_FIGBRACKET
     (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
-    R_FIGBRACKET    shift and go to state 151
-    COMMA           shift and go to state 138
+    R_FIGBRACKET    shift and go to state 150
+    COMMA           shift and go to state 137
 
 
 state 134
 
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE . LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE . LBRACKET RBRACKET BEGIN NL stmt_list END
 
-    LBRACKET        shift and go to state 152
+    LBRACKET        shift and go to state 151
 
 
 state 135
-
-    (57) index -> expr_list ind expr_list .
-    (16) expr_list -> expr_list . COMMA expression
-
-    RBRACKET        reduce using rule 57 (index -> expr_list ind expr_list .)
-    COMMA           shift and go to state 137
-
-
-state 136
 
     (16) expr_list -> expr_list COMMA expression .
     (35) math_expression -> expression . PLUS expression
@@ -3476,7 +3426,7 @@ state 136
     GREATER         shift and go to state 86
 
 
-state 137
+state 136
 
     (16) expr_list -> expr_list COMMA . expression
     (32) expression -> . math_expression
@@ -3509,19 +3459,19 @@ state 137
     INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
 
-    expression                     shift and go to state 136
+    expression                     shift and go to state 135
     math_expression                shift and go to state 50
     const                          shift and go to state 51
     variable                       shift and go to state 52
 
-state 138
+state 137
 
     (14) decl_list -> decl_list COMMA . L_FIGBRACKET decl_list R_FIGBRACKET
 
-    L_FIGBRACKET    shift and go to state 139
+    L_FIGBRACKET    shift and go to state 138
 
 
-state 139
+state 138
 
     (14) decl_list -> decl_list COMMA L_FIGBRACKET . decl_list R_FIGBRACKET
     (13) decl_list -> . L_FIGBRACKET expr_list R_FIGBRACKET
@@ -3560,14 +3510,14 @@ state 139
     INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
 
-    decl_list                      shift and go to state 153
+    decl_list                      shift and go to state 152
     expr_list                      shift and go to state 122
     expression                     shift and go to state 107
     math_expression                shift and go to state 50
     const                          shift and go to state 51
     variable                       shift and go to state 52
 
-state 140
+state 139
 
     (13) decl_list -> L_FIGBRACKET expr_list R_FIGBRACKET .
 
@@ -3577,7 +3527,7 @@ state 140
     R_FIGBRACKET    reduce using rule 13 (decl_list -> L_FIGBRACKET expr_list R_FIGBRACKET .)
 
 
-state 141
+state 140
 
     (40) math_expression -> SUM LBRACKET expression RBRACKET .
 
@@ -3601,17 +3551,17 @@ state 141
     BEGINFOR        reduce using rule 40 (math_expression -> SUM LBRACKET expression RBRACKET .)
 
 
+state 141
+
+    (69) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .
+
+    NL              reduce using rule 69 (assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .)
+
+
 state 142
 
-    (68) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .
-
-    NL              reduce using rule 68 (assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .)
-
-
-state 143
-
-    (69) for -> FOR VARIABLE EQ expression COLON . expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR VARIABLE EQ expression COLON . expression BEGIN NL stmt_list END
+    (70) for -> FOR VARIABLE EQ expression COLON . expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR VARIABLE EQ expression COLON . expression BEGIN NL stmt_list END
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -3642,14 +3592,14 @@ state 143
     INT_BIN         shift and go to state 58
     VARIABLE        shift and go to state 46
 
-    expression                     shift and go to state 154
+    expression                     shift and go to state 153
     math_expression                shift and go to state 50
     const                          shift and go to state 51
     variable                       shift and go to state 52
 
-state 144
+state 143
 
-    (71) if -> IF math_expression BEGINIF NL stmt_list . ENDIF
+    (72) if -> IF math_expression BEGINIF NL stmt_list . ENDIF
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
@@ -3660,31 +3610,31 @@ state 144
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -3698,7 +3648,95 @@ state 144
     (30) bool -> . CVBOOL
     (31) bool -> . CMBOOL
 
-    ENDIF           shift and go to state 155
+    ENDIF           shift and go to state 154
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    statement                      shift and go to state 37
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 144
+
+    (73) if -> IF math_expression BEGIN NL stmt_list . END
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    END             shift and go to state 155
     FOR             shift and go to state 14
     IF              shift and go to state 15
     MOVE            shift and go to state 16
@@ -3737,42 +3775,14 @@ state 144
 
 state 145
 
-    (72) if -> IF math_expression BEGIN NL stmt_list . END
-    (2) stmt_list -> stmt_list . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> . func_list COMMA func
+    (77) func_list -> . func
+    (78) func -> . type VARIABLE
+    (79) func -> . type VARIABLE EQ const
     (18) type -> . int
     (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -3786,7 +3796,520 @@ state 145
     (30) bool -> . CVBOOL
     (31) bool -> . CMBOOL
 
-    END             shift and go to state 156
+    RBRACKET        shift and go to state 157
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    func_list                      shift and go to state 156
+    func                           shift and go to state 131
+    type                           shift and go to state 132
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 146
+
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
+
+    BEGIN           shift and go to state 158
+
+
+state 147
+
+    (76) func_list -> func_list COMMA . func
+    (78) func -> . type VARIABLE
+    (79) func -> . type VARIABLE EQ const
+    (18) type -> . int
+    (19) type -> . bool
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    func                           shift and go to state 159
+    type                           shift and go to state 132
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 148
+
+    (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
+
+    NL              shift and go to state 160
+
+
+state 149
+
+    (78) func -> type VARIABLE .
+    (79) func -> type VARIABLE . EQ const
+
+    RBRACKET        reduce using rule 78 (func -> type VARIABLE .)
+    COMMA           reduce using rule 78 (func -> type VARIABLE .)
+    EQ              shift and go to state 161
+
+
+state 150
+
+    (12) declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET .
+
+    NL              reduce using rule 12 (declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET .)
+
+
+state 151
+
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> . func_list COMMA func
+    (77) func_list -> . func
+    (78) func -> . type VARIABLE
+    (79) func -> . type VARIABLE EQ const
+    (18) type -> . int
+    (19) type -> . bool
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    RBRACKET        shift and go to state 163
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    type                           shift and go to state 132
+    func_list                      shift and go to state 162
+    func                           shift and go to state 131
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 152
+
+    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list . R_FIGBRACKET
+    (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
+
+    R_FIGBRACKET    shift and go to state 164
+    COMMA           shift and go to state 137
+
+
+state 153
+
+    (70) for -> FOR VARIABLE EQ expression COLON expression . BEGINFOR NL stmt_list ENDFOR
+    (71) for -> FOR VARIABLE EQ expression COLON expression . BEGIN NL stmt_list END
+    (35) math_expression -> expression . PLUS expression
+    (36) math_expression -> expression . MINUS expression
+    (37) math_expression -> expression . MUL_MATRIX expression
+    (38) math_expression -> expression . MUL_ELEM expression
+    (39) math_expression -> expression . TRANSPOSE
+    (41) math_expression -> expression . STL
+    (42) math_expression -> expression . STR
+    (44) math_expression -> expression . AND expression
+    (45) math_expression -> expression . LESS expression
+    (46) math_expression -> expression . GREATER expression
+
+    BEGINFOR        shift and go to state 165
+    BEGIN           shift and go to state 166
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 78
+    MUL_MATRIX      shift and go to state 79
+    MUL_ELEM        shift and go to state 80
+    TRANSPOSE       shift and go to state 81
+    STL             shift and go to state 82
+    STR             shift and go to state 83
+    AND             shift and go to state 84
+    LESS            shift and go to state 85
+    GREATER         shift and go to state 86
+
+
+state 154
+
+    (72) if -> IF math_expression BEGINIF NL stmt_list ENDIF .
+
+    NL              reduce using rule 72 (if -> IF math_expression BEGINIF NL stmt_list ENDIF .)
+
+
+state 155
+
+    (73) if -> IF math_expression BEGIN NL stmt_list END .
+
+    NL              reduce using rule 73 (if -> IF math_expression BEGIN NL stmt_list END .)
+
+
+state 156
+
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> func_list . COMMA func
+
+    RBRACKET        shift and go to state 167
+    COMMA           shift and go to state 147
+
+
+state 157
+
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
+
+    BEGIN           shift and go to state 168
+
+
+state 158
+
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
+
+    NL              shift and go to state 169
+
+
+state 159
+
+    (76) func_list -> func_list COMMA func .
+
+    RBRACKET        reduce using rule 76 (func_list -> func_list COMMA func .)
+    COMMA           reduce using rule 76 (func_list -> func_list COMMA func .)
+
+
+state 160
+
+    (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
+    (2) stmt_list -> . stmt_list statement
+    (3) stmt_list -> . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    stmt_list                      shift and go to state 170
+    statement                      shift and go to state 3
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 161
+
+    (79) func -> type VARIABLE EQ . const
+    (47) const -> . TRUE
+    (48) const -> . FALSE
+    (49) const -> . INT_DEC
+    (50) const -> . INT_BIN
+
+    TRUE            shift and go to state 55
+    FALSE           shift and go to state 56
+    INT_DEC         shift and go to state 57
+    INT_BIN         shift and go to state 58
+
+    const                          shift and go to state 171
+
+state 162
+
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
+    (76) func_list -> func_list . COMMA func
+
+    RBRACKET        shift and go to state 172
+    COMMA           shift and go to state 147
+
+
+state 163
+
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
+
+    BEGIN           shift and go to state 173
+
+
+state 164
+
+    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .
+
+    COMMA           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
+    COLON           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
+    RBRACKET        reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
+    R_FIGBRACKET    reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
+
+
+state 165
+
+    (70) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR . NL stmt_list ENDFOR
+
+    NL              shift and go to state 174
+
+
+state 166
+
+    (71) for -> FOR VARIABLE EQ expression COLON expression BEGIN . NL stmt_list END
+
+    NL              shift and go to state 175
+
+
+state 167
+
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
+
+    BEGIN           shift and go to state 176
+
+
+state 168
+
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
+
+    NL              shift and go to state 177
+
+
+state 169
+
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
+    (2) stmt_list -> . stmt_list statement
+    (3) stmt_list -> . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    stmt_list                      shift and go to state 178
+    statement                      shift and go to state 3
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 170
+
+    (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    END             shift and go to state 179
     FOR             shift and go to state 14
     IF              shift and go to state 15
     MOVE            shift and go to state 16
@@ -3810,491 +4333,6 @@ state 145
     CMBOOL          shift and go to state 36
 
     statement                      shift and go to state 37
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 146
-
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> . func_list COMMA func
-    (76) func_list -> . func
-    (77) func -> . type VARIABLE
-    (78) func -> . type VARIABLE EQ const
-    (18) type -> . int
-    (19) type -> . bool
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    RBRACKET        shift and go to state 158
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    func_list                      shift and go to state 157
-    func                           shift and go to state 131
-    type                           shift and go to state 132
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 147
-
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
-
-    BEGIN           shift and go to state 159
-
-
-state 148
-
-    (75) func_list -> func_list COMMA . func
-    (77) func -> . type VARIABLE
-    (78) func -> . type VARIABLE EQ const
-    (18) type -> . int
-    (19) type -> . bool
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    func                           shift and go to state 160
-    type                           shift and go to state 132
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 149
-
-    (84) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 161
-
-
-state 150
-
-    (77) func -> type VARIABLE .
-    (78) func -> type VARIABLE . EQ const
-
-    RBRACKET        reduce using rule 77 (func -> type VARIABLE .)
-    COMMA           reduce using rule 77 (func -> type VARIABLE .)
-    EQ              shift and go to state 162
-
-
-state 151
-
-    (12) declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET .
-
-    NL              reduce using rule 12 (declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET .)
-
-
-state 152
-
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET . func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> . func_list COMMA func
-    (76) func_list -> . func
-    (77) func -> . type VARIABLE
-    (78) func -> . type VARIABLE EQ const
-    (18) type -> . int
-    (19) type -> . bool
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    RBRACKET        shift and go to state 164
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    type                           shift and go to state 132
-    func_list                      shift and go to state 163
-    func                           shift and go to state 131
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 153
-
-    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list . R_FIGBRACKET
-    (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
-
-    R_FIGBRACKET    shift and go to state 165
-    COMMA           shift and go to state 138
-
-
-state 154
-
-    (69) for -> FOR VARIABLE EQ expression COLON expression . BEGINFOR NL stmt_list ENDFOR
-    (70) for -> FOR VARIABLE EQ expression COLON expression . BEGIN NL stmt_list END
-    (35) math_expression -> expression . PLUS expression
-    (36) math_expression -> expression . MINUS expression
-    (37) math_expression -> expression . MUL_MATRIX expression
-    (38) math_expression -> expression . MUL_ELEM expression
-    (39) math_expression -> expression . TRANSPOSE
-    (41) math_expression -> expression . STL
-    (42) math_expression -> expression . STR
-    (44) math_expression -> expression . AND expression
-    (45) math_expression -> expression . LESS expression
-    (46) math_expression -> expression . GREATER expression
-
-    BEGINFOR        shift and go to state 166
-    BEGIN           shift and go to state 167
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 78
-    MUL_MATRIX      shift and go to state 79
-    MUL_ELEM        shift and go to state 80
-    TRANSPOSE       shift and go to state 81
-    STL             shift and go to state 82
-    STR             shift and go to state 83
-    AND             shift and go to state 84
-    LESS            shift and go to state 85
-    GREATER         shift and go to state 86
-
-
-state 155
-
-    (71) if -> IF math_expression BEGINIF NL stmt_list ENDIF .
-
-    NL              reduce using rule 71 (if -> IF math_expression BEGINIF NL stmt_list ENDIF .)
-
-
-state 156
-
-    (72) if -> IF math_expression BEGIN NL stmt_list END .
-
-    NL              reduce using rule 72 (if -> IF math_expression BEGIN NL stmt_list END .)
-
-
-state 157
-
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> func_list . COMMA func
-
-    RBRACKET        shift and go to state 168
-    COMMA           shift and go to state 148
-
-
-state 158
-
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
-
-    BEGIN           shift and go to state 169
-
-
-state 159
-
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 170
-
-
-state 160
-
-    (75) func_list -> func_list COMMA func .
-
-    RBRACKET        reduce using rule 75 (func_list -> func_list COMMA func .)
-    COMMA           reduce using rule 75 (func_list -> func_list COMMA func .)
-
-
-state 161
-
-    (84) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
-    (2) stmt_list -> . stmt_list statement
-    (3) stmt_list -> . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    stmt_list                      shift and go to state 171
-    statement                      shift and go to state 3
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 162
-
-    (78) func -> type VARIABLE EQ . const
-    (47) const -> . TRUE
-    (48) const -> . FALSE
-    (49) const -> . INT_DEC
-    (50) const -> . INT_BIN
-
-    TRUE            shift and go to state 55
-    FALSE           shift and go to state 56
-    INT_DEC         shift and go to state 57
-    INT_BIN         shift and go to state 58
-
-    const                          shift and go to state 172
-
-state 163
-
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list . RBRACKET BEGIN NL stmt_list END
-    (75) func_list -> func_list . COMMA func
-
-    RBRACKET        shift and go to state 173
-    COMMA           shift and go to state 148
-
-
-state 164
-
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET . BEGIN NL stmt_list END
-
-    BEGIN           shift and go to state 174
-
-
-state 165
-
-    (14) decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .
-
-    COMMA           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
-    COLON           reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
-    RBRACKET        reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
-    R_FIGBRACKET    reduce using rule 14 (decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET .)
-
-
-state 166
-
-    (69) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR . NL stmt_list ENDFOR
-
-    NL              shift and go to state 175
-
-
-state 167
-
-    (70) for -> FOR VARIABLE EQ expression COLON expression BEGIN . NL stmt_list END
-
-    NL              shift and go to state 176
-
-
-state 168
-
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
-
-    BEGIN           shift and go to state 177
-
-
-state 169
-
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 178
-
-
-state 170
-
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
-    (2) stmt_list -> . stmt_list statement
-    (3) stmt_list -> . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    stmt_list                      shift and go to state 179
-    statement                      shift and go to state 3
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
     for                            shift and go to state 6
@@ -4310,8 +4348,31 @@ state 170
 
 state 171
 
-    (84) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
-    (2) stmt_list -> stmt_list . statement
+    (79) func -> type VARIABLE EQ const .
+
+    RBRACKET        reduce using rule 79 (func -> type VARIABLE EQ const .)
+    COMMA           reduce using rule 79 (func -> type VARIABLE EQ const .)
+
+
+state 172
+
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
+
+    BEGIN           shift and go to state 180
+
+
+state 173
+
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
+
+    NL              shift and go to state 181
+
+
+state 174
+
+    (70) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL . stmt_list ENDFOR
+    (2) stmt_list -> . stmt_list statement
+    (3) stmt_list -> . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
     (6) statement -> . for NL
@@ -4321,31 +4382,31 @@ state 171
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4359,7 +4420,6 @@ state 171
     (30) bool -> . CVBOOL
     (31) bool -> . CMBOOL
 
-    END             shift and go to state 180
     FOR             shift and go to state 14
     IF              shift and go to state 15
     MOVE            shift and go to state 16
@@ -4382,7 +4442,8 @@ state 171
     CVBOOL          shift and go to state 35
     CMBOOL          shift and go to state 36
 
-    statement                      shift and go to state 37
+    stmt_list                      shift and go to state 182
+    statement                      shift and go to state 3
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
     for                            shift and go to state 6
@@ -4396,31 +4457,9 @@ state 171
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
-state 172
-
-    (78) func -> type VARIABLE EQ const .
-
-    RBRACKET        reduce using rule 78 (func -> type VARIABLE EQ const .)
-    COMMA           reduce using rule 78 (func -> type VARIABLE EQ const .)
-
-
-state 173
-
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET . BEGIN NL stmt_list END
-
-    BEGIN           shift and go to state 181
-
-
-state 174
-
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 182
-
-
 state 175
 
-    (69) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL . stmt_list ENDFOR
+    (71) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL . stmt_list END
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -4432,31 +4471,31 @@ state 175
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4509,103 +4548,14 @@ state 175
 
 state 176
 
-    (70) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL . stmt_list END
-    (2) stmt_list -> . stmt_list statement
-    (3) stmt_list -> . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
 
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
+    NL              shift and go to state 184
 
-    stmt_list                      shift and go to state 184
-    statement                      shift and go to state 3
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
 
 state 177
 
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 185
-
-
-state 178
-
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -4617,31 +4567,31 @@ state 178
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4678,7 +4628,7 @@ state 178
     CMBOOL          shift and go to state 36
 
     return_list                    shift and go to state 21
-    stmt_list                      shift and go to state 186
+    stmt_list                      shift and go to state 185
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
@@ -4692,9 +4642,9 @@ state 178
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
-state 179
+state 178
 
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
@@ -4705,31 +4655,31 @@ state 179
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4743,7 +4693,7 @@ state 179
     (30) bool -> . CVBOOL
     (31) bool -> . CMBOOL
 
-    END             shift and go to state 187
+    END             shift and go to state 186
     FOR             shift and go to state 14
     IF              shift and go to state 15
     MOVE            shift and go to state 16
@@ -4780,23 +4730,23 @@ state 179
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
+state 179
+
+    (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
+
+    NL              reduce using rule 85 (function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
+
+
 state 180
 
-    (84) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
 
-    NL              reduce using rule 84 (function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
+    NL              shift and go to state 187
 
 
 state 181
 
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN . NL stmt_list END
-
-    NL              shift and go to state 188
-
-
-state 182
-
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL . stmt_list END
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -4808,31 +4758,31 @@ state 182
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4869,7 +4819,7 @@ state 182
     CMBOOL          shift and go to state 36
 
     type                           shift and go to state 11
-    stmt_list                      shift and go to state 189
+    stmt_list                      shift and go to state 188
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
@@ -4883,9 +4833,9 @@ state 182
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
-state 183
+state 182
 
-    (69) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list . ENDFOR
+    (70) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list . ENDFOR
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
@@ -4896,31 +4846,31 @@ state 183
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -4934,7 +4884,95 @@ state 183
     (30) bool -> . CVBOOL
     (31) bool -> . CMBOOL
 
-    ENDFOR          shift and go to state 190
+    ENDFOR          shift and go to state 189
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    statement                      shift and go to state 37
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 183
+
+    (71) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list . END
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    END             shift and go to state 190
     FOR             shift and go to state 14
     IF              shift and go to state 15
     MOVE            shift and go to state 16
@@ -4973,95 +5011,7 @@ state 183
 
 state 184
 
-    (70) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list . END
-    (2) stmt_list -> stmt_list . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
-
-    END             shift and go to state 191
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
-
-    statement                      shift and go to state 37
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
-
-state 185
-
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -5073,31 +5023,31 @@ state 185
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -5134,8 +5084,96 @@ state 185
     CMBOOL          shift and go to state 36
 
     return_list                    shift and go to state 21
-    stmt_list                      shift and go to state 192
+    stmt_list                      shift and go to state 191
     statement                      shift and go to state 3
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    type                           shift and go to state 11
+    variable                       shift and go to state 13
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 185
+
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    END             shift and go to state 192
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    return_list                    shift and go to state 21
+    statement                      shift and go to state 37
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
     for                            shift and go to state 6
@@ -5150,102 +5188,14 @@ state 185
 
 state 186
 
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
-    (2) stmt_list -> stmt_list . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
+    (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
 
-    END             shift and go to state 193
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
+    NL              reduce using rule 83 (function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
 
-    return_list                    shift and go to state 21
-    statement                      shift and go to state 37
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    type                           shift and go to state 11
-    variable                       shift and go to state 13
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
 
 state 187
 
-    (82) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
-
-    NL              reduce using rule 82 (function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
-
-
-state 188
-
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL . stmt_list END
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
@@ -5257,31 +5207,31 @@ state 188
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -5318,8 +5268,96 @@ state 188
     CMBOOL          shift and go to state 36
 
     type                           shift and go to state 11
-    stmt_list                      shift and go to state 194
+    stmt_list                      shift and go to state 193
     statement                      shift and go to state 3
+    declaration                    shift and go to state 4
+    assigment                      shift and go to state 5
+    for                            shift and go to state 6
+    if                             shift and go to state 7
+    operation                      shift and go to state 8
+    function                       shift and go to state 9
+    function_call                  shift and go to state 10
+    variable                       shift and go to state 13
+    return_list                    shift and go to state 21
+    int                            shift and go to state 23
+    bool                           shift and go to state 24
+
+state 188
+
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
+    (2) stmt_list -> stmt_list . statement
+    (4) statement -> . declaration NL
+    (5) statement -> . assigment NL
+    (6) statement -> . for NL
+    (7) statement -> . if NL
+    (8) statement -> . operation NL
+    (9) statement -> . function NL
+    (10) statement -> . function_call NL
+    (11) declaration -> . type VARIABLE EQ expression
+    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
+    (18) type -> . int
+    (19) type -> . bool
+    (51) variable -> . VARIABLE
+    (52) variable -> . VARIABLE LBRACKET index RBRACKET
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
+    (20) int -> . INT
+    (21) int -> . CINT
+    (22) int -> . VINT
+    (23) int -> . MINT
+    (24) int -> . CVINT
+    (25) int -> . CMINT
+    (26) bool -> . BOOL
+    (27) bool -> . CBOOL
+    (28) bool -> . VBOOL
+    (29) bool -> . MBOOL
+    (30) bool -> . CVBOOL
+    (31) bool -> . CMBOOL
+
+    END             shift and go to state 194
+    FOR             shift and go to state 14
+    IF              shift and go to state 15
+    MOVE            shift and go to state 16
+    RIGHT           shift and go to state 17
+    LEFT            shift and go to state 18
+    WALL            shift and go to state 19
+    EXIT            shift and go to state 20
+    FUNCTION        shift and go to state 22
+    VARIABLE        shift and go to state 12
+    INT             shift and go to state 25
+    CINT            shift and go to state 26
+    VINT            shift and go to state 27
+    MINT            shift and go to state 28
+    CVINT           shift and go to state 29
+    CMINT           shift and go to state 30
+    BOOL            shift and go to state 31
+    CBOOL           shift and go to state 32
+    VBOOL           shift and go to state 33
+    MBOOL           shift and go to state 34
+    CVBOOL          shift and go to state 35
+    CMBOOL          shift and go to state 36
+
+    type                           shift and go to state 11
+    statement                      shift and go to state 37
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
     for                            shift and go to state 6
@@ -5334,7 +5372,21 @@ state 188
 
 state 189
 
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
+    (70) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR .
+
+    NL              reduce using rule 70 (for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR .)
+
+
+state 190
+
+    (71) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END .
+
+    NL              reduce using rule 71 (for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END .)
+
+
+state 191
+
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
@@ -5345,31 +5397,31 @@ state 189
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -5406,7 +5458,7 @@ state 189
     CVBOOL          shift and go to state 35
     CMBOOL          shift and go to state 36
 
-    type                           shift and go to state 11
+    return_list                    shift and go to state 21
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
@@ -5415,28 +5467,21 @@ state 189
     operation                      shift and go to state 8
     function                       shift and go to state 9
     function_call                  shift and go to state 10
+    type                           shift and go to state 11
     variable                       shift and go to state 13
-    return_list                    shift and go to state 21
     int                            shift and go to state 23
     bool                           shift and go to state 24
 
-state 190
-
-    (69) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR .
-
-    NL              reduce using rule 69 (for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR .)
-
-
-state 191
-
-    (70) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END .
-
-    NL              reduce using rule 70 (for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END .)
-
-
 state 192
 
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
+    (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
+
+    NL              reduce using rule 84 (function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
+
+
+state 193
+
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
     (5) statement -> . assigment NL
@@ -5447,31 +5492,31 @@ state 192
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
+    (68) assigment -> . variable ASSIGMENT expression
+    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
+    (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
+    (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
+    (73) if -> . IF math_expression BEGIN NL stmt_list END
+    (63) operation -> . MOVE LBRACKET math_expression RBRACKET
+    (64) operation -> . RIGHT
+    (65) operation -> . LEFT
+    (66) operation -> . WALL
+    (67) operation -> . EXIT
+    (82) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (83) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (84) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (85) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
+    (87) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
+    (88) function_call -> . VARIABLE
+    (89) function_call -> . VARIABLE call_list
     (18) type -> . int
     (19) type -> . bool
     (51) variable -> . VARIABLE
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
+    (74) return_list -> . return_list COMMA type VARIABLE
+    (75) return_list -> . type VARIABLE
     (20) int -> . INT
     (21) int -> . CINT
     (22) int -> . VINT
@@ -5508,7 +5553,7 @@ state 192
     CVBOOL          shift and go to state 35
     CMBOOL          shift and go to state 36
 
-    return_list                    shift and go to state 21
+    type                           shift and go to state 11
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
     assigment                      shift and go to state 5
@@ -5517,125 +5562,30 @@ state 192
     operation                      shift and go to state 8
     function                       shift and go to state 9
     function_call                  shift and go to state 10
-    type                           shift and go to state 11
     variable                       shift and go to state 13
+    return_list                    shift and go to state 21
     int                            shift and go to state 23
     bool                           shift and go to state 24
-
-state 193
-
-    (83) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
-
-    NL              reduce using rule 83 (function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
-
 
 state 194
 
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
-    (2) stmt_list -> stmt_list . statement
-    (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
-    (6) statement -> . for NL
-    (7) statement -> . if NL
-    (8) statement -> . operation NL
-    (9) statement -> . function NL
-    (10) statement -> . function_call NL
-    (11) declaration -> . type VARIABLE EQ expression
-    (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (67) assigment -> . variable ASSIGMENT expression
-    (68) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
-    (69) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
-    (70) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
-    (71) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
-    (72) if -> . IF math_expression BEGIN NL stmt_list END
-    (62) operation -> . MOVE LBRACKET math_expression RBRACKET
-    (63) operation -> . RIGHT
-    (64) operation -> . LEFT
-    (65) operation -> . WALL
-    (66) operation -> . EXIT
-    (81) function -> . return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (82) function -> . FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (83) function -> . return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (84) function -> . FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (85) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
-    (86) function -> . type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
-    (87) function_call -> . VARIABLE
-    (88) function_call -> . VARIABLE call_list
-    (18) type -> . int
-    (19) type -> . bool
-    (51) variable -> . VARIABLE
-    (52) variable -> . VARIABLE LBRACKET index RBRACKET
-    (73) return_list -> . return_list COMMA type VARIABLE
-    (74) return_list -> . type VARIABLE
-    (20) int -> . INT
-    (21) int -> . CINT
-    (22) int -> . VINT
-    (23) int -> . MINT
-    (24) int -> . CVINT
-    (25) int -> . CMINT
-    (26) bool -> . BOOL
-    (27) bool -> . CBOOL
-    (28) bool -> . VBOOL
-    (29) bool -> . MBOOL
-    (30) bool -> . CVBOOL
-    (31) bool -> . CMBOOL
+    (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
 
-    END             shift and go to state 197
-    FOR             shift and go to state 14
-    IF              shift and go to state 15
-    MOVE            shift and go to state 16
-    RIGHT           shift and go to state 17
-    LEFT            shift and go to state 18
-    WALL            shift and go to state 19
-    EXIT            shift and go to state 20
-    FUNCTION        shift and go to state 22
-    VARIABLE        shift and go to state 12
-    INT             shift and go to state 25
-    CINT            shift and go to state 26
-    VINT            shift and go to state 27
-    MINT            shift and go to state 28
-    CVINT           shift and go to state 29
-    CMINT           shift and go to state 30
-    BOOL            shift and go to state 31
-    CBOOL           shift and go to state 32
-    VBOOL           shift and go to state 33
-    MBOOL           shift and go to state 34
-    CVBOOL          shift and go to state 35
-    CMBOOL          shift and go to state 36
+    NL              reduce using rule 87 (function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
 
-    type                           shift and go to state 11
-    statement                      shift and go to state 37
-    declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
-    for                            shift and go to state 6
-    if                             shift and go to state 7
-    operation                      shift and go to state 8
-    function                       shift and go to state 9
-    function_call                  shift and go to state 10
-    variable                       shift and go to state 13
-    return_list                    shift and go to state 21
-    int                            shift and go to state 23
-    bool                           shift and go to state 24
 
 state 195
 
-    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .
+    (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
 
-    NL              reduce using rule 86 (function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END .)
+    NL              reduce using rule 82 (function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
 
 
 state 196
 
-    (81) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
+    (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
 
-    NL              reduce using rule 81 (function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
-
-
-state 197
-
-    (85) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .
-
-    NL              reduce using rule 85 (function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
+    NL              reduce using rule 86 (function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -5653,13 +5603,6 @@ WARNING: shift/reduce conflict for STR in state 88 resolved as shift
 WARNING: shift/reduce conflict for AND in state 88 resolved as shift
 WARNING: shift/reduce conflict for LESS in state 88 resolved as shift
 WARNING: shift/reduce conflict for GREATER in state 88 resolved as shift
-WARNING: shift/reduce conflict for SUM in state 104 resolved as shift
-WARNING: shift/reduce conflict for DENY in state 104 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 104 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 104 resolved as shift
-WARNING: shift/reduce conflict for INT_DEC in state 104 resolved as shift
-WARNING: shift/reduce conflict for INT_BIN in state 104 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 104 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 105 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 113 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 113 resolved as shift
@@ -5732,6 +5675,12 @@ WARNING: shift/reduce conflict for AND in state 119 resolved as shift
 WARNING: shift/reduce conflict for LESS in state 119 resolved as shift
 WARNING: shift/reduce conflict for GREATER in state 119 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 122 resolved as shift
+WARNING: reduce/reduce conflict in state 70 resolved using rule (expr_list -> expression)
+WARNING: rejected rule (index -> expression) in state 70
+WARNING: reduce/reduce conflict in state 71 resolved using rule (decl_list -> expr_list)
+WARNING: rejected rule (index -> expr_list) in state 71
 WARNING: reduce/reduce conflict in state 105 resolved using rule (decl_list -> expr_list)
 WARNING: rejected rule (index -> ind expr_list) in state 105
+WARNING: Rule (index -> expression) is never reduced
+WARNING: Rule (index -> expr_list) is never reduced
 WARNING: Rule (index -> ind expr_list) is never reduced

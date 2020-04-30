@@ -92,10 +92,12 @@ class Interpreter:
             L = []
             for ch in node.children:
                 L.append(self.interpreter_node(ch))
-            if len(L) == 2:
+            if len(L) == 2 and isinstance(L[0], list):
                 L[0].append(L[1])
                 del L[1]
                 L = L[0]
+            elif len(L) == 1:
+                return L[0]
             return L
         elif node.type == 'expression':
             return self.interpreter_node(node.children)
@@ -190,6 +192,9 @@ class Interpreter:
     def get_list(self, node):
         if isinstance(node.children, SyntaxTreeNode):
             expression = self.interpreter_node(node.children)
+            if isinstance(expression, list):
+                if len(expression) == 1:
+                    return expression[0]
             return expression
         elif isinstance(node.children, list):
             expr = []
@@ -214,13 +219,13 @@ class Interpreter:
 
     def check_matrix(self, type, expr):
         exp = expr.value
-        l = len(exp)
+        l = len(exp[0])
         t = type[1:]
         for i in range(len(exp)):
             if len(exp[i]) != l:
                 print('ERROR')
                 # TODO Error
-        for i in range(l):
+        for i in range(len(exp)):
             for j in range(l):
                 exp[i][j] = self.converser.converse(t, exp[i][j])
         return Variable(type, exp)
@@ -243,7 +248,9 @@ class Interpreter:
             return Variable('int', value)
 
     def list_of_smth(self, value):
-        if isinstance(value[0], list):
+        if isinstance(value, Variable):
+            return value
+        elif isinstance(value[0], list):
             if type(value[0][0].value) is int:
                 return Variable('mint', value)
             else:
@@ -449,13 +456,26 @@ class Interpreter:
         type = self.symbol_table[var].type
         index = self.interpreter_node(children)
         print('indexing', type, index)
-        if not isinstance(index, list):
+        if not isinstance(index, list) and index.type.find('m') == -1 and index.type.find('v') == -1:
             return self.symbol_table[var].value[index.value]
+        elif isinstance(index, Variable) and index.type.find('m') != -1 and type.find('m') != -1:
+            m = len(self.symbol_table[var].value)
+            n = len(self.symbol_table[var].value[0])
+            value = index.value
+            check, m_, n_ = self.check_bool_matrix(index, m, n)
+            if not check:
+                print('BAD BOOL MATRIX')
+            res = [[] for j in range(m_)]
+            for i in range(m):
+                for j in range(n):
+                    if value[i][j].value:
+                        res[i].append(self.symbol_table[var].value[i][j])
+            return Variable(type, res)
         else:
             if isinstance(index[0], Variable) and isinstance(index[1], Variable):
                 if index[0].type == index[1].type:
                     return self.symbol_table[var].value[index[0].value][index[1].value]
-            elif type.find('m') != -1:
+            elif type.find('m') != -1: #indexing for matrix
                 if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
                     if index[0].type.find('v') == -1 and index[0].type.find('m') == -1:
                         res = []
@@ -527,6 +547,28 @@ class Interpreter:
                 else:
                     print('index')
 
+    def check_bool_matrix(self, var, m, n):
+        type = var.type
+        value = var.value
+        if type.find('m') == -1:
+            print('ERROR_matrix')
+            return
+        if len(value) != m or len(value[0]) != n:
+            print('Erroorr in size')
+            return
+        counts = []
+        etallon = 0
+        for i in range(len(value)):
+            k = 0
+            for j in range(len(value[0])):
+                if value[i][j].value:
+                    k += 1
+            counts.append(k)
+            if etallon == 0:
+                etallon = k
+        if etallon > 1 and len(counts) == (counts.count(etallon) + counts.count(0)):
+            return True, counts.count(etallon), etallon
+        return False
 
 
 if __name__ == '__main__':

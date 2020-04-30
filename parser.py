@@ -180,11 +180,12 @@ class MyParser(object):
 
     def p_index(self, p):
         """index : expression
-                 | expr_list ind expr_list
+                 | expr_list
                  | expr_list ind
                  | ind expr_list
                  | decl_list ind
-                 | ind decl_list"""
+                 | ind decl_list
+                 | decl_list"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3 and (p[2].type == 'colon' or p[2].type == 'comma'):
@@ -308,6 +309,6 @@ if __name__ == '__main__':
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    tree, func_table = parser.parse(txt)
-    #tree = parser.parser.parse(txt, debug=True)
+    #tree, func_table = parser.parse(txt)
+    tree = parser.parser.parse(txt, debug=True)
     tree.print()
