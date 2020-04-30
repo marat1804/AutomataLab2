@@ -618,7 +618,7 @@ class Interpreter:
             print('ERROOR_FOR')
         from_ = self.interpreter_node(node.children['from'])
         to_ = self.interpreter_node(node.children['to'])
-        for i in range(from_.value, to_.value+1):
+        for i in range(from_.value, to_.value):
             self.symbol_table[self.scope][variable] = Variable('int', i)
             self.interpreter_node(node.children['body'])
 
