@@ -471,11 +471,22 @@ class Interpreter:
                     if value[i][j].value:
                         res[i].append(self.symbol_table[var].value[i][j])
             return Variable(type, res)
+        elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1:
+            m = len(self.symbol_table[var].value)
+            value = index.value
+            check = self.check_bool_vector(index, m)
+            if not check:
+                print('BAD BOOL VECTOR')
+            res = []
+            for i in range(m):
+                if value[i].value:
+                    res.append(self.symbol_table[var].value[i])
+            return Variable(type, res)
         else:
             if isinstance(index[0], Variable) and isinstance(index[1], Variable):
                 if index[0].type == index[1].type:
                     return self.symbol_table[var].value[index[0].value][index[1].value]
-            elif type.find('m') != -1: #indexing for matrix
+            elif type.find('m') != -1:  # indexing for matrix
                 if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
                     if index[0].type.find('v') == -1 and index[0].type.find('m') == -1:
                         res = []
@@ -497,7 +508,7 @@ class Interpreter:
                     elif index[0].type.find('vbool') != -1:
                         m = self.symbol_table[var].value
                         if len(index[0].value) != len(m):
-                            print("ERRROR") # TODO ERROR
+                            print("ERRROR")  # TODO ERROR
                         index[0] = self.check_vector('vbool', index[0])
                         value = index[0].value
                         res = []
@@ -545,7 +556,7 @@ class Interpreter:
                                 res[k].append(m[j][i])
                         return Variable(type, res)
                 else:
-                    print('index')
+                    print('ERRORRR index')
 
     def check_bool_matrix(self, var, m, n):
         type = var.type
@@ -569,6 +580,24 @@ class Interpreter:
         if etallon > 1 and len(counts) == (counts.count(etallon) + counts.count(0)):
             return True, counts.count(etallon), etallon
         return False
+
+    def check_bool_vector(self, var, n):
+        type = var.type
+        value = var.value
+        if type.find('v') == -1:
+            print('ERROR_vector')
+            return
+        if len(value) != n:
+            print('Erroorr in size')
+            return
+        k = 0
+        for i in range(n):
+            if value[i].value:
+                k += 1
+        if k > 1:
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
