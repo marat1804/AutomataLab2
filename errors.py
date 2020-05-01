@@ -30,7 +30,7 @@ class Error_handler:
             sys.stderr.write(f'No "main" function detected\n')
             return
         elif self.type == 2:
-            sys.stderr.write(f'variable "{node.children[0].value}" at line'
+            sys.stderr.write(f'Variable "{node.children[0].value}" at line'
                              f'{self.node.lineno} is used before declaration\n')
         elif self.type == 3:
             if node.type == 'assignment':
@@ -40,6 +40,10 @@ class Error_handler:
             if node.type == 'assignment':
                 sys.stderr.write(f'Wrong type variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} \n')
+        elif self.type == 7:
+            if node.type == 'declaration':
+                sys.stderr.write(f'Bad expression for variable "{node.children[0].value}" at line '
+                                 f'{self.node.lineno} \n')
         elif self.type == 8:
             sys.stderr.write(f'Tried to call main function at line'
                              f' {self.node.lineno} \n')

@@ -114,6 +114,8 @@ class Interpreter:
                 self.declare_variable(declaration_type, declaration_child)
             except InterpreterRedeclarationError:
                 print(self.error.up(self.error_types['RedeclarationError'], node))
+            except InterpreterValueError:
+                print(self.error.up(self.error_types['ValueError'], node))
         elif node.type == 'expr_list':
             L = []
             for ch in node.children:
@@ -145,10 +147,9 @@ class Interpreter:
             if var not in self.symbol_table[self.scope].keys():
                 print(self.error.up(self.error_types['UndeclaredError'], node))
             else:
-                _type = self.symbol_table[self.scope][var].type
-                expression = self.interpreter_node(node.children)
-                # TODO add Try
                 try:
+                    _type = self.symbol_table[self.scope][var].type
+                    expression = self.interpreter_node(node.children)
                     self.assign(_type, var, expression, index)
                 except InterpreterTypeError:
                     print(self.error.up(self.error_types['TypeError'], node))
@@ -160,7 +161,10 @@ class Interpreter:
             elif node.value == '-':
                 return self.bin_minus(node.children[0], node.children[1])
             elif node.value == '*':
-                return self.matrix_mul(node.children[0], node.children[1])
+                try:
+                    return self.matrix_mul(node.children[0], node.children[1])
+                except InterpreterConverseError:
+                    raise InterpreterConverseError
             elif node.value == '.*':
                 return self.element_mul(node.children[0], node.children[1])
             elif node.value == 'and' or node.value == '&&':
@@ -272,6 +276,10 @@ class Interpreter:
                     expr[0].append(expr[1])
                     del expr[1]
                     expr = expr[0]
+            if len(expr) == 3 and isinstance(expr[2], list) and isinstance(expr[0], Variable):
+                temp = expr[2]
+                del expr[2]
+                expr = [expr, temp]
             return expr
 
     def check_type(self, type, exp):
@@ -289,8 +297,7 @@ class Interpreter:
         t = type[1:]
         for i in range(len(exp)):
             if len(exp[i]) != l:
-                print('ERROR')
-                # TODO Error
+                raise InterpreterValueError
         for i in range(len(exp)):
             for j in range(l):
                 exp[i][j] = self.converser.converse(t, exp[i][j])
@@ -361,7 +368,7 @@ class Interpreter:
         expr1 = self.interpreter_node(var1)
         expr2 = self.interpreter_node(var2)
         if expr1.type.find('m') == -1:
-            print('not_matrix')  # TODO add EROOOR
+            raise InterpreterConverseError
         else:
             expr1 = self.check_matrix('mint', expr1)
         if expr2.type.find('m') == -1:

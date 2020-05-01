@@ -144,13 +144,13 @@ class MyParser(object):
                             | expression LESS expression
                             | expression GREATER expression"""
         if len(p) == 3 and p[1] != '!':
-            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('un_op', p[2], children=p[1], lineno=p.lineno(2), lexpos=p.lexpos(2))
         elif len(p) == 5:
-            p[0] = SyntaxTreeNode('un_op', p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('un_op', p[1], children=p[3], lineno=p.lineno(2), lexpos=p.lexpos(2))
         elif len(p) == 3 and p[1] == '!':
-            p[0] = SyntaxTreeNode('un_op', p[1], children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('un_op', p[1], children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
         else:
-            p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('bin_op', p[2], children=[p[1], p[3]], lineno=p.lineno(2), lexpos=p.lexpos(2))
 
     def p_const(self, p):
         """const : TRUE
