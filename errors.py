@@ -36,16 +36,19 @@ class Error_handler:
             if node.type == 'assignment':
                 sys.stderr.write(f'Variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} is used before declaration\n')
+        elif self.type == 6:
+            if node.type == 'assignment':
+                sys.stderr.write(f'Wrong type variable "{self.node.value.value}" at line '
+                                 f'{self.node.value.lineno} \n')
+        elif self.type == 8:
+            sys.stderr.write(f'Tried to call main function at line'
+                             f' {self.node.lineno} \n')
         elif self.type == 10:
-            print(node)
             if node.type == 'assignment':
                 sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno}\n')
 
-        elif self.type == 8:
-            print(node)
-            sys.stderr.write(f'Tried to call main function at line'
-                             f' {self.node.lineno} \n')
+
 
 
 

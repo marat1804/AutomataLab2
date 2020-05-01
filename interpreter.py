@@ -152,6 +152,8 @@ class Interpreter:
                     self.assign(_type, var, expression, index)
                 except InterpreterTypeError:
                     print(self.error.up(self.error_types['TypeError'], node))
+                except InterpreterConverseError:
+                    print(self.error.up(self.error_types['ConverseError'], node))
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -343,7 +345,7 @@ class Interpreter:
             elif type.find('v') != -1:
                 self.symbol_table[self.scope][var].value[index.value] = expression
         else:
-            print('ERRORR_asss')  # TODO EROOR
+            raise InterpreterConverseError
 
     def bin_plus(self, var1, var2):
         expr1 = self.converser.converse('int', self.interpreter_node(var1))
