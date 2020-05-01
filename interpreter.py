@@ -3,6 +3,12 @@ from typing import List
 from parser import MyParser, SyntaxTreeNode
 from errors import Error_handler, InterpreterRedeclarationError
 from errors import InterpreterApplicationCall
+from errors import InterpreterConverseError
+from errors import InterpreterIndexError
+from errors import InterpreterNameError
+from errors import InterpreterRecursion
+from errors import InterpreterValueError
+from errors import InterpreterTypeError
 
 
 class Variable:
@@ -32,6 +38,8 @@ class TypeConverser:
         elif type == 'int':
             if var.type == 'bool':
                 return self.bool_to_int(var)
+        elif type.find(var.type) != -1:
+            return Variable(type, var.value)
 
     @staticmethod
     def int_to_bool(var):
@@ -60,7 +68,6 @@ class Interpreter:
         self.tree = None
         self.functions = None
         self.robot = None
-        # TODO add errors
         self.error = Error_handler()
         self.error_types = {'UnexpectedError': 0,
                             'NoStartPoint': 1,
@@ -71,7 +78,8 @@ class Interpreter:
                             'ConverseError': 6,
                             'ValueError': 7,
                             'ApplicationCall': 8,
-                            'Recursion': 9}
+                            'Recursion': 9,
+                            'TypeError': 10}
 
     def interpreter(self, robot=None, program=None):
         self.robot = robot
@@ -140,7 +148,10 @@ class Interpreter:
                 _type = self.symbol_table[self.scope][var].type
                 expression = self.interpreter_node(node.children)
                 # TODO add Try
-                self.assign(_type, var, expression, index)
+                try:
+                    self.assign(_type, var, expression, index)
+                except InterpreterTypeError:
+                    print(self.error.up(self.error_types['TypeError'], node))
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -316,7 +327,7 @@ class Interpreter:
 
     def assign(self, type, var, expression, index=None):
         if type[0] == 'c':
-            print("ERRROR")  # TODO ERROR
+            raise InterpreterTypeError
         if type == expression.type:
             self.symbol_table[self.scope][var] = expression
         elif type[0] == expression.type[0]:

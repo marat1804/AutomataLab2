@@ -15,7 +15,8 @@ class Error_handler:
                       'ConverseError',
                       'ValueError',
                       'ApplicationCall',
-                      'Recursion']
+                      'Recursion',
+                      'TypeError']
 
     def up(self, err_type, node=None):
         self.type = err_type
@@ -29,15 +30,17 @@ class Error_handler:
             sys.stderr.write(f'No "main" function detected\n')
             return
         elif self.type == 2:
-            sys.stderr.write(f'variable "{node.children[0].value}" at '
-                             f'{self.node.lineno} line is used before declaration\n')
+            sys.stderr.write(f'variable "{node.children[0].value}" at line'
+                             f'{self.node.lineno} is used before declaration\n')
         elif self.type == 3:
             if node.type == 'assignment':
                 sys.stderr.write(f'Variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} is used before declaration\n')
-            #else:
-             #   sys.stderr.write(f'variable "{self.node.value}" at '
-              #                   f'{self.node.lineno} line is used before declaration\n')
+        elif self.type == 10:
+            print(node)
+            if node.type == 'assignment':
+                sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
+                                 f'{self.node.value.lineno}\n')
 
         elif self.type == 8:
             print(node)
@@ -71,4 +74,8 @@ class InterpreterApplicationCall(Exception):
 
 
 class InterpreterRecursion(Exception):
+    pass
+
+
+class InterpreterTypeError(Exception):
     pass
