@@ -75,12 +75,12 @@ class MyParser(object):
                        | type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET"""
         if len(p) == 5:
             p[0] = SyntaxTreeNode('declaration', value=p[1],
-                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
-                                            p[4]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2)),
+                                            p[4]], lineno=p.lineno(2), lexpos=p.lexpos(2))
         else:
             p[0] = SyntaxTreeNode('declaration', value=p[1],
-                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1)),
-                                            p[5]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                  children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2)),
+                                            p[5]], lineno=p.lineno(2), lexpos=p.lexpos(2))
 
     def p_decl_list(self, p):
         """decl_list : L_FIGBRACKET expr_list R_FIGBRACKET
@@ -97,9 +97,9 @@ class MyParser(object):
         """expr_list : expr_list COMMA expression
                      | expression"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('expr_list', children=[p[1]])
+            p[0] = SyntaxTreeNode('expr_list', children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('expr_list', children=[p[1], p[3]])
+            p[0] = SyntaxTreeNode('expr_list', children=[p[1], p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_type(self, p):
         """type : int
@@ -128,7 +128,7 @@ class MyParser(object):
         """expression : math_expression
                       | const
                       | variable"""
-        p[0] = SyntaxTreeNode('expression', children=p[1])
+        p[0] = SyntaxTreeNode('expression', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_math_expression(self, p):
         """math_expression :  expression PLUS expression
@@ -265,34 +265,34 @@ class MyParser(object):
                     | type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END"""
         if len(p) == 12 and p[5] == '(':
             self.functions[p[4]] = SyntaxTreeNode('function', children={'param': p[6], 'body': p[10], 'return': p[1]},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[4], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[4], lineno=p.lineno(3), lexpos=p.lexpos(3))
         elif len(p) == 10:
             self.functions[p[2]] = SyntaxTreeNode('function', children={'param': p[4], 'body': p[8]},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(3), lexpos=p.lexpos(3))
         elif len(p) == 11:
             self.functions[p[4]] = SyntaxTreeNode('function', children={'return': p[1], 'body': p[9]},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(3), lexpos=p.lexpos(3))
         elif len(p) == 9:
             self.functions[p[2]] = SyntaxTreeNode('function', children={'body': p[7]},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(3))
         elif len(p) == 13:
             self.functions[p[5]] = SyntaxTreeNode('function',
                                                   children={'body': p[11], 'param': p[8],
                                                             'return': SyntaxTreeNode('returnl_list',
                                                                                      children=[p[1], p[2]])},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(3), lexpos=p.lexpos(3))
         elif len(p) == 12 and p[6] == '(':
             self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[10],
                                                                         'return': SyntaxTreeNode('returnl_list',
                                                                                                  children=[p[1],
                                                                                                            p[2]])},
-                                                  lineno=p.lineno(1), lexpos=p.lexpos(1))
-            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
+                                                  lineno=p.lineno(3), lexpos=p.lexpos(3))
+            p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
     def p_function_call(self, p):
         """function_call : VARIABLE

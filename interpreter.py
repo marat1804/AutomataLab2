@@ -233,9 +233,7 @@ class Interpreter:
         elif child[1].type == 'expression':
             variable = child[0].value
             expression = self.interpreter_node(child[1])
-            # TODO try
             self.declare(type, variable, expression)
-
 
     def declare(self, type, var, expression):
         expression = self.check_type(type, expression)
@@ -676,7 +674,7 @@ class Interpreter:
         func_name = node.value
         param = node.children
         func_param = None
-        print("I'm in " + func_name)
+       # print("I'm in " + func_name)
         # try: # TODO CHECK передаваемые параметры
         if isinstance(param, SyntaxTreeNode):
             if func_param is None:
@@ -688,7 +686,7 @@ class Interpreter:
                         func_param.append(key)
                 else:
                     func_param.append(p)
-        print('TO FUNC - ', func_param)
+      #  print('TO FUNC - ', func_param)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print('ERROR')
             return None
@@ -717,7 +715,7 @@ class Interpreter:
                         get_list[key[0]] = key[1]
                 else:
                     get_list[p[0]] = p[1]
-            print('GOT - ', get_list)
+           # print('GOT - ', get_list)
         if get_list is not None and func_param is not None:
             if len(get_list.keys()) != len(func_param):
                 print("ERRRRORORORO")
@@ -743,7 +741,7 @@ class Interpreter:
                     var = Variable('vint', [0, 0])
                 a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
-        print('RETURNING - ', return_l)
+        # print('RETURNING - ', return_l)
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
         for k in return_l.keys():
@@ -759,3 +757,4 @@ if __name__ == '__main__':
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():
             print(k, v)
+

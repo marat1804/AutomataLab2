@@ -7,7 +7,7 @@ Rule 1     program -> stmt_list
 Rule 2     stmt_list -> stmt_list statement
 Rule 3     stmt_list -> statement
 Rule 4     statement -> declaration NL
-Rule 5     statement -> assigment NL
+Rule 5     statement -> assignment NL
 Rule 6     statement -> for NL
 Rule 7     statement -> if NL
 Rule 8     statement -> operation NL
@@ -70,8 +70,8 @@ Rule 64    operation -> RIGHT
 Rule 65    operation -> LEFT
 Rule 66    operation -> WALL
 Rule 67    operation -> EXIT
-Rule 68    assigment -> variable ASSIGMENT expression
-Rule 69    assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+Rule 68    assignment -> variable ASSIGNMENT expression
+Rule 69    assignment -> variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
 Rule 70    for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
 Rule 71    for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
 Rule 72    if -> IF math_expression BEGINIF NL stmt_list ENDIF
@@ -96,7 +96,7 @@ Rule 89    function_call -> VARIABLE call_list
 Terminals, with rules where they appear
 
 AND                  : 44
-ASSIGMENT            : 68 69
+ASSIGNMENT           : 68 69
 BEGIN                : 71 73 82 83 84 85 86 87
 BEGINFOR             : 70
 BEGINIF              : 72
@@ -151,7 +151,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-assigment            : 5
+assignment           : 5
 bool                 : 19
 call_list            : 80 89
 const                : 33 79
@@ -186,7 +186,7 @@ state 0
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -194,8 +194,8 @@ state 0
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -258,7 +258,7 @@ state 0
     stmt_list                      shift and go to state 2
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -281,7 +281,7 @@ state 2
     (1) program -> stmt_list .
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -289,8 +289,8 @@ state 2
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -352,7 +352,7 @@ state 2
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -404,7 +404,7 @@ state 4
 
 state 5
 
-    (5) statement -> assigment . NL
+    (5) statement -> assignment . NL
 
     NL              shift and go to state 39
 
@@ -486,7 +486,7 @@ state 12
     (52) variable -> . VARIABLE LBRACKET index RBRACKET
 
     NL              reduce using rule 88 (function_call -> VARIABLE .)
-    ASSIGMENT       reduce using rule 51 (variable -> VARIABLE .)
+    ASSIGNMENT      reduce using rule 51 (variable -> VARIABLE .)
     LBRACKET        shift and go to state 48
     SUM             shift and go to state 53
     DENY            shift and go to state 54
@@ -504,10 +504,10 @@ state 12
 
 state 13
 
-    (68) assigment -> variable . ASSIGMENT expression
-    (69) assigment -> variable . ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> variable . ASSIGNMENT expression
+    (69) assignment -> variable . ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
 
-    ASSIGMENT       shift and go to state 59
+    ASSIGNMENT      shift and go to state 59
 
 
 state 14
@@ -772,33 +772,33 @@ state 38
 
 state 39
 
-    (5) statement -> assigment NL .
+    (5) statement -> assignment NL .
 
-    FOR             reduce using rule 5 (statement -> assigment NL .)
-    IF              reduce using rule 5 (statement -> assigment NL .)
-    MOVE            reduce using rule 5 (statement -> assigment NL .)
-    RIGHT           reduce using rule 5 (statement -> assigment NL .)
-    LEFT            reduce using rule 5 (statement -> assigment NL .)
-    WALL            reduce using rule 5 (statement -> assigment NL .)
-    EXIT            reduce using rule 5 (statement -> assigment NL .)
-    FUNCTION        reduce using rule 5 (statement -> assigment NL .)
-    VARIABLE        reduce using rule 5 (statement -> assigment NL .)
-    INT             reduce using rule 5 (statement -> assigment NL .)
-    CINT            reduce using rule 5 (statement -> assigment NL .)
-    VINT            reduce using rule 5 (statement -> assigment NL .)
-    MINT            reduce using rule 5 (statement -> assigment NL .)
-    CVINT           reduce using rule 5 (statement -> assigment NL .)
-    CMINT           reduce using rule 5 (statement -> assigment NL .)
-    BOOL            reduce using rule 5 (statement -> assigment NL .)
-    CBOOL           reduce using rule 5 (statement -> assigment NL .)
-    VBOOL           reduce using rule 5 (statement -> assigment NL .)
-    MBOOL           reduce using rule 5 (statement -> assigment NL .)
-    CVBOOL          reduce using rule 5 (statement -> assigment NL .)
-    CMBOOL          reduce using rule 5 (statement -> assigment NL .)
-    $end            reduce using rule 5 (statement -> assigment NL .)
-    ENDIF           reduce using rule 5 (statement -> assigment NL .)
-    END             reduce using rule 5 (statement -> assigment NL .)
-    ENDFOR          reduce using rule 5 (statement -> assigment NL .)
+    FOR             reduce using rule 5 (statement -> assignment NL .)
+    IF              reduce using rule 5 (statement -> assignment NL .)
+    MOVE            reduce using rule 5 (statement -> assignment NL .)
+    RIGHT           reduce using rule 5 (statement -> assignment NL .)
+    LEFT            reduce using rule 5 (statement -> assignment NL .)
+    WALL            reduce using rule 5 (statement -> assignment NL .)
+    EXIT            reduce using rule 5 (statement -> assignment NL .)
+    FUNCTION        reduce using rule 5 (statement -> assignment NL .)
+    VARIABLE        reduce using rule 5 (statement -> assignment NL .)
+    INT             reduce using rule 5 (statement -> assignment NL .)
+    CINT            reduce using rule 5 (statement -> assignment NL .)
+    VINT            reduce using rule 5 (statement -> assignment NL .)
+    MINT            reduce using rule 5 (statement -> assignment NL .)
+    CVINT           reduce using rule 5 (statement -> assignment NL .)
+    CMINT           reduce using rule 5 (statement -> assignment NL .)
+    BOOL            reduce using rule 5 (statement -> assignment NL .)
+    CBOOL           reduce using rule 5 (statement -> assignment NL .)
+    VBOOL           reduce using rule 5 (statement -> assignment NL .)
+    MBOOL           reduce using rule 5 (statement -> assignment NL .)
+    CVBOOL          reduce using rule 5 (statement -> assignment NL .)
+    CMBOOL          reduce using rule 5 (statement -> assignment NL .)
+    $end            reduce using rule 5 (statement -> assignment NL .)
+    ENDIF           reduce using rule 5 (statement -> assignment NL .)
+    END             reduce using rule 5 (statement -> assignment NL .)
+    ENDFOR          reduce using rule 5 (statement -> assignment NL .)
 
 
 state 40
@@ -1309,8 +1309,8 @@ state 58
 
 state 59
 
-    (68) assigment -> variable ASSIGMENT . expression
-    (69) assigment -> variable ASSIGMENT . L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> variable ASSIGNMENT . expression
+    (69) assignment -> variable ASSIGNMENT . L_FIGBRACKET decl_list R_FIGBRACKET
     (32) expression -> . math_expression
     (33) expression -> . const
     (34) expression -> . variable
@@ -2192,7 +2192,7 @@ state 88
 
 state 89
 
-    (68) assigment -> variable ASSIGMENT expression .
+    (68) assignment -> variable ASSIGNMENT expression .
     (35) math_expression -> expression . PLUS expression
     (36) math_expression -> expression . MINUS expression
     (37) math_expression -> expression . MUL_MATRIX expression
@@ -2204,7 +2204,7 @@ state 89
     (45) math_expression -> expression . LESS expression
     (46) math_expression -> expression . GREATER expression
 
-    NL              reduce using rule 68 (assigment -> variable ASSIGMENT expression .)
+    NL              reduce using rule 68 (assignment -> variable ASSIGNMENT expression .)
     PLUS            shift and go to state 77
     MINUS           shift and go to state 78
     MUL_MATRIX      shift and go to state 79
@@ -2219,7 +2219,7 @@ state 89
 
 state 90
 
-    (69) assigment -> variable ASSIGMENT L_FIGBRACKET . decl_list R_FIGBRACKET
+    (69) assignment -> variable ASSIGNMENT L_FIGBRACKET . decl_list R_FIGBRACKET
     (13) decl_list -> . L_FIGBRACKET expr_list R_FIGBRACKET
     (14) decl_list -> . decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
     (15) decl_list -> . expr_list
@@ -2505,7 +2505,7 @@ state 102
 
     (52) variable -> VARIABLE LBRACKET index RBRACKET .
 
-    ASSIGMENT       reduce using rule 52 (variable -> VARIABLE LBRACKET index RBRACKET .)
+    ASSIGNMENT      reduce using rule 52 (variable -> VARIABLE LBRACKET index RBRACKET .)
     PLUS            reduce using rule 52 (variable -> VARIABLE LBRACKET index RBRACKET .)
     MINUS           reduce using rule 52 (variable -> VARIABLE LBRACKET index RBRACKET .)
     MUL_MATRIX      reduce using rule 52 (variable -> VARIABLE LBRACKET index RBRACKET .)
@@ -3099,7 +3099,7 @@ state 120
 
 state 121
 
-    (69) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list . R_FIGBRACKET
+    (69) assignment -> variable ASSIGNMENT L_FIGBRACKET decl_list . R_FIGBRACKET
     (14) decl_list -> decl_list . COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 
     R_FIGBRACKET    shift and go to state 141
@@ -3152,7 +3152,7 @@ state 124
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -3160,8 +3160,8 @@ state 124
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -3223,7 +3223,7 @@ state 124
     stmt_list                      shift and go to state 143
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -3241,7 +3241,7 @@ state 125
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -3249,8 +3249,8 @@ state 125
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -3312,7 +3312,7 @@ state 125
     stmt_list                      shift and go to state 144
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -3553,9 +3553,9 @@ state 140
 
 state 141
 
-    (69) assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .
+    (69) assignment -> variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET .
 
-    NL              reduce using rule 69 (assigment -> variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET .)
+    NL              reduce using rule 69 (assignment -> variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET .)
 
 
 state 142
@@ -3602,7 +3602,7 @@ state 143
     (72) if -> IF math_expression BEGINIF NL stmt_list . ENDIF
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -3610,8 +3610,8 @@ state 143
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -3673,7 +3673,7 @@ state 143
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -3690,7 +3690,7 @@ state 144
     (73) if -> IF math_expression BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -3698,8 +3698,8 @@ state 144
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -3761,7 +3761,7 @@ state 144
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4017,7 +4017,7 @@ state 160
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4025,8 +4025,8 @@ state 160
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4088,7 +4088,7 @@ state 160
     stmt_list                      shift and go to state 170
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4175,7 +4175,7 @@ state 169
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4183,8 +4183,8 @@ state 169
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4246,7 +4246,7 @@ state 169
     stmt_list                      shift and go to state 178
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4263,7 +4263,7 @@ state 170
     (85) function -> FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4271,8 +4271,8 @@ state 170
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4334,7 +4334,7 @@ state 170
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4374,7 +4374,7 @@ state 174
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4382,8 +4382,8 @@ state 174
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4445,7 +4445,7 @@ state 174
     stmt_list                      shift and go to state 182
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4463,7 +4463,7 @@ state 175
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4471,8 +4471,8 @@ state 175
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4534,7 +4534,7 @@ state 175
     stmt_list                      shift and go to state 183
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4559,7 +4559,7 @@ state 177
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4567,8 +4567,8 @@ state 177
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4631,7 +4631,7 @@ state 177
     stmt_list                      shift and go to state 185
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4647,7 +4647,7 @@ state 178
     (83) function -> FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4655,8 +4655,8 @@ state 178
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4718,7 +4718,7 @@ state 178
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4750,7 +4750,7 @@ state 181
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4758,8 +4758,8 @@ state 181
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4822,7 +4822,7 @@ state 181
     stmt_list                      shift and go to state 188
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4838,7 +4838,7 @@ state 182
     (70) for -> FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list . ENDFOR
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4846,8 +4846,8 @@ state 182
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4909,7 +4909,7 @@ state 182
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -4926,7 +4926,7 @@ state 183
     (71) for -> FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -4934,8 +4934,8 @@ state 183
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -4997,7 +4997,7 @@ state 183
 
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5015,7 +5015,7 @@ state 184
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5023,8 +5023,8 @@ state 184
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5087,7 +5087,7 @@ state 184
     stmt_list                      shift and go to state 191
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5103,7 +5103,7 @@ state 185
     (84) function -> return_list EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5111,8 +5111,8 @@ state 185
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5175,7 +5175,7 @@ state 185
     return_list                    shift and go to state 21
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5199,7 +5199,7 @@ state 187
     (2) stmt_list -> . stmt_list statement
     (3) stmt_list -> . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5207,8 +5207,8 @@ state 187
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5271,7 +5271,7 @@ state 187
     stmt_list                      shift and go to state 193
     statement                      shift and go to state 3
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5287,7 +5287,7 @@ state 188
     (87) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5295,8 +5295,8 @@ state 188
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5359,7 +5359,7 @@ state 188
     type                           shift and go to state 11
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5389,7 +5389,7 @@ state 191
     (82) function -> return_list EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5397,8 +5397,8 @@ state 191
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5461,7 +5461,7 @@ state 191
     return_list                    shift and go to state 21
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8
@@ -5484,7 +5484,7 @@ state 193
     (86) function -> type VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list . END
     (2) stmt_list -> stmt_list . statement
     (4) statement -> . declaration NL
-    (5) statement -> . assigment NL
+    (5) statement -> . assignment NL
     (6) statement -> . for NL
     (7) statement -> . if NL
     (8) statement -> . operation NL
@@ -5492,8 +5492,8 @@ state 193
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (68) assigment -> . variable ASSIGMENT expression
-    (69) assigment -> . variable ASSIGMENT L_FIGBRACKET decl_list R_FIGBRACKET
+    (68) assignment -> . variable ASSIGNMENT expression
+    (69) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (70) for -> . FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
     (71) for -> . FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END
     (72) if -> . IF math_expression BEGINIF NL stmt_list ENDIF
@@ -5556,7 +5556,7 @@ state 193
     type                           shift and go to state 11
     statement                      shift and go to state 37
     declaration                    shift and go to state 4
-    assigment                      shift and go to state 5
+    assignment                     shift and go to state 5
     for                            shift and go to state 6
     if                             shift and go to state 7
     operation                      shift and go to state 8

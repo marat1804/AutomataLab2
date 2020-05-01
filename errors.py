@@ -29,7 +29,6 @@ class Error_handler:
             sys.stderr.write(f'No "main" function detected\n')
             return
         elif self.type == 2:
-            print(node.type)
             sys.stderr.write(f'variable "{node.children[0].value}" at '
                              f'{self.node.lineno} line is used before declaration\n')
         elif self.type == 3:
