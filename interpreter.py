@@ -1,6 +1,7 @@
 import sys
 from typing import List
 from parser import MyParser, SyntaxTreeNode
+from errors import Error_handler
 
 
 class Variable:
@@ -59,7 +60,17 @@ class Interpreter:
         self.functions = None
         self.robot = None
         # TODO add errors
-        self.errors = {}
+        self.error = Error_handler()
+        self.error_types = {'UnexpectedError': 0,
+                       'NoStartPoint': 1,
+                       'RedeclarationError': 2,
+                       'UndeclaredError': 3,
+                       'IndexError': 4,
+                       'FuncCallError': 5,
+                       'ConverseError': 6,
+                       'ValueError': 7,
+                       'ApplicationError': 8,
+                       'Recursion': 9}
 
     def interpreter(self, robot=None, program=None):
         self.robot = robot
@@ -67,7 +78,7 @@ class Interpreter:
         self.symbol_table = [dict()]
         self.tree, self.functions = self.parser.parse(self.program)
         if 'main' not in self.functions.keys():
-            print('NoInputPoint')
+            print(self.error.up(self.error_types['NoStartPoint']))
             return
         self.interpreter_tree(self.tree)
         self.interpreter_node(self.functions['main'].children['body'])
@@ -659,7 +670,7 @@ class Interpreter:
         param = node.children
         func_param = None
         print("I'm in " + func_name)
-        #try: # TODO CHECK передаваемые параметры
+        # try: # TODO CHECK передаваемые параметры
         if isinstance(param, SyntaxTreeNode):
             if func_param is None:
                 func_param = []
@@ -679,14 +690,14 @@ class Interpreter:
         self.scope += 1
         self.symbol_table.append(dict())
         if '#'.join(func_name) not in self.symbol_table[self.scope].keys():
-            self.symbol_table[0]['#'+func_name] = 1
+            self.symbol_table[0]['#' + func_name] = 1
         else:
-            self.symbol_table[0]['#'+func_name] += 1
-        if self.symbol_table[0]['#'+func_name] > 1000000:
+            self.symbol_table[0]['#' + func_name] += 1
+        if self.symbol_table[0]['#' + func_name] > 1000000:
             self.scope -= 1
             print('recursion')
             return
-        func_subtree = self.functions[func_name] or self.symbol_table[self.scope-1][func_name]
+        func_subtree = self.functions[func_name] or self.symbol_table[self.scope - 1][func_name]
         get = func_subtree.children.get('param')
         get_list = None
         if get is not None:
@@ -720,16 +731,16 @@ class Interpreter:
             for k, v in return_l.items():
                 var = Variable('int', 0)
                 if v.find('m') != -1:
-                    var = Variable('mint',[[0,0],[0,0]])
+                    var = Variable('mint', [[0, 0], [0, 0]])
                 elif v.find('v') != -1:
-                    var = Variable('vint', [0,0])
-                a = self.check_type(v,var)
+                    var = Variable('vint', [0, 0])
+                a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
         print('RETURNING - ', return_l)
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
         for k in return_l.keys():
-            self.symbol_table[self.scope][k] = self.symbol_table[self.scope+1][k]
+            self.symbol_table[self.scope][k] = self.symbol_table[self.scope + 1][k]
         self.symbol_table[0]['#' + func_name] -= 1
         self.symbol_table.pop()
 
