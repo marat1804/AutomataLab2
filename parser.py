@@ -7,7 +7,7 @@ from typing import List, Optional
 
 
 class SyntaxTreeNode:
-    def __init__(self, node_type, value=None, children=[], lineno=None, lexpos=None):
+    def __init__(self, node_type, value=None, children=None, lineno=None, lexpos=None):
         self.type = node_type
         self.value = value
         self.children = children
@@ -282,11 +282,11 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 13:
             self.functions[p[5]] = SyntaxTreeNode('function',
-                                                  children={'body': p[11], 'param': p[8], 'return': [p[1], p[2]]},
+                                                  children={'body': p[11], 'param': p[8], 'return': SyntaxTreeNode('returnl_list', children=[p[1], p[2]])},
                                                   lineno=p.lineno(1), lexpos=p.lexpos(1))
             p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 12 and p[6] == '(':
-            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[10], 'return': [p[1], p[2]]},
+            self.functions[p[5]] = SyntaxTreeNode('function', children={'body': p[10], 'return': SyntaxTreeNode('returnl_list', children=[p[1], p[2]])},
                                                   lineno=p.lineno(1), lexpos=p.lexpos(1))
             p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
@@ -296,7 +296,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('function_call', value=p[1], children=[p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_error(self, p):
         print(f'Syntax error at {p}')
@@ -305,7 +305,7 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    f = open('test1.txt', 'r')
+    f = open('t1.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')

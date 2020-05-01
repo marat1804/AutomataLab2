@@ -48,7 +48,7 @@ class TypeConverser:
 
 class Interpreter:
 
-    def __init__(self, parser, converser):
+    def __init__(self, parser=MyParser(), converser=TypeConverser()):
         self.parser = parser
         self.converser = converser
         self.map = None
@@ -57,23 +57,25 @@ class Interpreter:
         self.scope = 0
         self.tree = None
         self.functions = None
+        self.robot = None
         # TODO add errors
         self.errors = {}
 
-    def interpreter(self, map, program):
-        self.map = map
+    def interpreter(self, robot=None, program=None):
+        self.robot = robot
         self.program = program
         self.symbol_table = [dict()]
-        try:
-            self.tree, self.functions = self.parser.parse(program)
-        # TODO Exception
-        except Exception:
-            pass
+        self.tree, self.functions = self.parser.parse(self.program)
+        if 'main' not in self.functions.keys():
+            print('NoInputPoint')
+            return
         self.interpreter_tree(self.tree)
-        self.interpreter_node(self.functions['application'])
+        self.interpreter_node(self.functions['main'].children['body'])
 
     def interpreter_tree(self, tree):
-        pass
+        print("Program tree:\n")
+        tree.print()
+        print("\n")
 
     def interpreter_node(self, node):
         if node is None:
@@ -159,12 +161,42 @@ class Interpreter:
                     ind.append(self.interpreter_node(node.children[i]))
                 return ind
             else:
-
                 return self.interpreter_node(node.children)
         elif node.type == 'if':
             self.op_if(node)
         elif node.type == 'for':
             self.op_for(node)
+        elif node.type == 'function_description':
+            pass
+        elif node.type == 'function_call':
+            self.function_call(node)
+        elif node.type == 'func_list':
+            items = []
+            for item in node.children:
+                i = self.interpreter_node(item)
+                items.append(i)
+            if len(items) == 2 and isinstance(items[0], list):
+                items[0].append(items[1])
+                del items[1]
+                items = items[0]
+            elif len(items) == 1:
+                return items[0]
+            return items
+        elif node.type == 'func':
+            a = (node.children[1], node.children[0].value)
+            return a
+        elif node.type == 'call_list':
+            items = []
+            for item in node.children:
+                i = self.interpreter_node(item)
+                items.append(i)
+            if len(items) == 2 and isinstance(items[0], list):
+                items[0].append(items[1])
+                del items[1]
+                items = items[0]
+            elif len(items) == 1:
+                return items[0]
+            return items
         else:
             print('ELSE', node)
         return ''
@@ -622,13 +654,90 @@ class Interpreter:
             self.symbol_table[self.scope][variable] = Variable('int', i)
             self.interpreter_node(node.children['body'])
 
+    def function_call(self, node):
+        func_name = node.value
+        param = node.children
+        func_param = None
+        print("I'm in " + func_name)
+        #try: # TODO CHECK передаваемые параметры
+        if isinstance(param, SyntaxTreeNode):
+            if func_param is None:
+                func_param = []
+            for item in param.children:
+                p = self.interpreter_node(item)
+                if isinstance(p, list):
+                    for key in p:
+                        func_param.append(key)
+                else:
+                    func_param.append(p)
+        print('TO FUNC - ', func_param)
+        if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
+            print('ERROR')
+            return None
+        if func_name == 'main':
+            print('OAOAOA')
+        self.scope += 1
+        self.symbol_table.append(dict())
+        if '#'.join(func_name) not in self.symbol_table[self.scope].keys():
+            self.symbol_table[0]['#'+func_name] = 1
+        else:
+            self.symbol_table[0]['#'+func_name] += 1
+        if self.symbol_table[0]['#'+func_name] > 1000000:
+            self.scope -= 1
+            print('recursion')
+            return
+        func_subtree = self.functions[func_name] or self.symbol_table[self.scope-1][func_name]
+        get = func_subtree.children.get('param')
+        get_list = None
+        if get is not None:
+            if get_list is None:
+                get_list = {}
+            for item in get.children:
+                p = self.interpreter_node(item)
+                if isinstance(p, list):
+                    for key in p:
+                        get_list[key[0]] = key[1]
+                else:
+                    get_list[p[0]] = p[1]
+            print('GOT - ', get_list)
+        if get_list is not None and func_param is not None:
+            if len(get_list.keys()) != len(func_param):
+                print("ERRRRORORORO")
+            i = 0
+            for k, v in get_list.items():
+                a = self.check_type(v, func_param[i])
+                i += 1
+                self.symbol_table[self.scope][k] = a
+        ret = func_subtree.children.get('return')
+        return_l = {}
+        if isinstance(ret, SyntaxTreeNode):
+            r = ret.children
+            while len(r) == 3:
+                return_l[r[2]] = r[1].value
+                r = r[0].children
+            if len(r) == 2:
+                return_l[r[1]] = r[0].value
+            for k, v in return_l.items():
+                var = Variable('int', 0)
+                if v.find('m') != -1:
+                    var = Variable('mint',[[0,0],[0,0]])
+                elif v.find('v') != -1:
+                    var = Variable('vint', [0,0])
+                a = self.check_type(v,var)
+                self.symbol_table[self.scope][k] = a
+        print('RETURNING - ', return_l)
+        self.interpreter_node(func_subtree.children['body'])
+        self.scope -= 1
+        for k in return_l.keys():
+            self.symbol_table[self.scope][k] = self.symbol_table[self.scope+1][k]
+        self.symbol_table[0]['#' + func_name] -= 1
+        self.symbol_table.pop()
+
 
 if __name__ == '__main__':
-    i = Interpreter(MyParser, TypeConverser())
-    prog = open('test1.txt', 'r').read()
-    m = MyParser()
-    tree, f = m.parse(prog)
-    i.interpreter_node(tree)
+    i = Interpreter()
+    prog = open('t1.txt', 'r').read()
+    i.interpreter(program=prog)
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():
             print(k, v)
