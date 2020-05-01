@@ -1,7 +1,8 @@
 import sys
 from typing import List
 from parser import MyParser, SyntaxTreeNode
-from errors import Error_handler
+from errors import Error_handler, InterpreterRedeclarationError
+from errors import InterpreterApplicationCall
 
 
 class Variable:
@@ -62,15 +63,15 @@ class Interpreter:
         # TODO add errors
         self.error = Error_handler()
         self.error_types = {'UnexpectedError': 0,
-                       'NoStartPoint': 1,
-                       'RedeclarationError': 2,
-                       'UndeclaredError': 3,
-                       'IndexError': 4,
-                       'FuncCallError': 5,
-                       'ConverseError': 6,
-                       'ValueError': 7,
-                       'ApplicationError': 8,
-                       'Recursion': 9}
+                            'NoStartPoint': 1,
+                            'RedeclarationError': 2,
+                            'UndeclaredError': 3,
+                            'IndexError': 4,
+                            'FuncCallError': 5,
+                            'ConverseError': 6,
+                            'ValueError': 7,
+                            'ApplicationCall': 8,
+                            'Recursion': 9}
 
     def interpreter(self, robot=None, program=None):
         self.robot = robot
@@ -101,7 +102,10 @@ class Interpreter:
         elif node.type == 'declaration':
             declaration_type = node.value.value
             declaration_child = node.children
-            self.declare_variable(declaration_type, declaration_child)
+            try:
+                self.declare_variable(declaration_type, declaration_child)
+            except InterpreterRedeclarationError:
+                print(self.error.up(self.error_types['RedeclarationError'], node))
         elif node.type == 'expr_list':
             L = []
             for ch in node.children:
@@ -125,13 +129,13 @@ class Interpreter:
             return self.list_of_smth(self.get_list(node))
         elif node.type == 'variable':
             return self.get_value(node)
-        elif node.type == 'assigment':
+        elif node.type == 'assignment':
             var = node.value.value
             index = None
             if node.value.type == 'indexing':
                 index = self.interpreter_node(node.value.children)
             if var not in self.symbol_table[self.scope].keys():
-                print('ERROR_assign')  # TODO Error
+                print(self.error.up(self.error_types['UndeclaredError'], node))
             else:
                 _type = self.symbol_table[self.scope][var].type
                 expression = self.interpreter_node(node.children)
@@ -180,7 +184,10 @@ class Interpreter:
         elif node.type == 'function_description':
             pass
         elif node.type == 'function_call':
-            self.function_call(node)
+            try:
+                self.function_call(node)
+            except InterpreterApplicationCall:
+                print(self.error.up(self.error_types['ApplicationCall'], node))
         elif node.type == 'func_list':
             items = []
             for item in node.children:
@@ -229,12 +236,12 @@ class Interpreter:
             # TODO try
             self.declare(type, variable, expression)
 
+
     def declare(self, type, var, expression):
         expression = self.check_type(type, expression)
         if var in self.symbol_table[self.scope].keys():
-            pass  # TODO ERROR
+            raise InterpreterRedeclarationError
         else:
-
             self.symbol_table[self.scope][var] = expression
 
     def get_list(self, node):
@@ -686,7 +693,7 @@ class Interpreter:
             print('ERROR')
             return None
         if func_name == 'main':
-            print('OAOAOA')
+            raise InterpreterApplicationCall
         self.scope += 1
         self.symbol_table.append(dict())
         if '#'.join(func_name) not in self.symbol_table[self.scope].keys():
