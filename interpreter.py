@@ -136,7 +136,8 @@ class Interpreter:
         elif node.type == 'colon':
             return node.value
         elif node.type == 'decl_list':
-            return self.list_of_smth(self.get_list(node))
+            return self.get_list(node)
+            #return self.list_of_smth(self.get_list(node))
         elif node.type == 'variable':
             return self.get_value(node)
         elif node.type == 'assignment':
@@ -165,6 +166,8 @@ class Interpreter:
                     return self.matrix_mul(node.children[0], node.children[1])
                 except InterpreterConverseError:
                     raise InterpreterConverseError
+                except InterpreterValueError:
+                    raise InterpreterValueError
             elif node.value == '.*':
                 return self.element_mul(node.children[0], node.children[1])
             elif node.value == 'and' or node.value == '&&':
@@ -246,7 +249,9 @@ class Interpreter:
         if child[1].type == 'decl_list':
             variable = child[0].value
             expression = self.interpreter_node(child[1])
-            self.declare(type, variable, expression)
+            exp = self.transform_list(expression)
+            exp = self.list_of_smth(exp)
+            self.declare(type, variable, exp)
         elif child[1].type == 'expression':
             variable = child[0].value
             expression = self.interpreter_node(child[1])
@@ -260,6 +265,8 @@ class Interpreter:
             self.symbol_table[self.scope][var] = expression
 
     def get_list(self, node):
+        if node.type == 'end_of_list':
+            return '#'
         if isinstance(node.children, SyntaxTreeNode):
             expression = self.interpreter_node(node.children)
             if isinstance(expression, list):
@@ -271,15 +278,22 @@ class Interpreter:
             for i in node.children:
                 a = self.get_list(i)
                 expr.append(a)
-            if len(expr) == 2:
-                if len(expr[0]) != len(expr[1]):
-                    expr[0].append(expr[1])
-                    del expr[1]
-                    expr = expr[0]
+            if expr[len(expr)-1] == '#':
+                new_expr = []
+                a = expr[0]
+                while not isinstance(a, Variable) and len(a) == 2:
+                    new_expr.append(a[1])
+                    a = a[0]
+                new_expr.append(a[0])
+                new_expr.reverse()
+                new_expr.append('#')
+                return new_expr
+            '''
             if len(expr) == 3 and isinstance(expr[2], list) and isinstance(expr[0], Variable):
                 temp = expr[2]
                 del expr[2]
                 expr = [expr, temp]
+            '''
             return expr
 
     def check_type(self, type, exp):
@@ -376,7 +390,7 @@ class Interpreter:
         else:
             expr2 = self.check_matrix('mint', self.interpreter_node(var2))
         if len(expr1.value) != len(expr2.value):
-            print('error')  # TODO add Erroor
+            raise InterpreterValueError
         res = []
         l = len(expr1.value)
         for i in range(l):
@@ -769,10 +783,35 @@ class Interpreter:
         self.symbol_table[0]['#' + func_name] -= 1
         self.symbol_table.pop()
 
+    def transform_list(self, L):
+        new_L = []
+        k = 0
+        queue = [L]
+        while len(queue) != 0:
+            a = queue[0]
+            if isinstance(a, list):
+                for i in a:
+                    queue.append(i)
+                del queue[0]
+            else:
+                new_L.append([])
+                while queue[0] != '#':
+                    new_L[k].append(queue[0])
+                    del queue[0]
+                del queue[0]
+                k += 1
+        if len(new_L) > 2:
+            a = len(new_L)
+            new_L[a-1], new_L[a-2] = new_L[a-2], new_L[a-1]
+            new_L.reverse()
+        elif len(new_L) == 1:
+            new_L = new_L[0]
+        return new_L
+
 
 if __name__ == '__main__':
     i = Interpreter()
-    prog = open('t1.txt', 'r').read()
+    prog = open('test1.txt', 'r').read()
     i.interpreter(program=prog)
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():

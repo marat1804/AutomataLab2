@@ -80,16 +80,16 @@ class MyParser(object):
         else:
             p[0] = SyntaxTreeNode('declaration', value=p[1],
                                   children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2)),
-                                            p[5]], lineno=p.lineno(2), lexpos=p.lexpos(2))
+                                            p[5], SyntaxTreeNode('end_of_list')], lineno=p.lineno(2), lexpos=p.lexpos(2))
 
     def p_decl_list(self, p):
         """decl_list : L_FIGBRACKET expr_list R_FIGBRACKET
                      | decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
                      | expr_list"""
         if len(p) == 4:
-            p[0] = SyntaxTreeNode('decl_list', children=p[2])
+            p[0] = SyntaxTreeNode('decl_list', children=[p[2],  SyntaxTreeNode('end_of_list')])
         elif len(p) == 2:
-            p[0] = SyntaxTreeNode('decl_list', children=p[1])
+            p[0] = SyntaxTreeNode('decl_list', children=[p[1], SyntaxTreeNode('end_of_list')])
         else:
             p[0] = SyntaxTreeNode('decl_list', children=[p[1], p[4]])
 
@@ -309,10 +309,10 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    f = open('t1.txt', 'r')
+    f = open('test1.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    # tree, func_table = parser.parse(txt)
-    tree = parser.parser.parse(txt, debug=True)
+    tree, func_table = parser.parse(txt)
+    # tree = parser.parser.parse(txt, debug=True)
     tree.print()
