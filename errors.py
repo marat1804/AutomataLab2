@@ -44,6 +44,9 @@ class Error_handler:
             if node.type == 'declaration':
                 sys.stderr.write(f'Bad expression for variable "{node.children[0].value}" at line '
                                  f'{self.node.lineno} \n')
+            elif node.type == 'assignment':
+                sys.stderr.write(f'Bad value for variable "{self.node.value.value}" at line '
+                                 f'{self.node.value.lineno} \n')
         elif self.type == 8:
             sys.stderr.write(f'Tried to call main function at line'
                              f' {self.node.lineno} \n')

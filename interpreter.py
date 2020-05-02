@@ -156,6 +156,8 @@ class Interpreter:
                     print(self.error.up(self.error_types['TypeError'], node))
                 except InterpreterConverseError:
                     print(self.error.up(self.error_types['ConverseError'], node))
+                except InterpreterValueError:
+                    print(self.error.up(self.error_types['ValueError'], node))
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -389,7 +391,7 @@ class Interpreter:
             expr2 = self.converse_to_matrix(expr2, len(expr1.value))
         else:
             expr2 = self.check_matrix('mint', self.interpreter_node(var2))
-        if len(expr1.value) != len(expr2.value):
+        if len(expr1.value[0]) != len(expr2.value):
             raise InterpreterValueError
         res = []
         l = len(expr1.value)
@@ -811,7 +813,7 @@ class Interpreter:
 
 if __name__ == '__main__':
     i = Interpreter()
-    prog = open('test1.txt', 'r').read()
+    prog = open('t1.txt', 'r').read()
     i.interpreter(program=prog)
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():
