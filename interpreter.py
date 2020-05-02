@@ -137,7 +137,7 @@ class Interpreter:
             return node.value
         elif node.type == 'decl_list':
             return self.get_list(node)
-            #return self.list_of_smth(self.get_list(node))
+            # return self.list_of_smth(self.get_list(node))
         elif node.type == 'variable':
             return self.get_value(node)
         elif node.type == 'assignment':
@@ -223,7 +223,11 @@ class Interpreter:
                 return items[0]
             return items
         elif node.type == 'func':
-            a = (node.children[1], node.children[0].value)
+            a = ()
+            if len(node.children) == 2:
+                a = (node.children[1], node.children[0].value)
+            elif len(node.children) == 3:
+                a = (node.children[1], node.children[0].value, self.interpreter_node(node.children[2]))
             return a
         elif node.type == 'call_list':
             items = []
@@ -245,7 +249,7 @@ class Interpreter:
         if node.value in self.symbol_table[self.scope].keys():
             return self.symbol_table[self.scope][node.value]
         else:
-            print("ERRROR")
+            print("ERRROR")  # TODO Add function call
 
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
@@ -280,7 +284,7 @@ class Interpreter:
             for i in node.children:
                 a = self.get_list(i)
                 expr.append(a)
-            if expr[len(expr)-1] == '#':
+            if expr[len(expr) - 1] == '#':
                 new_expr = []
                 a = expr[0]
                 while not isinstance(a, Variable) and len(a) == 2:
@@ -708,9 +712,11 @@ class Interpreter:
 
     def function_call(self, node):
         func_name = node.value
-        param = node.children
+        param = node.children.get('call')
+        returning = node.children.get('return')
         func_param = None
-       # print("I'm in " + func_name)
+        func_ret = None
+        # print("I'm in " + func_name)
         # try: # TODO CHECK передаваемые параметры
         if isinstance(param, SyntaxTreeNode):
             if func_param is None:
@@ -722,7 +728,18 @@ class Interpreter:
                         func_param.append(key)
                 else:
                     func_param.append(p)
-      #  print('TO FUNC - ', func_param)
+        print('TO FUNC - ', func_param)
+        if isinstance(returning, SyntaxTreeNode):
+            if func_ret is None:
+                func_ret = []
+            print(returning.children)
+            a = returning.children
+            while isinstance(a, list):
+                func_ret.append(a[1].value)
+                a = a[0].children
+            func_ret.append(a.value)
+            func_ret.reverse()
+        print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print('ERROR')
             return None
@@ -736,40 +753,57 @@ class Interpreter:
             self.symbol_table[0]['#' + func_name] += 1
         if self.symbol_table[0]['#' + func_name] > 1000000:
             self.scope -= 1
-            print('recursion')
+            print('recursion') # TODO Recursion
             return
         func_subtree = self.functions[func_name] or self.symbol_table[self.scope - 1][func_name]
         get = func_subtree.children.get('param')
         get_list = None
+        common_list = {}
         if get is not None:
             if get_list is None:
                 get_list = {}
             for item in get.children:
                 p = self.interpreter_node(item)
-                if isinstance(p, list):
-                    for key in p:
-                        get_list[key[0]] = key[1]
+                if isinstance(p, tuple):
+                    if len(p) == 2:
+                        get_list[p[0]] = p[1]
+                    elif len(p) == 3:
+                        get_list[p[0]] = p[1]
+                        common_list[p[0]] = p[2]
                 else:
-                    get_list[p[0]] = p[1]
-           # print('GOT - ', get_list)
+                    for i in p:
+                        if len(i) == 2:
+                            get_list[i[0]] = i[1]
+                        elif len(i) == 3:
+                            get_list[i[0]] = i[1]
+                            common_list[i[0]] = i[2]
+        print('GOT - ', get_list, common_list)
         if get_list is not None and func_param is not None:
             if len(get_list.keys()) != len(func_param):
-                print("ERRRRORORORO")
+                if len(get_list.keys()) != (len(func_param)+len(common_list.keys())):
+                    print("ERRRRORORORO")
+                else:
+                    for i in common_list.values():
+                        func_param.append(i)
             i = 0
             for k, v in get_list.items():
                 a = self.check_type(v, func_param[i])
                 i += 1
                 self.symbol_table[self.scope][k] = a
         ret = func_subtree.children.get('return')
-        return_l = {}
+        return_dict = {}
+        return_list = []
         if isinstance(ret, SyntaxTreeNode):
             r = ret.children
             while len(r) == 3:
-                return_l[r[2]] = r[1].value
+                return_dict[r[2]] = r[1].value
+                return_list.append(r[2])
                 r = r[0].children
             if len(r) == 2:
-                return_l[r[1]] = r[0].value
-            for k, v in return_l.items():
+                return_dict[r[1]] = r[0].value
+                return_list.append(r[1])
+            return_list.reverse()
+            for k, v in return_dict.items():
                 var = Variable('int', 0)
                 if v.find('m') != -1:
                     var = Variable('mint', [[0, 0], [0, 0]])
@@ -777,11 +811,13 @@ class Interpreter:
                     var = Variable('vint', [0, 0])
                 a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
-        # print('RETURNING - ', return_l)
+        if func_ret is not None and len(return_list) != len(func_ret):
+            raise InterpreterValueError
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
-        for k in return_l.keys():
-            self.symbol_table[self.scope][k] = self.symbol_table[self.scope + 1][k]
+        for i in range(len(return_list)):
+            a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
+            self.symbol_table[self.scope][func_ret[i]] = a
         self.symbol_table[0]['#' + func_name] -= 1
         self.symbol_table.pop()
 
@@ -804,7 +840,7 @@ class Interpreter:
                 k += 1
         if len(new_L) > 2:
             a = len(new_L)
-            new_L[a-1], new_L[a-2] = new_L[a-2], new_L[a-1]
+            new_L[a - 1], new_L[a - 2] = new_L[a - 2], new_L[a - 1]
             new_L.reverse()
         elif len(new_L) == 1:
             new_L = new_L[0]
@@ -818,4 +854,3 @@ if __name__ == '__main__':
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():
             print(k, v)
-

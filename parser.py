@@ -313,7 +313,7 @@ class MyParser(object):
         """ret_list : variable
                     | ret_list COMMA variable"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('ret_list', children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('ret_list', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 4:
             p[0] = SyntaxTreeNode('ret_list', children=[p[1], p[3]], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
