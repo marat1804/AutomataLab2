@@ -36,6 +36,9 @@ class Error_handler:
             if node.type == 'assignment':
                 sys.stderr.write(f'Variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} is used before declaration\n')
+        elif self.type == 5:
+            sys.stderr.write(f'Unknown function call "{self.node.value}" at line '
+                             f'{self.node.lineno} \n')
         elif self.type == 6:
             if node.type == 'assignment':
                 sys.stderr.write(f'Wrong type variable "{self.node.value.value}" at line '

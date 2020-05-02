@@ -732,7 +732,6 @@ class Interpreter:
         if isinstance(returning, SyntaxTreeNode):
             if func_ret is None:
                 func_ret = []
-            print(returning.children)
             a = returning.children
             while isinstance(a, list):
                 func_ret.append(a[1].value)
@@ -741,7 +740,7 @@ class Interpreter:
             func_ret.reverse()
         print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
-            print('ERROR')
+            print(self.error.up(self.error_types['FuncCallError'], node))
             return None
         if func_name == 'main':
             raise InterpreterApplicationCall

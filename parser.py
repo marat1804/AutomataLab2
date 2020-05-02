@@ -307,7 +307,7 @@ class MyParser(object):
         elif len(p) == 4:
             p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
         elif len(p) == 5:
-            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
 
     def p_ret_list(self, p):
         """ret_list : variable
