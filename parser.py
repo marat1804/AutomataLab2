@@ -296,11 +296,26 @@ class MyParser(object):
 
     def p_function_call(self, p):
         """function_call : VARIABLE
-                         | VARIABLE call_list"""
+                         | VARIABLE call_list
+                         | ret_list ASSIGNMENT VARIABLE call_list
+                         | ret_list ASSIGNMENT VARIABLE
+                         | variable ASSIGNMENT VARIABLE call_list"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
-        else:
-            p[0] = SyntaxTreeNode('function_call', value=p[1], children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 3:
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children={'call': p[2]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 4:
+            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
+        elif len(p) == 5:
+            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+
+    def p_ret_list(self, p):
+        """ret_list : variable
+                    | ret_list COMMA variable"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('ret_list', children=[p[1]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 4:
+            p[0] = SyntaxTreeNode('ret_list', children=[p[1], p[3]], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
     def p_error(self, p):
         print(f'Syntax error at {p}')
@@ -309,7 +324,7 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    f = open('test1.txt', 'r')
+    f = open('t1.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
