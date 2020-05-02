@@ -281,7 +281,7 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('function_description', value=p[2], lineno=p.lineno(1), lexpos=p.lexpos(3))
         elif len(p) == 13:
             self.functions[p[5]] = SyntaxTreeNode('function',
-                                                  children={'body': p[11], 'param': p[8],
+                                                  children={'body': p[11], 'param': p[7],
                                                             'return': SyntaxTreeNode('returnl_list',
                                                                                      children=[p[1], p[2]])},
                                                   lineno=p.lineno(3), lexpos=p.lexpos(3))

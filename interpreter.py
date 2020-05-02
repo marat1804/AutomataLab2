@@ -207,7 +207,7 @@ class Interpreter:
             pass
         elif node.type == 'function_call':
             try:
-                self.function_call(node)
+                self.function_call(node, 0)
             except InterpreterApplicationCall:
                 print(self.error.up(self.error_types['ApplicationCall'], node))
         elif node.type == 'func_list':
@@ -248,8 +248,11 @@ class Interpreter:
     def get_value(self, node):
         if node.value in self.symbol_table[self.scope].keys():
             return self.symbol_table[self.scope][node.value]
+        elif node.value in self.functions.keys():
+            return self.function_call(self.functions[node.value], 1, node.value)
         else:
-            print("ERRROR")  # TODO Add function call
+            print(node)
+            print("!!!ERRROR")  # TODO Add function call
 
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
@@ -710,8 +713,11 @@ class Interpreter:
             self.symbol_table[self.scope][variable] = Variable('int', i)
             self.interpreter_node(node.children['body'])
 
-    def function_call(self, node):
-        func_name = node.value
+    def function_call(self, node, index, name=None):
+        if index == 0:
+            func_name = node.value
+        elif index == 1:
+            func_name = name
         param = node.children.get('call')
         returning = node.children.get('return')
         func_param = None
@@ -729,15 +735,20 @@ class Interpreter:
                 else:
                     func_param.append(p)
         print('TO FUNC - ', func_param)
-        if isinstance(returning, SyntaxTreeNode):
-            if func_ret is None:
-                func_ret = []
-            a = returning.children
-            while isinstance(a, list):
-                func_ret.append(a[1].value)
-                a = a[0].children
-            func_ret.append(a.value)
-            func_ret.reverse()
+        if index == 0:
+            if isinstance(returning, SyntaxTreeNode):
+                if func_ret is None:
+                    func_ret = []
+                a = returning.children
+                print(a)
+                if a is not None:
+                    while isinstance(a, list):
+                        func_ret.append(a[1].value)
+                        a = a[0].children
+                    func_ret.append(a.value)
+                    func_ret.reverse()
+                else:
+                    func_ret.append(returning.value)
         print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print(self.error.up(self.error_types['FuncCallError'], node))
@@ -778,12 +789,23 @@ class Interpreter:
                             common_list[i[0]] = i[2]
         print('GOT - ', get_list, common_list)
         if get_list is not None and func_param is not None:
-            if len(get_list.keys()) != len(func_param):
-                if len(get_list.keys()) != (len(func_param)+len(common_list.keys())):
-                    print("ERRRRORORORO")
+            if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
+                if len(get_list.keys()) != (len(func_param)+len(common_list.keys())): #TODO checkwtf
+                    print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
+                    print(self.error.up(self.error_types['ValueError'], node))
+                    return None
                 else:
                     for i in common_list.values():
                         func_param.append(i)
+            i = 0
+            for k, v in get_list.items():
+                a = self.check_type(v, func_param[i])
+                i += 1
+                self.symbol_table[self.scope][k] = a
+        elif func_param is None:
+            func_param = []
+            for i in common_list.values():
+                func_param.append(i)
             i = 0
             for k, v in get_list.items():
                 a = self.check_type(v, func_param[i])
@@ -812,13 +834,22 @@ class Interpreter:
                 self.symbol_table[self.scope][k] = a
         if func_ret is not None and len(return_list) != len(func_ret):
             raise InterpreterValueError
+        print(self.symbol_table[self.scope])
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
-        for i in range(len(return_list)):
-            a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
-            self.symbol_table[self.scope][func_ret[i]] = a
-        self.symbol_table[0]['#' + func_name] -= 1
-        self.symbol_table.pop()
+        if index == 0:
+            if func_ret is not None:
+                for i in range(len(return_list)):
+                    a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
+                    self.symbol_table[self.scope][func_ret[i]] = a
+            self.symbol_table[0]['#' + func_name] -= 1
+            self.symbol_table.pop()
+        else:
+            ret__ = self.symbol_table[self.scope-1][return_list[0]]
+            self.symbol_table[0]['#' + func_name] -= 1
+            self.symbol_table.pop()
+            return ret__
+
 
     def transform_list(self, L):
         new_L = []
