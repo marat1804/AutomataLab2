@@ -1,2 +1,2 @@
-#Second task. 
+# Second task. 
 Interpretator for simple language
