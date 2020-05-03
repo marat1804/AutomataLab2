@@ -40,6 +40,7 @@ class MyParser(object):
         self.lexer = MyLexer()
         self.parser = yacc.yacc(module=self)
         self.functions = dict()
+        self.ok = True
 
     def p_program(self, p):
         """program : stmt_list"""
@@ -48,9 +49,9 @@ class MyParser(object):
     def parse(self, s):
         try:
             res = self.parser.parse(s)
-            return res, self.functions
+            return res, self.functions, self.ok
         except LexError:
-            sys.stderr.write(f'Illegal token {s}\n', s)
+            sys.stderr.write(f'Illegal token {s}\n')
 
     def p_stmt_list(self, p):
         """stmt_list : stmt_list statement
@@ -69,6 +70,13 @@ class MyParser(object):
                     | function NL
                     | function_call NL"""
         p[0] = p[1]
+
+    def p_statement_error(self, p):
+        """statement : errors NL"""
+
+    def p_statement_error_no_nl(self, p):
+        """statement : errors"""
+        p[0] = SyntaxTreeNode('error', lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_declaration(self, p):
         """declaration : type VARIABLE EQ expression
@@ -114,6 +122,11 @@ class MyParser(object):
                | CVINT
                | CMINT"""
         p[0] = p[1]
+
+    def p_type_error(self, p):
+        """type : errors"""
+       # sys.stderr.write(f'Syntax error: "{p[1][0].value}" at {p[1][0].lineno}:{p[1][0].lexpos}\n')
+        p[0] = SyntaxTreeNode('error')
 
     def p_bool(self, p):
         """bool : BOOL
@@ -322,9 +335,18 @@ class MyParser(object):
         elif len(p) == 4:
             p[0] = SyntaxTreeNode('ret_list', children=[p[1], p[3]], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
+    def p_errors(self, p):
+        """errors : errors error
+                    | error"""
+        if len(p) == 2:
+            p[0] = [p[1]]
+        else:
+            p[0] = p[1] + p[2]
+
     def p_error(self, p):
         print(f'Syntax error at {p}')
-        self.acc = False
+        self.ok = False
+
 
 
 if __name__ == '__main__':
@@ -333,6 +355,6 @@ if __name__ == '__main__':
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    #tree, func_table = parser.parse(txt)
-    tree = parser.parser.parse(txt, debug=True)
+    tree, func_table = parser.parse(txt)
+    # tree = parser.parser.parse(txt, debug=True)
     tree.print()

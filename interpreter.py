@@ -85,8 +85,7 @@ class Interpreter:
         self.robot = robot
         self.program = program
         self.symbol_table = [dict()]
-        _correct = True
-        self.tree, self.functions = self.parser.parse(self.program)
+        self.tree, self.functions, _correct = self.parser.parse(self.program)
         if _correct:
             if 'main' not in self.functions.keys():
                 print(self.error.up(self.error_types['NoStartPoint']))
@@ -327,7 +326,6 @@ class Interpreter:
             return self.check_var(type, exp)
         else:
             raise InterpreterTypeError
-
 
     def check_matrix(self, type, expr):
         exp = expr.value
@@ -753,7 +751,7 @@ class Interpreter:
         except InterpreterNameError:
             print(self.error.up(self.error_types['UndeclaredError'], node))
             return None
-        # print('TO FUNC - ', func_param)
+        print('TO FUNC - ', func_param)
         if index == 0:
             if isinstance(returning, SyntaxTreeNode):
                 if func_ret is None:
@@ -768,7 +766,7 @@ class Interpreter:
                     func_ret.reverse()
                 else:
                     func_ret.append(returning.value)
-        # print('from FUNC - ', func_ret)
+        print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print(self.error.up(self.error_types['FuncCallError'], node))
             return None
@@ -813,7 +811,7 @@ class Interpreter:
         try:
             if get_list is not None and func_param is not None:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
-                    if len(get_list.keys()) != (len(func_param)+len(common_list.keys())): #TODO checkwtf
+                    if len(get_list.keys()) > (len(func_param)+len(common_list.keys())):
                         print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
                         print(self.error.up(self.error_types['WrongParameters'], node))
                         return None
@@ -862,18 +860,23 @@ class Interpreter:
             raise InterpreterValueError
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
-        if index == 0:
-            if func_ret is not None:
-                for i in range(len(return_list)):
-                    a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
-                    self.symbol_table[self.scope][func_ret[i]] = a
+        try:
+            if index == 0:
+                if func_ret is not None:
+                    for i in range(len(return_list)):
+                        a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
+                        self.symbol_table[self.scope][func_ret[i]] = a
+                self.symbol_table[0]['#' + func_name] -= 1
+                self.symbol_table.pop()
+            else:
+                ret__ = self.symbol_table[self.scope-1][return_list[0]]
+                self.symbol_table[0]['#' + func_name] -= 1
+                self.symbol_table.pop()
+                return ret__
+        except InterpreterTypeError:
             self.symbol_table[0]['#' + func_name] -= 1
             self.symbol_table.pop()
-        else:
-            ret__ = self.symbol_table[self.scope-1][return_list[0]]
-            self.symbol_table[0]['#' + func_name] -= 1
-            self.symbol_table.pop()
-            return ret__
+            print(self.error.up(self.error_types['TypeError'], node))
 
     def transform_list(self, L):
         new_L = []

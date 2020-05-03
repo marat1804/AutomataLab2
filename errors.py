@@ -64,8 +64,8 @@ class Error_handler:
                 sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno}\n')
             if node.type == 'function_call':
-                sys.stderr.write(f'Variable type for function "{self.node.value}" at line '
-                                 f'{self.node.lineno} does not match\n')
+                sys.stderr.write(f'Type of variables in function "{self.node.value}" at line '
+                                 f'{self.node.lineno} do not match\n')
 
 
 
