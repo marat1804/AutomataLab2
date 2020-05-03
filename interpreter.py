@@ -5,8 +5,8 @@ from errors import Error_handler, InterpreterRedeclarationError
 from errors import InterpreterApplicationCall
 from errors import InterpreterConverseError
 from errors import InterpreterIndexError
+from errors import InterpreterWrongParameters
 from errors import InterpreterNameError
-from errors import InterpreterRecursion
 from errors import InterpreterValueError
 from errors import InterpreterTypeError
 
@@ -78,19 +78,27 @@ class Interpreter:
                             'ConverseError': 6,
                             'ValueError': 7,
                             'ApplicationCall': 8,
-                            'Recursion': 9,
+                            'WrongParameters': 9,
                             'TypeError': 10}
 
     def interpreter(self, robot=None, program=None):
         self.robot = robot
         self.program = program
         self.symbol_table = [dict()]
+        _correct = True
         self.tree, self.functions = self.parser.parse(self.program)
-        if 'main' not in self.functions.keys():
-            print(self.error.up(self.error_types['NoStartPoint']))
-            return
-        self.interpreter_tree(self.tree)
-        self.interpreter_node(self.functions['main'].children['body'])
+        if _correct:
+            if 'main' not in self.functions.keys():
+                print(self.error.up(self.error_types['NoStartPoint']))
+                return
+            self.interpreter_tree(self.tree)
+            try:
+                self.interpreter_node(self.functions['main'].children['body'])
+            except RecursionError:
+                sys.stderr.write(f'RecursionError: function calls itself too many times\n')
+                sys.stderr.write("========= Program has finished with fatal error =========\n")
+        else:
+            sys.stderr.write(f'Can\'t intemperate incorrect input file\n')
 
     def interpreter_tree(self, tree):
         print("Program tree:\n")
@@ -745,7 +753,7 @@ class Interpreter:
         except InterpreterNameError:
             print(self.error.up(self.error_types['UndeclaredError'], node))
             return None
-        print('TO FUNC - ', func_param)
+        # print('TO FUNC - ', func_param)
         if index == 0:
             if isinstance(returning, SyntaxTreeNode):
                 if func_ret is None:
@@ -760,7 +768,7 @@ class Interpreter:
                     func_ret.reverse()
                 else:
                     func_ret.append(returning.value)
-        print('from FUNC - ', func_ret)
+        # print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print(self.error.up(self.error_types['FuncCallError'], node))
             return None
@@ -768,14 +776,14 @@ class Interpreter:
             raise InterpreterApplicationCall
         self.scope += 1
         self.symbol_table.append(dict())
-        if '#'.join(func_name) not in self.symbol_table[self.scope].keys():
+        if '#'.join(func_name) not in self.symbol_table[0].keys():
             self.symbol_table[0]['#' + func_name] = 1
         else:
             self.symbol_table[0]['#' + func_name] += 1
-        if self.symbol_table[0]['#' + func_name] > 1000000:
+        if self.symbol_table[0]['#' + func_name] > 1000:
+            self.symbol_table.pop()
             self.scope -= 1
-            print('recursion') # TODO Recursion
-            return
+            raise RecursionError from None
         func_subtree = self.functions[func_name] or self.symbol_table[self.scope - 1][func_name]
         get = func_subtree.children.get('param')
         get_list = None
@@ -801,13 +809,13 @@ class Interpreter:
                         elif len(i) == 3:
                             get_list[i[0]] = i[1]
                             common_list[i[0]] = i[2]
-        print('GOT - ', get_list, common_list)
+        # print('GOT - ', get_list, common_list)
         try:
             if get_list is not None and func_param is not None:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
                     if len(get_list.keys()) != (len(func_param)+len(common_list.keys())): #TODO checkwtf
                         print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
-                        print(self.error.up(self.error_types['ValueError'], node))
+                        print(self.error.up(self.error_types['WrongParameters'], node))
                         return None
                     else:
                         for i in common_list.values():
@@ -852,7 +860,6 @@ class Interpreter:
                 self.symbol_table[self.scope][k] = a
         if func_ret is not None and len(return_list) != len(func_ret):
             raise InterpreterValueError
-        print(self.symbol_table[self.scope])
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
         if index == 0:

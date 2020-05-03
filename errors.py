@@ -15,7 +15,7 @@ class Error_handler:
                       'ConverseError',
                       'ValueError',
                       'ApplicationCall',
-                      'Recursion',
+                      'WrongParameters',
                       'TypeError']
 
     def up(self, err_type, node=None):
@@ -53,12 +53,12 @@ class Error_handler:
             elif node.type == 'assignment':
                 sys.stderr.write(f'Bad value for variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} \n')
-            elif node.type == 'function_call':
-                sys.stderr.write(f'Bad value for function "{self.node.value}" at line '
-                                 f'{self.node.lineno} \n')
         elif self.type == 8:
             sys.stderr.write(f'Tried to call main function at line'
                              f' {self.node.lineno} \n')
+        elif self.type == 9:
+            sys.stderr.write(f'Bad parameters for function "{self.node.value}" at line '
+                             f'{self.node.lineno} \n')
         elif self.type == 10:
             if node.type == 'assignment':
                 sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
@@ -91,13 +91,12 @@ class InterpreterValueError(Exception):
     pass
 
 
+class InterpreterWrongParameters(Exception):
+    pass
+
+
 class InterpreterApplicationCall(Exception):
     pass
-
-
-class InterpreterRecursion(Exception):
-    pass
-
 
 class InterpreterTypeError(Exception):
     pass
