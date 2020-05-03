@@ -1,0 +1,12 @@
+function main() begin
+int s = 7
+int u = 2
+vint v = {1,2,3}
+v <- app u
+end
+
+int i1 = function app(int s=1, int u=2) begin
+int c = 42
+int g = 42
+i1 <- g
+end

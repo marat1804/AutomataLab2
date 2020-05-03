@@ -1,0 +1,14 @@
+	+	type{int, bool, cint, cvint, cmint, vint, mint, cbool, cvbool, cmbool, vbool, mbool}
+	+	declaration 
+	+	var 
+	variable
+	+	expression a + l
+	indexing?
+	assigment 
+	+	const 
+	for
+	if
+	function
+	robot operators
+	вызов функции
+	Empty???
