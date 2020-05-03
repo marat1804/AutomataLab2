@@ -1,14 +1,14 @@
 import sys
-from typing import List
-from parser import MyParser, SyntaxTreeNode
-from errors import Error_handler, InterpreterRedeclarationError
-from errors import InterpreterApplicationCall
-from errors import InterpreterConverseError
-from errors import InterpreterIndexError
-from errors import InterpreterWrongParameters
-from errors import InterpreterNameError
-from errors import InterpreterValueError
-from errors import InterpreterTypeError
+from Parser.parser import MyParser
+from SyntaxTree.SyntaxTree import SyntaxTreeNode
+from Errors.errors import Error_handler, InterpreterRedeclarationError
+from Errors.errors import InterpreterApplicationCall
+from Errors.errors import InterpreterConverseError
+from Errors.errors import InterpreterIndexError
+from Errors.errors import InterpreterWrongParameters
+from Errors.errors import InterpreterNameError
+from Errors.errors import InterpreterValueError
+from Errors.errors import InterpreterTypeError
 
 
 class Variable:
