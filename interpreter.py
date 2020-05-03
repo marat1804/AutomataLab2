@@ -192,7 +192,10 @@ class Interpreter:
             elif node.value == '>>':
                 return self.str(node.children)
         elif node.type == 'indexing':
-            return self.indexing(node.value, node.children)
+            try:
+                return self.indexing(node.value, node.children)
+            except InterpreterValueError:
+                print(self.error.up(self.error_types['ValueError'], node))
         elif node.type == 'index':
             if isinstance(node.children, list):
                 ind = []
@@ -552,7 +555,7 @@ class Interpreter:
 
     def indexing(self, var, children):
         if var not in self.symbol_table[self.scope].keys():
-            print("erroor")  # TODO Error
+            raise InterpreterValueError # TODO Check
         type = self.symbol_table[self.scope][var].type
         index = self.interpreter_node(children)
         # print('indexing', type, index)
@@ -718,6 +721,7 @@ class Interpreter:
             self.interpreter_node(node.children['body'])
 
     def function_call(self, node, index, name=None):
+        func_name = ''
         if index == 0:
             func_name = node.value
         elif index == 1:
@@ -786,7 +790,10 @@ class Interpreter:
                         get_list[p[0]] = p[1]
                     elif len(p) == 3:
                         get_list[p[0]] = p[1]
-                        common_list[p[0]] = p[2]
+                        if isinstance(p[2], list):
+                            common_list[p[0]] = self.list_of_smth(self.transform_list(p[2]))
+                        else:
+                            common_list[p[0]] = p[2]
                 else:
                     for i in p:
                         if len(i) == 2:
@@ -860,7 +867,6 @@ class Interpreter:
             self.symbol_table[0]['#' + func_name] -= 1
             self.symbol_table.pop()
             return ret__
-
 
     def transform_list(self, L):
         new_L = []

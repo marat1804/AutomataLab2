@@ -124,6 +124,26 @@ class MyParser(object):
                 | CMBOOL"""
         p[0] = p[1]
 
+    def p_func_list(self, p):
+        """func_list : func_list COMMA func
+                    | func"""
+        if len(p) == 2:
+            p[0] = SyntaxTreeNode('func_list', children=[p[1]])
+        else:
+            p[0] = SyntaxTreeNode('func_list', children=[p[1], p[3]])
+
+    def p_func(self, p):
+        """func : type VARIABLE
+                | type VARIABLE EQ const
+                | type VARIABLE EQ decl_list
+                | type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET"""
+        if len(p) == 3:
+            p[0] = SyntaxTreeNode('func', children=[p[1], p[2]])
+        elif len(p) == 5:
+            p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[4]])
+        elif len(p) == 7:
+            p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[5]])
+
     def p_expression(self, p):
         """expression : math_expression
                       | const
@@ -232,21 +252,6 @@ class MyParser(object):
         else:
             p[0] = SyntaxTreeNode('return_list', children=[p[1], p[3], p[4]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
-    def p_func_list(self, p):
-        """func_list : func_list COMMA func
-                    | func"""
-        if len(p) == 2:
-            p[0] = SyntaxTreeNode('func_list', children=[p[1]])
-        else:
-            p[0] = SyntaxTreeNode('func_list', children=[p[1], p[3]])
-
-    def p_func(self, p):
-        """func : type VARIABLE
-                | type VARIABLE EQ const"""
-        if len(p) == 3:
-            p[0] = SyntaxTreeNode('func', children=[p[1], p[2]])
-        else:
-            p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[4]])
 
     def p_call_list(self, p):
         """call_list : call_list COMMA expression
@@ -328,6 +333,6 @@ if __name__ == '__main__':
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    tree, func_table = parser.parse(txt)
-    # tree = parser.parser.parse(txt, debug=True)
+    #tree, func_table = parser.parse(txt)
+    tree = parser.parser.parse(txt, debug=True)
     tree.print()
