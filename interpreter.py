@@ -212,9 +212,23 @@ class Interpreter:
             else:
                 return self.interpreter_node(node.children)
         elif node.type == 'if':
-            self.op_if(node)
+            try:
+                self.op_if(node)
+            except InterpreterConverseError:
+                print(self.error.up(self.error_types['ConverseError'], node))
+            except InterpreterTypeError:
+                print(self.error.up(self.error_types['TypeError'], node))
+            except InterpreterValueError:
+                print(self.error.up(self.error_types['ValueError'], node))
         elif node.type == 'for':
-            self.op_for(node)
+            try:
+                self.op_for(node)
+            except InterpreterConverseError:
+                print(self.error.up(self.error_types['ConverseError'], node))
+            except InterpreterTypeError:
+                print(self.error.up(self.error_types['TypeError'], node))
+            except InterpreterValueError:
+                print(self.error.up(self.error_types['ValueError'], node))
         elif node.type == 'function_description':
             pass
         elif node.type == 'function_call':

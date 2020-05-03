@@ -39,6 +39,8 @@ class Error_handler:
             elif node.type == 'function_call':
                 sys.stderr.write(f'Variable for function "{self.node.value}" at line '
                                  f'{self.node.lineno} is used before declaration\n')
+        elif self.type == 4:
+            print('indexingERRORO in error.py')
         elif self.type == 5:
             sys.stderr.write(f'Unknown function call "{self.node.value}" at line '
                              f'{self.node.lineno} \n')
