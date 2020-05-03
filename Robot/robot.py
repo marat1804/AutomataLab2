@@ -13,7 +13,7 @@ cells = {
 
 
 class Cell:
-    def __init__(self, type, x,y):
+    def __init__(self, type):
         self.type = type
 
     def __repr__(self):

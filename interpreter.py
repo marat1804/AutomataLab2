@@ -10,6 +10,7 @@ from Errors.errors import InterpreterNameError
 from Errors.errors import InterpreterValueError
 from Errors.errors import InterpreterTypeError
 from Errors.errors import InterpreterBoolIndexError
+from Robot.robot import Robot, Cell, cells
 
 
 class Variable:
@@ -252,6 +253,8 @@ class Interpreter:
                 print(self.error.up(self.error_types['IndexError'], node))
             except InterpreterBoolIndexError:
                 print(self.error.up(self.error_types['BoolError'], node))
+            except InterpreterNameError:
+                print(self.error.up(self.error_types['UndeclaredError'], node))
         elif node.type == 'function_description':
             pass
         elif node.type == 'function_call':
@@ -760,14 +763,26 @@ class Interpreter:
 
     def op_for(self, node):
         variable = node.children['var'].value
-        print(node.children)
         if variable not in self.symbol_table[self.scope].keys():
-            print('ERROOR_FOR')
+            raise InterpreterNameError
         from_ = self.interpreter_node(node.children['from'])
         to_ = self.interpreter_node(node.children['to'])
-        for i in range(from_.value, to_.value):
-            self.symbol_table[self.scope][variable] = Variable('int', i)
-            self.interpreter_node(node.children['body'])
+        try:
+            for i in range(from_.value, to_.value):
+                self.symbol_table[self.scope][variable] = Variable('int', i)
+                self.interpreter_node(node.children['body'])
+        except InterpreterConverseError:
+            raise InterpreterConverseError
+        except InterpreterTypeError:
+            raise InterpreterTypeError
+        except InterpreterValueError:
+            raise InterpreterValueError
+        except InterpreterIndexError:
+            raise InterpreterIndexError
+        except InterpreterBoolIndexError:
+            raise InterpreterBoolIndexError
+        except InterpreterNameError:
+            raise InterpreterNameError
 
     def function_call(self, node, index, name=None):
         func_name = ''
@@ -794,7 +809,7 @@ class Interpreter:
         except InterpreterNameError:
             print(self.error.up(self.error_types['UndeclaredError'], node))
             return None
-        print('TO FUNC - ', func_param)
+        # print('TO FUNC - ', func_param)
         if index == 0:
             if isinstance(returning, SyntaxTreeNode):
                 if func_ret is None:
@@ -809,7 +824,7 @@ class Interpreter:
                     func_ret.reverse()
                 else:
                     func_ret.append(returning.value)
-        print('from FUNC - ', func_ret)
+        # print('from FUNC - ', func_ret)
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
             print(self.error.up(self.error_types['FuncCallError'], node))
             return None
@@ -949,10 +964,41 @@ class Interpreter:
         return new_L
 
 
+def createte_robot(descriptor):
+    with open(descriptor) as file:
+        text = file.read()
+    text = text.split('\n')
+    robot_info = text.pop(0).split(' ')
+    map_size = text.pop(0).split(' ')
+    print(robot_info, map_size)
+    x = int(robot_info[0])
+    y = int(robot_info[1])
+    turn = int(robot_info[2])
+    map = [0] * int(map_size[0])
+
+    for i in range(int(map_size[0])):
+        map[i] = [0] * int(map_size[1])
+    for i in range(int(map_size[0])):
+        for j in range(int(map_size[1])):
+            map[i][j] = Cell("EMPTY")
+    pos = 0
+    while len(text) > 0:
+        line = list(text.pop(0))
+        line = [Cell(cells[i]) for i in line]
+        map[pos] = line
+        pos += 1
+    return Robot(x=x, y=y, turn=turn, map=map)
+
+
 if __name__ == '__main__':
-    i = Interpreter()
-    prog = open('Tests/index.txt', 'r').read()
-    i.interpreter(program=prog)
-    for symbol_table in i.symbol_table:
-        for k, v in symbol_table.items():
-            print(k, v)
+    print('0/1?')
+    n = int(input())
+    if n == 0:
+        i = Interpreter()
+        prog = open('TechTask/test2.txt', 'r').read()
+        i.interpreter(program=prog)
+        for symbol_table in i.symbol_table:
+            for k, v in symbol_table.items():
+                print(k, v)
+    elif n == 1:
+        createte_robot('Tests/map')
