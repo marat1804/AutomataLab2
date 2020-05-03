@@ -1,0 +1,17 @@
+function main() begin
+vint v = {1,2,3}
+mint m = {{1, 2, 3}, {4, 5,6}, {7,8,9}}
+int s = v(1)
+int s1 = m(0,0)
+vint v1 = m(1,:)
+vint v2 = m(,1)
+mint m1 = m({0,2},)
+mint m2 = m(,{0,2})
+mint m3 = m({true, false, true},)
+mint m4 = m(,{true, false, true})
+mint m5 = m(,{true, true})
+mint m6 = m({{true, true, false},{true, false, true},{false, true, true}})
+mint m6 = m({{true, true, false},{true, false, true},{false, false, true}})
+vint v3 = v({true, false, true})
+vint v4 = v({true, false})
+end

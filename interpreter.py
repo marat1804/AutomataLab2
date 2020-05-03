@@ -9,6 +9,7 @@ from Errors.errors import InterpreterWrongParameters
 from Errors.errors import InterpreterNameError
 from Errors.errors import InterpreterValueError
 from Errors.errors import InterpreterTypeError
+from Errors.errors import InterpreterBoolIndexError
 
 
 class Variable:
@@ -79,7 +80,8 @@ class Interpreter:
                             'ValueError': 7,
                             'ApplicationCall': 8,
                             'WrongParameters': 9,
-                            'TypeError': 10}
+                            'TypeError': 10,
+                            'BoolError': 11}
 
     def interpreter(self, robot=None, program=None):
         self.robot = robot
@@ -123,6 +125,10 @@ class Interpreter:
                 print(self.error.up(self.error_types['RedeclarationError'], node))
             except InterpreterValueError:
                 print(self.error.up(self.error_types['ValueError'], node))
+            except InterpreterIndexError:
+                print(self.error.up(self.error_types['IndexError'], node))
+            except InterpreterBoolIndexError:
+                print(self.error.up(self.error_types['BoolError'], node))
         elif node.type == 'expr_list':
             L = []
             for ch in node.children:
@@ -143,7 +149,7 @@ class Interpreter:
         elif node.type == 'colon':
             return node.value
         elif node.type == 'decl_list':
-            return self.get_list(node)
+            return self.transform_list(self.get_list(node))
             # return self.list_of_smth(self.get_list(node))
         elif node.type == 'variable':
             return self.get_value(node)
@@ -167,6 +173,11 @@ class Interpreter:
                     print(self.error.up(self.error_types['ValueError'], node))
                 except InterpreterNameError:
                     print(self.error.up(self.error_types['UndeclaredError'], node))
+                except InterpreterIndexError:
+                    print(self.error.up(self.error_types['IndexError'], node))
+                except InterpreterBoolIndexError:
+                    print(self.error.up(self.error_types['BoolError'], node))
+
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -201,8 +212,12 @@ class Interpreter:
         elif node.type == 'indexing':
             try:
                 return self.indexing(node.value, node.children)
+            except InterpreterNameError:
+                raise InterpreterNameError
+            except InterpreterIndexError:
+                raise InterpreterIndexError
             except InterpreterValueError:
-                print(self.error.up(self.error_types['ValueError'], node))
+                raise InterpreterValueError
         elif node.type == 'index':
             if isinstance(node.children, list):
                 ind = []
@@ -220,6 +235,10 @@ class Interpreter:
                 print(self.error.up(self.error_types['TypeError'], node))
             except InterpreterValueError:
                 print(self.error.up(self.error_types['ValueError'], node))
+            except InterpreterIndexError:
+                print(self.error.up(self.error_types['IndexError'], node))
+            except InterpreterBoolIndexError:
+                print(self.error.up(self.error_types['BoolError'], node))
         elif node.type == 'for':
             try:
                 self.op_for(node)
@@ -229,6 +248,10 @@ class Interpreter:
                 print(self.error.up(self.error_types['TypeError'], node))
             except InterpreterValueError:
                 print(self.error.up(self.error_types['ValueError'], node))
+            except InterpreterIndexError:
+                print(self.error.up(self.error_types['IndexError'], node))
+            except InterpreterBoolIndexError:
+                print(self.error.up(self.error_types['BoolError'], node))
         elif node.type == 'function_description':
             pass
         elif node.type == 'function_call':
@@ -282,10 +305,8 @@ class Interpreter:
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
             variable = child[0].value
-            expression = self.interpreter_node(child[1])
-            exp = self.transform_list(expression)
-            exp = self.list_of_smth(exp)
-            self.declare(type, variable, exp)
+            expression = self.list_of_smth(self.interpreter_node(child[1]))
+            self.declare(type, variable, expression)
         elif child[1].type == 'expression':
             variable = child[0].value
             expression = self.interpreter_node(child[1])
@@ -575,10 +596,17 @@ class Interpreter:
 
     def indexing(self, var, children):
         if var not in self.symbol_table[self.scope].keys():
-            raise InterpreterValueError # TODO Check
+            raise InterpreterNameError
         type = self.symbol_table[self.scope][var].type
         index = self.interpreter_node(children)
         # print('indexing', type, index)
+        if isinstance(index, list):
+            if len(index) == 3:
+                index = self.list_of_smth(index)
+            elif isinstance(index[0], list):
+                index[0] = self.list_of_smth(index[0])
+            elif isinstance(index[1], list):
+                index[1] = self.list_of_smth(index[1])
         if not isinstance(index, list) and index.type.find('m') == -1 and index.type.find('v') == -1:
             return self.symbol_table[self.scope][var].value[index.value]
         elif isinstance(index, Variable) and index.type.find('m') != -1 and type.find('m') != -1:
@@ -587,19 +615,22 @@ class Interpreter:
             value = index.value
             check, m_, n_ = self.check_bool_matrix(index, m, n)
             if not check:
-                print('BAD BOOL MATRIX')
+                raise InterpreterBoolIndexError
             res = [[] for j in range(m_)]
             for i in range(m):
                 for j in range(n):
                     if value[i][j].value:
                         res[i].append(self.symbol_table[self.scope][var].value[i][j])
             return Variable(type, res)
-        elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1:
+        elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1 or isinstance(index, list) and type.find('v') != -1\
+                and index[0].type == index[1].type == 'bool':
             m = len(self.symbol_table[self.scope][var].value)
+            if not isinstance(index, Variable):
+                index = Variable('vbool', index)
             value = index.value
             check = self.check_bool_vector(index, m)
             if not check:
-                print('BAD BOOL VECTOR')
+                raise InterpreterBoolIndexError
             res = []
             for i in range(m):
                 if value[i].value:
@@ -608,7 +639,10 @@ class Interpreter:
         else:
             if isinstance(index[0], Variable) and isinstance(index[1], Variable):
                 if index[0].type == index[1].type:
-                    return self.symbol_table[self.scope][var].value[index[0].value][index[1].value]
+                    try:
+                        return self.symbol_table[self.scope][var].value[index[0].value][index[1].value]
+                    except IndexError:
+                        raise InterpreterIndexError
             elif type.find('m') != -1:  # indexing for matrix
                 if isinstance(index[0], Variable) and (index[1] == ':' or index[1] == ','):
                     if index[0].type.find('v') == -1 and index[0].type.find('m') == -1:
@@ -631,7 +665,7 @@ class Interpreter:
                     elif index[0].type.find('vbool') != -1:
                         m = self.symbol_table[self.scope][var].value
                         if len(index[0].value) != len(m):
-                            print("ERRROR")  # TODO ERROR
+                            raise InterpreterValueError
                         index[0] = self.check_vector('vbool', index[0])
                         value = index[0].value
                         res = []
@@ -649,7 +683,7 @@ class Interpreter:
                         res = []
                         index[1] = self.check_var('int', index[1])
                         m = self.symbol_table[self.scope][var].value
-                        for i in range(len(m)):
+                        for i in range(len(m[0])):
                             res.append(m[index[1].value][i])
                         type_ = 'v' + type.split('m')[1]
                         return Variable(type_, res)
@@ -665,7 +699,7 @@ class Interpreter:
                     elif index[1].type.find('vbool') != -1:
                         m = self.symbol_table[self.scope][var].value
                         if len(index[1].value) != len(m):
-                            print("ERRROR")  # TODO ERROR
+                            raise InterpreterValueError
                         index[1] = self.check_vector('vbool', index[1])
                         value = index[1].value
                         res = []
@@ -679,17 +713,15 @@ class Interpreter:
                                 res[k].append(m[j][i])
                         return Variable(type, res)
                 else:
-                    print('ERRORRR index')
+                    raise InterpreterIndexError
 
     def check_bool_matrix(self, var, m, n):
         type = var.type
         value = var.value
         if type.find('m') == -1:
-            print('ERROR_matrix')
-            return
+            return False
         if len(value) != m or len(value[0]) != n:
-            print('Erroorr in size')
-            return
+            return False
         counts = []
         etallon = 0
         for i in range(len(value)):
@@ -702,17 +734,15 @@ class Interpreter:
                 etallon = k
         if etallon > 1 and len(counts) == (counts.count(etallon) + counts.count(0)):
             return True, counts.count(etallon), etallon
-        return False
+        return False, 0,0
 
     def check_bool_vector(self, var, n):
         type = var.type
         value = var.value
         if type.find('v') == -1:
-            print('ERROR_vector')
-            return
+            return False
         if len(value) != n:
-            print('Erroorr in size')
-            return
+            return False
         k = 0
         for i in range(n):
             if value[i].value:
@@ -727,7 +757,6 @@ class Interpreter:
         condition = self.converser.converse('bool', condition).value
         if condition:
             self.interpreter_node(node.children['body'])
-        # TODO ERRORS
 
     def op_for(self, node):
         variable = node.children['var'].value
@@ -915,12 +944,14 @@ class Interpreter:
             new_L.reverse()
         elif len(new_L) == 1:
             new_L = new_L[0]
+            if isinstance(new_L, list) and len(new_L) == 1:
+                new_L = new_L[0]
         return new_L
 
 
 if __name__ == '__main__':
     i = Interpreter()
-    prog = open('t1.txt', 'r').read()
+    prog = open('Tests/index.txt', 'r').read()
     i.interpreter(program=prog)
     for symbol_table in i.symbol_table:
         for k, v in symbol_table.items():

@@ -1,3 +1,4 @@
+import os
 import sys
 
 from ply.lex import LexError
@@ -191,13 +192,16 @@ class MyParser(object):
                  | ind expr_list
                  | decl_list ind
                  | ind decl_list
-                 | decl_list"""
+                 | decl_list
+                 | L_FIGBRACKET decl_list R_FIGBRACKET"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('index', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3 and (p[2].type == 'colon' or p[2].type == 'comma'):
             p[0] = SyntaxTreeNode('index', children=[p[1], p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3 and (p[1].type == 'colon' or p[1].type == 'comma'):
             p[0] = SyntaxTreeNode('index', children=[p[1], p[2]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        elif len(p) == 4:
+            p[0] = SyntaxTreeNode('index', children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_operation(self, p):
         """operation : MOVE LBRACKET math_expression RBRACKET
@@ -321,13 +325,16 @@ class MyParser(object):
         self.ok = False
 
 
-
 if __name__ == '__main__':
     parser = MyParser()
-    f = open('t1.txt', 'r')
+    a = os.getcwd().split('/')
+    del a[len(a)-1]
+    s = '/'.join(a)
+    s += '/Tests/index.txt'
+    f = open(s, 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    tree, func_table = parser.parse(txt)
-    # tree = parser.parser.parse(txt, debug=True)
+    # tree, func_table = parser.parse(txt)
+    tree = parser.parser.parse(txt, debug=True)
     tree.print()

@@ -16,7 +16,8 @@ class Error_handler:
                       'ValueError',
                       'ApplicationCall',
                       'WrongParameters',
-                      'TypeError']
+                      'TypeError',
+                      'BoolError']
 
     def up(self, err_type, node=None):
         self.type = err_type
@@ -34,13 +35,14 @@ class Error_handler:
                              f'{self.node.lineno} is used before declaration\n')
         elif self.type == 3:
             if node.type == 'assignment':
-                sys.stderr.write(f'Variable "{self.node.value.value}" at line '
+                sys.stderr.write(f'Variable for assignment at line '
                                  f'{self.node.value.lineno} is used before declaration\n')
             elif node.type == 'function_call':
                 sys.stderr.write(f'Variable for function "{self.node.value}" at line '
                                  f'{self.node.lineno} is used before declaration\n')
         elif self.type == 4:
-            print('indexingERRORO in error.py')
+            sys.stderr.write(f'List index is out of range at line '
+                             f'{self.node.value.lineno}\n')
         elif self.type == 5:
             sys.stderr.write(f'Unknown function call "{self.node.value}" at line '
                              f'{self.node.lineno} \n')
@@ -68,9 +70,13 @@ class Error_handler:
             if node.type == 'function_call':
                 sys.stderr.write(f'Type of variables in function "{self.node.value}" at line '
                                  f'{self.node.lineno} do not match\n')
+        elif self.type == 11:
+            sys.stderr.write(f'Incorrect bool matrix/vector at line '
+                             f'{self.node.lineno}\n')
 
 
-
+class InterpreterBoolIndexError(Exception):
+    pass
 
 
 class InterpreterNameError(Exception):
@@ -99,6 +105,7 @@ class InterpreterWrongParameters(Exception):
 
 class InterpreterApplicationCall(Exception):
     pass
+
 
 class InterpreterTypeError(Exception):
     pass
