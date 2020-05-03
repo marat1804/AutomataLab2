@@ -158,6 +158,8 @@ class Interpreter:
                     print(self.error.up(self.error_types['ConverseError'], node))
                 except InterpreterValueError:
                     print(self.error.up(self.error_types['ValueError'], node))
+                except InterpreterNameError:
+                    print(self.error.up(self.error_types['UndeclaredError'], node))
         elif node.type == 'bin_op':
             if node.value == '+':
                 return self.bin_plus(node.children[0], node.children[1])
@@ -251,8 +253,7 @@ class Interpreter:
         elif node.value in self.functions.keys():
             return self.function_call(self.functions[node.value], 1, node.value)
         else:
-            print(node)
-            print("!!!ERRROR")  # TODO Add function call
+            raise InterpreterNameError
 
     def declare_variable(self, type, child):
         if child[1].type == 'decl_list':
@@ -306,13 +307,16 @@ class Interpreter:
             return expr
 
     def check_type(self, type, exp):
-        if type.find('m') != -1:
-            e = self.check_matrix(type, exp)
-        elif type.find('v') != -1:
-            e = self.check_vector(type, exp)
+        var = ['bool', 'int']
+        if type.find('m') != -1 and exp.type.find('m') != -1:
+            return self.check_matrix(type, exp)
+        elif type.find('v') != -1 and exp.type.find('v') != -1:
+            return self.check_vector(type, exp)
+        elif type in var and exp.type in var:
+            return self.check_var(type, exp)
         else:
-            e = self.check_var(type, exp)
-        return e
+            raise InterpreterTypeError
+
 
     def check_matrix(self, type, expr):
         exp = expr.value
@@ -723,17 +727,20 @@ class Interpreter:
         func_param = None
         func_ret = None
         # print("I'm in " + func_name)
-        # try: # TODO CHECK передаваемые параметры
-        if isinstance(param, SyntaxTreeNode):
-            if func_param is None:
-                func_param = []
-            for item in param.children:
-                p = self.interpreter_node(item)
-                if isinstance(p, list):
-                    for key in p:
-                        func_param.append(key)
-                else:
-                    func_param.append(p)
+        try: # TODO CHECK передаваемые параметры
+            if isinstance(param, SyntaxTreeNode):
+                if func_param is None:
+                    func_param = []
+                for item in param.children:
+                    p = self.interpreter_node(item)
+                    if isinstance(p, list):
+                        for key in p:
+                            func_param.append(key)
+                    else:
+                        func_param.append(p)
+        except InterpreterNameError:
+            print(self.error.up(self.error_types['UndeclaredError'], node))
+            return None
         print('TO FUNC - ', func_param)
         if index == 0:
             if isinstance(returning, SyntaxTreeNode):
@@ -788,29 +795,33 @@ class Interpreter:
                             get_list[i[0]] = i[1]
                             common_list[i[0]] = i[2]
         print('GOT - ', get_list, common_list)
-        if get_list is not None and func_param is not None:
-            if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
-                if len(get_list.keys()) != (len(func_param)+len(common_list.keys())): #TODO checkwtf
-                    print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
-                    print(self.error.up(self.error_types['ValueError'], node))
-                    return None
-                else:
-                    for i in common_list.values():
-                        func_param.append(i)
-            i = 0
-            for k, v in get_list.items():
-                a = self.check_type(v, func_param[i])
-                i += 1
-                self.symbol_table[self.scope][k] = a
-        elif func_param is None:
-            func_param = []
-            for i in common_list.values():
-                func_param.append(i)
-            i = 0
-            for k, v in get_list.items():
-                a = self.check_type(v, func_param[i])
-                i += 1
-                self.symbol_table[self.scope][k] = a
+        try:
+            if get_list is not None and func_param is not None:
+                if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
+                    if len(get_list.keys()) != (len(func_param)+len(common_list.keys())): #TODO checkwtf
+                        print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
+                        print(self.error.up(self.error_types['ValueError'], node))
+                        return None
+                    else:
+                        for i in common_list.values():
+                            func_param.append(i)
+                i = 0
+                for k, v in get_list.items():
+                    a = self.check_type(v, func_param[i])
+                    i += 1
+                    self.symbol_table[self.scope][k] = a
+            elif func_param is None:
+                func_param = []
+                for i in common_list.values():
+                    func_param.append(i)
+                i = 0
+                for k, v in get_list.items():
+                    a = self.check_type(v, func_param[i])
+                    i += 1
+                    self.symbol_table[self.scope][k] = a
+        except InterpreterTypeError:
+            print(self.error.up(self.error_types['TypeError'], node))
+            return None
         ret = func_subtree.children.get('return')
         return_dict = {}
         return_list = []

@@ -36,6 +36,9 @@ class Error_handler:
             if node.type == 'assignment':
                 sys.stderr.write(f'Variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno} is used before declaration\n')
+            elif node.type == 'function_call':
+                sys.stderr.write(f'Variable for function "{self.node.value}" at line '
+                                 f'{self.node.lineno} is used before declaration\n')
         elif self.type == 5:
             sys.stderr.write(f'Unknown function call "{self.node.value}" at line '
                              f'{self.node.lineno} \n')
@@ -60,6 +63,9 @@ class Error_handler:
             if node.type == 'assignment':
                 sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno}\n')
+            if node.type == 'function_call':
+                sys.stderr.write(f'Variable type for function "{self.node.value}" at line '
+                                 f'{self.node.lineno} does not match\n')
 
 
 
