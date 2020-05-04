@@ -99,8 +99,9 @@ class Interpreter:
             except RecursionError:
                 sys.stderr.write(f'RecursionError: function calls itself too many times\n')
                 sys.stderr.write("========= Program has finished with fatal error =========\n")
+                return False
         else:
-            sys.stderr.write(f'Can\'t intemperate incorrect input file\n')
+            sys.stderr.write(f'Can\'t interpretate incorrect input file\n')
 
     def interpreter_tree(self, tree):
         print("Program tree:\n")
@@ -159,7 +160,7 @@ class Interpreter:
             index = None
             if node.value.type == 'indexing':
                 index = self.interpreter_node(node.value.children)
-            if var not in self.symbol_table[self.scope].keys():
+            if var not in self.symbol_table[self.scope].keys(): # TODO перенести
                 print(self.error.up(self.error_types['UndeclaredError'], node))
             else:
                 try:
@@ -422,7 +423,7 @@ class Interpreter:
             self.symbol_table[self.scope][var] = self.check_var(type, expression)
         elif index is not None:
             if type.find('m') != -1:
-                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = expression
+                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = expression # TODO
             elif type.find('v') != -1:
                 self.symbol_table[self.scope][var].value[index.value] = expression
         else:
@@ -478,7 +479,7 @@ class Interpreter:
         elif expr1.type.find('m') != -1:
             expr1 = self.check_matrix('mint', expr1)
         else:
-            print('error')
+            print('error') # TODO ERRORRR
         if expr2.type.find('v') != -1:
             expr2 = self.check_vector('vint', expr2)
         elif expr2.type.find('m') != -1:
@@ -489,7 +490,7 @@ class Interpreter:
             elif expr2.type.find('m') != -1:
                 expr2 = self.converse_to_matrix(expr2, len(expr1.value))
         if len(expr1.value) != len(expr2.value):
-            print('Eroor')
+            print('Eroor') # TODO ERRORRR
         res = []
         l = len(expr1.value)
         if expr1.type.find('m') != -1:
@@ -518,7 +519,7 @@ class Interpreter:
     def matrix_transpose(self, var):
         expr = self.interpreter_node(var)
         if expr.type.find('m') == -1:
-            print('Error')
+            print('Error') # TODO ERRORRR
         else:
             res = []
             l = len(expr.value)
@@ -532,7 +533,7 @@ class Interpreter:
     def element_sum(self, var):
         expr = self.interpreter_node(var)
         if expr.type.find('v') == -1 and expr.type.find('m') == -1:
-            print('Errror')
+            print('Errror') # TODO ERRORRR
         sum = 0
         if expr.type.find('v') != -1:
             for i in range(len(expr.value)):
@@ -737,7 +738,7 @@ class Interpreter:
                 etallon = k
         if etallon > 1 and len(counts) == (counts.count(etallon) + counts.count(0)):
             return True, counts.count(etallon), etallon
-        return False, 0,0
+        return False, 0, 0
 
     def check_bool_vector(self, var, n):
         type = var.type
@@ -762,7 +763,7 @@ class Interpreter:
             self.interpreter_node(node.children['body'])
 
     def op_for(self, node):
-        variable = node.children['var'].value
+        variable = node.children['var'].value # TODO
         if variable not in self.symbol_table[self.scope].keys():
             raise InterpreterNameError
         from_ = self.interpreter_node(node.children['from'])
@@ -815,7 +816,6 @@ class Interpreter:
                 if func_ret is None:
                     func_ret = []
                 a = returning.children
-                print(a)
                 if a is not None:
                     while isinstance(a, list):
                         func_ret.append(a[1].value)
@@ -825,7 +825,7 @@ class Interpreter:
                 else:
                     func_ret.append(returning.value)
         # print('from FUNC - ', func_ret)
-        if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
+        if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys(): # TODO
             print(self.error.up(self.error_types['FuncCallError'], node))
             return None
         if func_name == 'main':
@@ -870,7 +870,7 @@ class Interpreter:
             if get_list is not None and func_param is not None:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
                     if len(get_list.keys()) > (len(func_param)+len(common_list.keys())):
-                        print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
+                        # print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
                         print(self.error.up(self.error_types['WrongParameters'], node))
                         return None
                     else:
@@ -995,10 +995,13 @@ if __name__ == '__main__':
     n = int(input())
     if n == 0:
         i = Interpreter()
-        prog = open('TechTask/test2.txt', 'r').read()
-        i.interpreter(program=prog)
-        for symbol_table in i.symbol_table:
-            for k, v in symbol_table.items():
-                print(k, v)
+        #prog = open('TechTask/test1.txt', 'r').read()
+        prog = open('Tests/index.txt', 'r').read()
+        # prog = open('Tests/badrecursion.txt', 'r').read()
+        res = i.interpreter(program=prog)
+        if res != False:
+            for symbol_table in i.symbol_table:
+                for k, v in symbol_table.items():
+                    print(k, v)
     elif n == 1:
         createte_robot('Tests/map')

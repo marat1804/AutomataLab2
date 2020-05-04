@@ -1,0 +1,18 @@
+function main() begin
+int n = 10
+int res = 0
+res <- fib n
+end
+
+int result = function fib (int n) begin
+int a = 0
+int b = 0
+if n < 3 beginif
+result <- 1
+endif
+if n>2 beginif
+a <- fib n-1
+b <- fib n-2
+result <- a+b
+endif
+end

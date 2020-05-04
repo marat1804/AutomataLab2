@@ -1,0 +1,9 @@
+function main() begin
+int n = 5
+app n
+end
+
+int res = function app(int n) begin
+int i = n
+app n
+end

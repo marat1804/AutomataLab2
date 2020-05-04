@@ -242,7 +242,6 @@ class MyParser(object):
         else:
             p[0] = SyntaxTreeNode('return_list', children=[p[1], p[3], p[4]], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
-
     def p_call_list(self, p):
         """call_list : call_list COMMA expression
                     | expression"""
@@ -327,11 +326,14 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
+    '''
     a = os.getcwd().split('/')
     del a[len(a)-1]
     s = '/'.join(a)
     s += '/Tests/index.txt'
     f = open(s, 'r')
+    '''
+    f = open('fib.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
