@@ -96,6 +96,7 @@ class Interpreter:
             self.interpreter_tree(self.tree)
             try:
                 self.interpreter_node(self.functions['main'].children['body'])
+                return True
             except RecursionError:
                 sys.stderr.write(f'RecursionError: function calls itself too many times\n')
                 sys.stderr.write("========= Program has finished with fatal error =========\n")
@@ -298,6 +299,18 @@ class Interpreter:
             elif len(items) == 1:
                 return items[0]
             return items
+        elif node.type == 'robot':
+            if node.value == 'wall':
+                return Variable('int', self.wall())
+            elif node.value == 'exit':
+                return Variable('bool', self.exit())
+            elif node.value == 'right':
+                return self.right()
+            elif node.value == 'left':
+                return self.left()
+            elif node.value == 'move':
+                exp = self.interpreter_node(node.children)
+                return Variable('bool', self.move(exp.value))
         else:
             print('ELSE', node)
         return ''
@@ -968,6 +981,21 @@ class Interpreter:
                 new_L = new_L[0]
         return new_L
 
+    def wall(self):
+        return self.robot.wall()
+
+    def exit(self):
+        return self.robot.exit()
+
+    def right(self):
+        return self.robot.right()
+
+    def left(self):
+        return self.robot.left()
+
+    def move(self, expression):
+        return self.robot.move(expression)
+
 
 def createte_robot(descriptor):
     with open(descriptor) as file:
@@ -975,7 +1003,6 @@ def createte_robot(descriptor):
     text = text.split('\n')
     robot_info = text.pop(0).split(' ')
     map_size = text.pop(0).split(' ')
-    print(robot_info, map_size)
     x = int(robot_info[0])
     y = int(robot_info[1])
     turn = int(robot_info[2])
@@ -1003,9 +1030,17 @@ if __name__ == '__main__':
         #prog = open('TechTask/test1.txt', 'r').read()
         prog = open('Tests/test.txt', 'r').read()
         res = i.interpreter(program=prog)
-        if res != False:
+        if res:
             for symbol_table in i.symbol_table:
                 for k, v in symbol_table.items():
                     print(k, v)
     elif n == 1:
-        createte_robot('Tests/map')
+        robot = createte_robot('Tests/map')
+        i = Interpreter()
+        prog = open('Tests/test.txt', 'r').read()
+        res = i.interpreter(program=prog, robot=robot)
+        if res:
+            for symbol_table in i.symbol_table:
+                for k, v in symbol_table.items():
+                    print(k, v)
+

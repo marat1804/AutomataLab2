@@ -83,20 +83,19 @@ class Robot:
     def left(self):
         self.turn = (self.turn-1) % 4
 
-    def move(self, count):
-        distance = self.wall
-        if count > distance:
+    def move(self, dist):
+        distance = self.wall()
+        if dist > distance:
             return False
-        if self.turn == 1:
-            if self.turn == 0:
-                self.x += count
-            elif self.turn == 1:
-                self.y += count
-            elif self.turn == 2:
-                self.x -= count
-            elif self.turn == 3:
-                self.y -= count
-            return True
+        if self.turn == 0:
+            self.x += dist
+        elif self.turn == 1:
+            self.y += dist
+        elif self.turn == 2:
+            self.x -= dist
+        elif self.turn == 3:
+            self.y -= dist
+        return True
 
 
 if __name__ == '__main__':

@@ -60,7 +60,7 @@ class MyParser(object):
                                   lexpos=p.lexpos(2))
 
     def p_decl_error(self, p):
-        """declaration : type VARIABLE error"""
+        """declaration : type VARIABLE NL"""
         p[0] = SyntaxTreeNode('error', value="Wrong declaration", children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
         sys.stderr.write(f'>>> Wrong declaration\n')
 
@@ -129,7 +129,8 @@ class MyParser(object):
     def p_expression(self, p):
         """expression : math_expression
                       | const
-                      | variable"""
+                      | variable
+                      | operation"""
         p[0] = SyntaxTreeNode('expression', children=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_math_expression(self, p):
@@ -199,7 +200,7 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('index', children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_operation(self, p):
-        """operation : MOVE LBRACKET math_expression RBRACKET
+        """operation : MOVE LBRACKET expression RBRACKET
                      | RIGHT
                      | LEFT
                      | WALL
@@ -207,7 +208,7 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('robot', value=p[1], children=[], lineno=p.lineno(1), lexpos=p.lexpos(1))
         else:
-            p[0] = SyntaxTreeNode('robot', value=p[1], children=[p[3]], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('robot', value=p[1], children=p[3], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
     def p_assignment(self, p):
         """assignment : variable ASSIGNMENT expression
@@ -297,11 +298,12 @@ class MyParser(object):
                                                                                                            p[2]])},
                                                   lineno=p.lineno(3), lexpos=p.lexpos(3))
             p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(3), lexpos=p.lexpos(3))
-
+    ''''
     def p_function_error(self, p):
         """function : FUNCTION error"""
         p[0] = SyntaxTreeNode('error', value="Wrong function", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         sys.stderr.write(f'>>> Wrong function\n')
+    '''
 
     def p_function_call(self, p):
         """function_call : VARIABLE
