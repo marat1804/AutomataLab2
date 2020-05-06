@@ -32,7 +32,7 @@ class Error_handler:
             return
         elif self.type == 2:
             sys.stderr.write(f'Variable "{node.children[0].value}" at line'
-                             f'{self.node.lineno} is used before declaration\n')
+                             f'{self.node.lineno} is already declared\n')
         elif self.type == 3:
             if node.type == 'assignment':
                 sys.stderr.write(f'Variable for assignment at line '
@@ -68,7 +68,7 @@ class Error_handler:
                              f'{self.node.lineno} \n')
         elif self.type == 10:
             if node.type == 'assignment':
-                sys.stderr.write(f'Assignment to constant variable "{self.node.value.value}" at line '
+                sys.stderr.write(f'Bad types at assignment "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno}\n')
             if node.type == 'function_call':
                 sys.stderr.write(f'Type of variables in function "{self.node.value}" at line '

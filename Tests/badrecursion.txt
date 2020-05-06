@@ -5,5 +5,10 @@ end
 
 int res = function app(int n) begin
 int i = n
+app1 n
+end
+
+int res = function app1(int n) begin
+int i = n
 app n
 end

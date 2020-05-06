@@ -313,7 +313,7 @@ class MyParser(object):
                          | variable ASSIGNMENT VARIABLE call_list
                          | type VARIABLE EQ VARIABLE call_list"""
         if len(p) == 2:
-            p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children={}, lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3:
             p[0] = SyntaxTreeNode('function_call', value=p[1], children={'call': p[2]}, lineno=p.lineno(1),
                                   lexpos=p.lexpos(1))

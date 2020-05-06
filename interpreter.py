@@ -261,7 +261,8 @@ class Interpreter:
             pass
         elif node.type == 'function_call':
             try:
-                if isinstance(node.children.get('return'), list):
+                ret = node.children.get('return')
+                if isinstance(ret, list):
                     val = self.function_call(node, 1, node.value)
                     self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(node.children.get('return')[0].value, val)
                 else:
@@ -440,9 +441,9 @@ class Interpreter:
             self.symbol_table[self.scope][var] = self.check_var(type, expression)
         elif index is not None:
             if type.find('m') != -1:
-                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = self.check_type(type, expression)
+                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = self.check_type(type[1:], expression)
             elif type.find('v') != -1:
-                self.symbol_table[self.scope][var].value[index.value] = self.check_type(type, expression)
+                self.symbol_table[self.scope][var].value[index.value] = self.check_type(type[1:], expression)
         else:
             raise InterpreterConverseError
 
@@ -496,7 +497,7 @@ class Interpreter:
         elif expr1.type.find('m') != -1:
             expr1 = self.check_matrix('mint', expr1)
         else:
-            print('error') # TODO ERRORRR
+            raise InterpreterValueError
         if expr2.type.find('v') != -1:
             expr2 = self.check_vector('vint', expr2)
         elif expr2.type.find('m') != -1:
@@ -507,7 +508,7 @@ class Interpreter:
             elif expr2.type.find('m') != -1:
                 expr2 = self.converse_to_matrix(expr2, len(expr1.value))
         if len(expr1.value) != len(expr2.value):
-            print('Eroor') # TODO ERRORRR
+            raise InterpreterValueError
         res = []
         l = len(expr1.value)
         if expr1.type.find('m') != -1:
@@ -536,7 +537,7 @@ class Interpreter:
     def matrix_transpose(self, var):
         expr = self.interpreter_node(var)
         if expr.type.find('m') == -1:
-            print('Error') # TODO ERRORRR
+            return InterpreterValueError
         else:
             res = []
             l = len(expr.value)
@@ -550,7 +551,7 @@ class Interpreter:
     def element_sum(self, var):
         expr = self.interpreter_node(var)
         if expr.type.find('v') == -1 and expr.type.find('m') == -1:
-            print('Errror') # TODO ERRORRR
+            return InterpreterValueError
         sum = 0
         if expr.type.find('v') != -1:
             for i in range(len(expr.value)):
@@ -780,15 +781,18 @@ class Interpreter:
             self.interpreter_node(node.children['body'])
 
     def op_for(self, node):
-        variable = node.children['var'].value # TODO
+        variable = node.children['var'].value
+        flag = False
         if variable not in self.symbol_table[self.scope].keys():
-            raise InterpreterNameError
+            flag = True
         from_ = self.interpreter_node(node.children['from'])
         to_ = self.interpreter_node(node.children['to'])
         try:
             for i in range(from_.value, to_.value):
                 self.symbol_table[self.scope][variable] = Variable('int', i)
                 self.interpreter_node(node.children['body'])
+            if flag:
+                del self.symbol_table[self.scope][variable]
         except InterpreterConverseError:
             raise InterpreterConverseError
         except InterpreterTypeError:
@@ -818,7 +822,7 @@ class Interpreter:
         func_param = None
         func_ret = None
         # print("I'm in " + func_name)
-        try: # TODO CHECK передаваемые параметры
+        try:
             if isinstance(param, SyntaxTreeNode):
                 if func_param is None:
                     func_param = []
@@ -904,6 +908,8 @@ class Interpreter:
                     func_param.append(i)
                 i = 0
                 if get_list is not None:
+                    if len(func_param) == 0:
+                        raise InterpreterWrongParameters
                     for k, v in get_list.items():
                         a = self.check_type(v, func_param[i])
                         i += 1
@@ -933,7 +939,8 @@ class Interpreter:
                 a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
         if func_ret is not None and len(return_list) != len(func_ret):
-            raise InterpreterValueError
+            print(self.error.up(self.error_types['WrongParameters'], node))
+            return None
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
         try:
@@ -1027,8 +1034,8 @@ if __name__ == '__main__':
     n = int(input())
     if n == 0:
         i = Interpreter()
-        #prog = open('TechTask/test1.txt', 'r').read()
-        prog = open('Tests/test.txt', 'r').read()
+        prog = open('TechTask/test2.txt', 'r').read()
+       # prog = open('Tests/test.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             for symbol_table in i.symbol_table:
