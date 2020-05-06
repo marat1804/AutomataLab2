@@ -1,0 +1,36 @@
+function main() begin
+    bool exitFound = false
+    exitFound <- findPath
+    int toExit = wall
+    move(toExit)
+end
+
+bool res = function findPath() begin
+    int turn = 0
+    int x = 0
+    int y = 0
+    int temp = 0
+    bool noexit = false
+    for i = 0:5 beginfor
+        if noexit beginif
+            i <- 5
+            res <- true
+        endif
+        if !noexit beginif
+            right
+            temp <- wall
+            if temp < 1 beginif
+                left
+            endif
+            temp <- wall
+            if temp < 1 beginif
+                left
+            endif
+            if temp > 0 beginif
+                move(1)
+            endif
+            noexit <- exit
+            i <- 1
+        endif
+    endfor
+end

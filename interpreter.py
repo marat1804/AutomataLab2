@@ -788,11 +788,19 @@ class Interpreter:
         from_ = self.interpreter_node(node.children['from'])
         to_ = self.interpreter_node(node.children['to'])
         try:
+            self.symbol_table[self.scope][variable] = Variable('int', from_.value)
+            while self.symbol_table[self.scope][variable].value < to_.value:
+                self.interpreter_node(node.children['body'])
+                self.symbol_table[self.scope][variable].value += 1
+            if flag:
+                del self.symbol_table[self.scope][variable]
+            '''
             for i in range(from_.value, to_.value):
                 self.symbol_table[self.scope][variable] = Variable('int', i)
                 self.interpreter_node(node.children['body'])
             if flag:
                 del self.symbol_table[self.scope][variable]
+            '''
         except InterpreterConverseError:
             raise InterpreterConverseError
         except InterpreterTypeError:
@@ -1044,8 +1052,9 @@ if __name__ == '__main__':
     elif n == 1:
         robot = createte_robot('Tests/map')
         i = Interpreter()
-        prog = open('Tests/test.txt', 'r').read()
+        prog = open('Tests/righthand.txt', 'r').read()
         res = i.interpreter(program=prog, robot=robot)
+        print(i.robot)
         if res:
             for symbol_table in i.symbol_table:
                 for k, v in symbol_table.items():
