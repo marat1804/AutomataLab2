@@ -46,13 +46,6 @@ class MyParser(object):
                     | function_call NL"""
         p[0] = p[1]
 
-    def p_statement_error(self, p):
-        """statement : errors NL"""
-
-    def p_statement_error_no_nl(self, p):
-        """statement : errors"""
-        p[0] = SyntaxTreeNode('error', lineno=p.lineno(1), lexpos=p.lexpos(1))
-
     def p_declaration(self, p):
         """declaration : type VARIABLE EQ expression
                        | type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET"""
@@ -63,14 +56,20 @@ class MyParser(object):
         else:
             p[0] = SyntaxTreeNode('declaration', value=p[1],
                                   children=[SyntaxTreeNode('ident', value=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2)),
-                                            p[5], SyntaxTreeNode('end_of_list')], lineno=p.lineno(2), lexpos=p.lexpos(2))
+                                            p[5], SyntaxTreeNode('end_of_list')], lineno=p.lineno(2),
+                                  lexpos=p.lexpos(2))
+
+    def p_decl_error(self, p):
+        """declaration : type VARIABLE error"""
+        p[0] = SyntaxTreeNode('error', value="Wrong declaration", children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
+        sys.stderr.write(f'>>> Wrong declaration\n')
 
     def p_decl_list(self, p):
         """decl_list : L_FIGBRACKET expr_list R_FIGBRACKET
                      | decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
                      | expr_list"""
         if len(p) == 4:
-            p[0] = SyntaxTreeNode('decl_list', children=[p[2],  SyntaxTreeNode('end_of_list')])
+            p[0] = SyntaxTreeNode('decl_list', children=[p[2], SyntaxTreeNode('end_of_list')])
         elif len(p) == 2:
             p[0] = SyntaxTreeNode('decl_list', children=[p[1], SyntaxTreeNode('end_of_list')])
         else:
@@ -97,11 +96,6 @@ class MyParser(object):
                | CVINT
                | CMINT"""
         p[0] = p[1]
-
-    def p_type_error(self, p):
-        """type : errors"""
-       # sys.stderr.write(f'Syntax error: "{p[1][0].value}" at {p[1][0].lineno}:{p[1][0].lexpos}\n')
-        p[0] = SyntaxTreeNode('error')
 
     def p_bool(self, p):
         """bool : BOOL
@@ -223,6 +217,11 @@ class MyParser(object):
         else:
             p[0] = SyntaxTreeNode('assignment', value=p[1], children=p[4], lineno=p.lineno(1), lexpos=p.lexpos(1))
 
+    def p_assign_error(self, p):
+        """assignment : variable ASSIGNMENT error"""
+        p[0] = SyntaxTreeNode('error', value="Wrong assignment", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        sys.stderr.write(f'>>> Wrong assignment\n')
+
     def p_for(self, p):
         """for : FOR VARIABLE EQ expression COLON expression BEGINFOR NL stmt_list ENDFOR
                | FOR VARIABLE EQ expression COLON expression BEGIN NL stmt_list END"""
@@ -230,10 +229,20 @@ class MyParser(object):
                                                'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1),
                               lexpos=p.lexpos(1))
 
+    def p_for_error(self, p):
+        """for : FOR error"""
+        p[0] = SyntaxTreeNode('error', value="Wrong for", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        sys.stderr.write(f'>>> Wrong for\n')
+
     def p_if(self, p):
         """if : IF math_expression BEGINIF NL stmt_list ENDIF
               | IF math_expression BEGIN NL stmt_list END"""
         p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[5]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+
+    def p_if_error(self, p):
+        """if : IF error"""
+        p[0] = SyntaxTreeNode('error', value="Wrong if", children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
+        sys.stderr.write(f'>>> Wrong if\n')
 
     def p_return_list(self, p):
         """return_list : return_list COMMA type VARIABLE
@@ -289,6 +298,11 @@ class MyParser(object):
                                                   lineno=p.lineno(3), lexpos=p.lexpos(3))
             p[0] = SyntaxTreeNode('function_description', value=p[5], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
+    def p_function_error(self, p):
+        """function : FUNCTION error"""
+        p[0] = SyntaxTreeNode('error', value="Wrong function", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
+        sys.stderr.write(f'>>> Wrong function\n')
+
     def p_function_call(self, p):
         """function_call : VARIABLE
                          | VARIABLE call_list
@@ -299,11 +313,14 @@ class MyParser(object):
         if len(p) == 2:
             p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3:
-            p[0] = SyntaxTreeNode('function_call', value=p[1], children={'call': p[2]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
+            p[0] = SyntaxTreeNode('function_call', value=p[1], children={'call': p[2]}, lineno=p.lineno(1),
+                                  lexpos=p.lexpos(1))
         elif len(p) == 4:
-            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
+            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1]}, lineno=p.lineno(2),
+                                  lexpos=p.lexpos(2))
         elif len(p) == 5:
-            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
+            p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]},
+                                  lineno=p.lineno(2), lexpos=p.lexpos(2))
         elif len(p) == 6:
             p[0] = SyntaxTreeNode('function_call', value=p[4], children={'return': [p[1], p[2]], 'call': p[5]},
                                   lineno=p.lineno(2), lexpos=p.lexpos(2))
@@ -316,29 +333,24 @@ class MyParser(object):
         elif len(p) == 4:
             p[0] = SyntaxTreeNode('ret_list', children=[p[1], p[3]], lineno=p.lineno(3), lexpos=p.lexpos(3))
 
-    def p_errors(self, p):
-        """errors : errors error
-                    | error"""
-        if len(p) == 2:
-            p[0] = [p[1]]
-        else:
-            p[0] = p[1] + p[2]
-
     def p_error(self, p):
-        print(f'Syntax error at {p}')
+        try:
+            sys.stderr.write(f'Syntax error at {p.lineno} line\n')
+        except Exception:
+            sys.stderr.write(f'Syntax error\n')
         self.ok = False
 
 
 if __name__ == '__main__':
     parser = MyParser()
     a = os.getcwd().split('/')
-    del a[len(a)-1]
+    del a[len(a) - 1]
     s = '/'.join(a)
-    s += '/Tests/logic.txt'
+    s += '/Tests/test.txt'
     f = open(s, 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
     tree, func_table, ok = parser.parse(txt)
-    # tree = parser.parser.parse(txt, debug=True)
+   # tree = parser.parser.parse(txt, debug=True)
     tree.print()
