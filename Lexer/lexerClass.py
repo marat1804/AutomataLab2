@@ -23,8 +23,8 @@ class MyLexer(object):
               'COMMA', 'NL'] + list(reserved.values())
 
     precedence = (
-        ('left', 'AND'),
         ('right', 'DENY'),
+        ('left', 'AND'),
         ('nonassoc', 'LESS', 'GREATER'),
     )
 

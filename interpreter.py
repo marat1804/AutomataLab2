@@ -886,10 +886,11 @@ class Interpreter:
                 for i in common_list.values():
                     func_param.append(i)
                 i = 0
-                for k, v in get_list.items():
-                    a = self.check_type(v, func_param[i])
-                    i += 1
-                    self.symbol_table[self.scope][k] = a
+                if get_list is not None:
+                    for k, v in get_list.items():
+                        a = self.check_type(v, func_param[i])
+                        i += 1
+                        self.symbol_table[self.scope][k] = a
         except InterpreterTypeError:
             print(self.error.up(self.error_types['TypeError'], node))
             return None
@@ -996,7 +997,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test1.txt', 'r').read()
-        prog = open('Tests/logic.txt', 'r').read()
+        prog = open('Tests/test.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res != False:
             for symbol_table in i.symbol_table:
