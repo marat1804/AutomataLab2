@@ -9,6 +9,7 @@ import ply.yacc as yacc
 
 class MyParser(object):
     tokens = MyLexer.tokens
+    precedence = MyLexer.precedence
 
     def __init__(self):
         self.lexer = MyLexer()
@@ -326,17 +327,14 @@ class MyParser(object):
 
 if __name__ == '__main__':
     parser = MyParser()
-    '''
     a = os.getcwd().split('/')
     del a[len(a)-1]
     s = '/'.join(a)
-    s += '/Tests/index.txt'
+    s += '/Tests/logic.txt'
     f = open(s, 'r')
-    '''
-    f = open('fib.txt', 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    # tree, func_table = parser.parse(txt)
-    tree = parser.parser.parse(txt, debug=True)
+    tree, func_table, ok = parser.parse(txt)
+    # tree = parser.parser.parse(txt, debug=True)
     tree.print()

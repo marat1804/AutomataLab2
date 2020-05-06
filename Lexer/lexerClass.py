@@ -1,3 +1,4 @@
+import os
 import sys
 
 import ply.lex as lex
@@ -20,6 +21,12 @@ class MyLexer(object):
               'MUL_MATRIX', 'MUL_ELEM', 'COLON', 'TRANSPOSE', 'STL', 'STR', 'DENY',
               'LESS', 'GREATER', 'EQ', 'R_FIGBRACKET', 'L_FIGBRACKET',
               'COMMA', 'NL'] + list(reserved.values())
+
+    precedence = (
+        ('left', 'AND'),
+        ('right', 'DENY'),
+        ('nonassoc', 'LESS', 'GREATER'),
+    )
 
     t_ASSIGNMENT = r'\<\-'
     t_AND = r'&&'
@@ -91,7 +98,11 @@ class MyLexer(object):
 
 
 if __name__ == '__main__':
-    f = open('test2.txt')
+    a = os.getcwd().split('/')
+    del a[len(a) - 1]
+    s = '/'.join(a)
+    s += '/Tests/logic.txt'
+    f = open(s, 'r')
     data = f.read()
     f.close()
     lexer = MyLexer()

@@ -158,11 +158,11 @@ class Interpreter:
         elif node.type == 'assignment':
             var = node.value.value
             index = None
-            if node.value.type == 'indexing':
-                index = self.interpreter_node(node.value.children)
-            if var not in self.symbol_table[self.scope].keys(): # TODO перенести
+            if var not in self.symbol_table[self.scope].keys():
                 print(self.error.up(self.error_types['UndeclaredError'], node))
             else:
+                if node.value.type == 'indexing':
+                    index = self.interpreter_node(node.value.children)
                 try:
                     _type = self.symbol_table[self.scope][var].type
                     expression = self.interpreter_node(node.children)
@@ -423,9 +423,9 @@ class Interpreter:
             self.symbol_table[self.scope][var] = self.check_var(type, expression)
         elif index is not None:
             if type.find('m') != -1:
-                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = expression # TODO
+                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = self.check_type(type, expression)
             elif type.find('v') != -1:
-                self.symbol_table[self.scope][var].value[index.value] = expression
+                self.symbol_table[self.scope][var].value[index.value] = self.check_type(type, expression)
         else:
             raise InterpreterConverseError
 
@@ -791,6 +791,11 @@ class Interpreter:
             func_name = node.value
         elif index == 1:
             func_name = name
+        if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
+            print(self.error.up(self.error_types['FuncCallError'], node))
+            return None
+        if func_name == 'main':
+            raise InterpreterApplicationCall
         param = node.children.get('call')
         returning = node.children.get('return')
         func_param = None
@@ -825,11 +830,6 @@ class Interpreter:
                 else:
                     func_ret.append(returning.value)
         # print('from FUNC - ', func_ret)
-        if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys(): # TODO
-            print(self.error.up(self.error_types['FuncCallError'], node))
-            return None
-        if func_name == 'main':
-            raise InterpreterApplicationCall
         self.scope += 1
         self.symbol_table.append(dict())
         if '#'.join(func_name) not in self.symbol_table[0].keys():
@@ -996,8 +996,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test1.txt', 'r').read()
-        prog = open('Tests/index.txt', 'r').read()
-        # prog = open('Tests/badrecursion.txt', 'r').read()
+        prog = open('Tests/logic.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res != False:
             for symbol_table in i.symbol_table:

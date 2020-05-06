@@ -2387,16 +2387,14 @@ state 95
     (54) math_expression -> expression . LESS expression
     (55) math_expression -> expression . GREATER expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MUL_MATRIX resolved as shift
-  ! shift/reduce conflict for MUL_ELEM resolved as shift
-  ! shift/reduce conflict for TRANSPOSE resolved as shift
-  ! shift/reduce conflict for STL resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for LESS resolved as shift
-  ! shift/reduce conflict for GREATER resolved as shift
+    PLUS            reduce using rule 52 (math_expression -> DENY expression .)
+    MINUS           reduce using rule 52 (math_expression -> DENY expression .)
+    MUL_MATRIX      reduce using rule 52 (math_expression -> DENY expression .)
+    MUL_ELEM        reduce using rule 52 (math_expression -> DENY expression .)
+    TRANSPOSE       reduce using rule 52 (math_expression -> DENY expression .)
+    STL             reduce using rule 52 (math_expression -> DENY expression .)
+    STR             reduce using rule 52 (math_expression -> DENY expression .)
+    AND             reduce using rule 52 (math_expression -> DENY expression .)
     COMMA           reduce using rule 52 (math_expression -> DENY expression .)
     NL              reduce using rule 52 (math_expression -> DENY expression .)
     BEGINIF         reduce using rule 52 (math_expression -> DENY expression .)
@@ -2405,27 +2403,19 @@ state 95
     COLON           reduce using rule 52 (math_expression -> DENY expression .)
     R_FIGBRACKET    reduce using rule 52 (math_expression -> DENY expression .)
     BEGINFOR        reduce using rule 52 (math_expression -> DENY expression .)
-    PLUS            shift and go to state 84
-    MINUS           shift and go to state 85
-    MUL_MATRIX      shift and go to state 86
-    MUL_ELEM        shift and go to state 87
-    TRANSPOSE       shift and go to state 88
-    STL             shift and go to state 89
-    STR             shift and go to state 90
-    AND             shift and go to state 91
     LESS            shift and go to state 92
     GREATER         shift and go to state 93
 
-  ! PLUS            [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! MINUS           [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! MUL_MATRIX      [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! MUL_ELEM        [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! TRANSPOSE       [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! STL             [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! STR             [ reduce using rule 52 (math_expression -> DENY expression .) ]
-  ! AND             [ reduce using rule 52 (math_expression -> DENY expression .) ]
   ! LESS            [ reduce using rule 52 (math_expression -> DENY expression .) ]
   ! GREATER         [ reduce using rule 52 (math_expression -> DENY expression .) ]
+  ! PLUS            [ shift and go to state 84 ]
+  ! MINUS           [ shift and go to state 85 ]
+  ! MUL_MATRIX      [ shift and go to state 86 ]
+  ! MUL_ELEM        [ shift and go to state 87 ]
+  ! TRANSPOSE       [ shift and go to state 88 ]
+  ! STL             [ shift and go to state 89 ]
+  ! STR             [ shift and go to state 90 ]
+  ! AND             [ shift and go to state 91 ]
 
 
 state 96
@@ -3335,16 +3325,14 @@ state 130
     (54) math_expression -> expression . LESS expression
     (55) math_expression -> expression . GREATER expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MUL_MATRIX resolved as shift
-  ! shift/reduce conflict for MUL_ELEM resolved as shift
-  ! shift/reduce conflict for TRANSPOSE resolved as shift
-  ! shift/reduce conflict for STL resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for LESS resolved as shift
-  ! shift/reduce conflict for GREATER resolved as shift
+    PLUS            reduce using rule 53 (math_expression -> expression AND expression .)
+    MINUS           reduce using rule 53 (math_expression -> expression AND expression .)
+    MUL_MATRIX      reduce using rule 53 (math_expression -> expression AND expression .)
+    MUL_ELEM        reduce using rule 53 (math_expression -> expression AND expression .)
+    TRANSPOSE       reduce using rule 53 (math_expression -> expression AND expression .)
+    STL             reduce using rule 53 (math_expression -> expression AND expression .)
+    STR             reduce using rule 53 (math_expression -> expression AND expression .)
+    AND             reduce using rule 53 (math_expression -> expression AND expression .)
     COMMA           reduce using rule 53 (math_expression -> expression AND expression .)
     NL              reduce using rule 53 (math_expression -> expression AND expression .)
     BEGINIF         reduce using rule 53 (math_expression -> expression AND expression .)
@@ -3353,27 +3341,19 @@ state 130
     COLON           reduce using rule 53 (math_expression -> expression AND expression .)
     R_FIGBRACKET    reduce using rule 53 (math_expression -> expression AND expression .)
     BEGINFOR        reduce using rule 53 (math_expression -> expression AND expression .)
-    PLUS            shift and go to state 84
-    MINUS           shift and go to state 85
-    MUL_MATRIX      shift and go to state 86
-    MUL_ELEM        shift and go to state 87
-    TRANSPOSE       shift and go to state 88
-    STL             shift and go to state 89
-    STR             shift and go to state 90
-    AND             shift and go to state 91
     LESS            shift and go to state 92
     GREATER         shift and go to state 93
 
-  ! PLUS            [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! MINUS           [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! MUL_MATRIX      [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! MUL_ELEM        [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! TRANSPOSE       [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! STL             [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! STR             [ reduce using rule 53 (math_expression -> expression AND expression .) ]
-  ! AND             [ reduce using rule 53 (math_expression -> expression AND expression .) ]
   ! LESS            [ reduce using rule 53 (math_expression -> expression AND expression .) ]
   ! GREATER         [ reduce using rule 53 (math_expression -> expression AND expression .) ]
+  ! PLUS            [ shift and go to state 84 ]
+  ! MINUS           [ shift and go to state 85 ]
+  ! MUL_MATRIX      [ shift and go to state 86 ]
+  ! MUL_ELEM        [ shift and go to state 87 ]
+  ! TRANSPOSE       [ shift and go to state 88 ]
+  ! STL             [ shift and go to state 89 ]
+  ! STR             [ shift and go to state 90 ]
+  ! AND             [ shift and go to state 91 ]
 
 
 state 131
@@ -3390,16 +3370,16 @@ state 131
     (54) math_expression -> expression . LESS expression
     (55) math_expression -> expression . GREATER expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MUL_MATRIX resolved as shift
-  ! shift/reduce conflict for MUL_ELEM resolved as shift
-  ! shift/reduce conflict for TRANSPOSE resolved as shift
-  ! shift/reduce conflict for STL resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for LESS resolved as shift
-  ! shift/reduce conflict for GREATER resolved as shift
+    PLUS            reduce using rule 54 (math_expression -> expression LESS expression .)
+    MINUS           reduce using rule 54 (math_expression -> expression LESS expression .)
+    MUL_MATRIX      reduce using rule 54 (math_expression -> expression LESS expression .)
+    MUL_ELEM        reduce using rule 54 (math_expression -> expression LESS expression .)
+    TRANSPOSE       reduce using rule 54 (math_expression -> expression LESS expression .)
+    STL             reduce using rule 54 (math_expression -> expression LESS expression .)
+    STR             reduce using rule 54 (math_expression -> expression LESS expression .)
+    AND             reduce using rule 54 (math_expression -> expression LESS expression .)
+    LESS            reduce using rule 54 (math_expression -> expression LESS expression .)
+    GREATER         reduce using rule 54 (math_expression -> expression LESS expression .)
     COMMA           reduce using rule 54 (math_expression -> expression LESS expression .)
     NL              reduce using rule 54 (math_expression -> expression LESS expression .)
     BEGINIF         reduce using rule 54 (math_expression -> expression LESS expression .)
@@ -3408,27 +3388,17 @@ state 131
     COLON           reduce using rule 54 (math_expression -> expression LESS expression .)
     R_FIGBRACKET    reduce using rule 54 (math_expression -> expression LESS expression .)
     BEGINFOR        reduce using rule 54 (math_expression -> expression LESS expression .)
-    PLUS            shift and go to state 84
-    MINUS           shift and go to state 85
-    MUL_MATRIX      shift and go to state 86
-    MUL_ELEM        shift and go to state 87
-    TRANSPOSE       shift and go to state 88
-    STL             shift and go to state 89
-    STR             shift and go to state 90
-    AND             shift and go to state 91
-    LESS            shift and go to state 92
-    GREATER         shift and go to state 93
 
-  ! PLUS            [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! MINUS           [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! MUL_MATRIX      [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! MUL_ELEM        [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! TRANSPOSE       [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! STL             [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! STR             [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! AND             [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! LESS            [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
-  ! GREATER         [ reduce using rule 54 (math_expression -> expression LESS expression .) ]
+  ! PLUS            [ shift and go to state 84 ]
+  ! MINUS           [ shift and go to state 85 ]
+  ! MUL_MATRIX      [ shift and go to state 86 ]
+  ! MUL_ELEM        [ shift and go to state 87 ]
+  ! TRANSPOSE       [ shift and go to state 88 ]
+  ! STL             [ shift and go to state 89 ]
+  ! STR             [ shift and go to state 90 ]
+  ! AND             [ shift and go to state 91 ]
+  ! LESS            [ shift and go to state 92 ]
+  ! GREATER         [ shift and go to state 93 ]
 
 
 state 132
@@ -3445,16 +3415,16 @@ state 132
     (54) math_expression -> expression . LESS expression
     (55) math_expression -> expression . GREATER expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MUL_MATRIX resolved as shift
-  ! shift/reduce conflict for MUL_ELEM resolved as shift
-  ! shift/reduce conflict for TRANSPOSE resolved as shift
-  ! shift/reduce conflict for STL resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for LESS resolved as shift
-  ! shift/reduce conflict for GREATER resolved as shift
+    PLUS            reduce using rule 55 (math_expression -> expression GREATER expression .)
+    MINUS           reduce using rule 55 (math_expression -> expression GREATER expression .)
+    MUL_MATRIX      reduce using rule 55 (math_expression -> expression GREATER expression .)
+    MUL_ELEM        reduce using rule 55 (math_expression -> expression GREATER expression .)
+    TRANSPOSE       reduce using rule 55 (math_expression -> expression GREATER expression .)
+    STL             reduce using rule 55 (math_expression -> expression GREATER expression .)
+    STR             reduce using rule 55 (math_expression -> expression GREATER expression .)
+    AND             reduce using rule 55 (math_expression -> expression GREATER expression .)
+    LESS            reduce using rule 55 (math_expression -> expression GREATER expression .)
+    GREATER         reduce using rule 55 (math_expression -> expression GREATER expression .)
     COMMA           reduce using rule 55 (math_expression -> expression GREATER expression .)
     NL              reduce using rule 55 (math_expression -> expression GREATER expression .)
     BEGINIF         reduce using rule 55 (math_expression -> expression GREATER expression .)
@@ -3463,27 +3433,17 @@ state 132
     COLON           reduce using rule 55 (math_expression -> expression GREATER expression .)
     R_FIGBRACKET    reduce using rule 55 (math_expression -> expression GREATER expression .)
     BEGINFOR        reduce using rule 55 (math_expression -> expression GREATER expression .)
-    PLUS            shift and go to state 84
-    MINUS           shift and go to state 85
-    MUL_MATRIX      shift and go to state 86
-    MUL_ELEM        shift and go to state 87
-    TRANSPOSE       shift and go to state 88
-    STL             shift and go to state 89
-    STR             shift and go to state 90
-    AND             shift and go to state 91
-    LESS            shift and go to state 92
-    GREATER         shift and go to state 93
 
-  ! PLUS            [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! MINUS           [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! MUL_MATRIX      [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! MUL_ELEM        [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! TRANSPOSE       [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! STL             [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! STR             [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! AND             [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! LESS            [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
-  ! GREATER         [ reduce using rule 55 (math_expression -> expression GREATER expression .) ]
+  ! PLUS            [ shift and go to state 84 ]
+  ! MINUS           [ shift and go to state 85 ]
+  ! MUL_MATRIX      [ shift and go to state 86 ]
+  ! MUL_ELEM        [ shift and go to state 87 ]
+  ! TRANSPOSE       [ shift and go to state 88 ]
+  ! STL             [ shift and go to state 89 ]
+  ! STR             [ shift and go to state 90 ]
+  ! AND             [ shift and go to state 91 ]
+  ! LESS            [ shift and go to state 92 ]
+  ! GREATER         [ shift and go to state 93 ]
 
 
 state 133
@@ -6456,16 +6416,6 @@ WARNING: shift/reduce conflict for ASSIGNMENT in state 14 resolved as shift
 WARNING: shift/reduce conflict for EQ in state 50 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 78 resolved as shift
 WARNING: shift/reduce conflict for COLON in state 78 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 95 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 95 resolved as shift
-WARNING: shift/reduce conflict for MUL_MATRIX in state 95 resolved as shift
-WARNING: shift/reduce conflict for MUL_ELEM in state 95 resolved as shift
-WARNING: shift/reduce conflict for TRANSPOSE in state 95 resolved as shift
-WARNING: shift/reduce conflict for STL in state 95 resolved as shift
-WARNING: shift/reduce conflict for STR in state 95 resolved as shift
-WARNING: shift/reduce conflict for AND in state 95 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 95 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 95 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 116 resolved as shift
 WARNING: shift/reduce conflict for R_FIGBRACKET in state 123 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 123 resolved as shift
@@ -6509,36 +6459,6 @@ WARNING: shift/reduce conflict for STR in state 129 resolved as shift
 WARNING: shift/reduce conflict for AND in state 129 resolved as shift
 WARNING: shift/reduce conflict for LESS in state 129 resolved as shift
 WARNING: shift/reduce conflict for GREATER in state 129 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 130 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 130 resolved as shift
-WARNING: shift/reduce conflict for MUL_MATRIX in state 130 resolved as shift
-WARNING: shift/reduce conflict for MUL_ELEM in state 130 resolved as shift
-WARNING: shift/reduce conflict for TRANSPOSE in state 130 resolved as shift
-WARNING: shift/reduce conflict for STL in state 130 resolved as shift
-WARNING: shift/reduce conflict for STR in state 130 resolved as shift
-WARNING: shift/reduce conflict for AND in state 130 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 130 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 130 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 131 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 131 resolved as shift
-WARNING: shift/reduce conflict for MUL_MATRIX in state 131 resolved as shift
-WARNING: shift/reduce conflict for MUL_ELEM in state 131 resolved as shift
-WARNING: shift/reduce conflict for TRANSPOSE in state 131 resolved as shift
-WARNING: shift/reduce conflict for STL in state 131 resolved as shift
-WARNING: shift/reduce conflict for STR in state 131 resolved as shift
-WARNING: shift/reduce conflict for AND in state 131 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 131 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 131 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 132 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 132 resolved as shift
-WARNING: shift/reduce conflict for MUL_MATRIX in state 132 resolved as shift
-WARNING: shift/reduce conflict for MUL_ELEM in state 132 resolved as shift
-WARNING: shift/reduce conflict for TRANSPOSE in state 132 resolved as shift
-WARNING: shift/reduce conflict for STL in state 132 resolved as shift
-WARNING: shift/reduce conflict for STR in state 132 resolved as shift
-WARNING: shift/reduce conflict for AND in state 132 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 132 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 132 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 135 resolved as shift
 WARNING: shift/reduce conflict for COMMA in state 189 resolved as shift
 WARNING: reduce/reduce conflict in state 11 resolved using rule (statement -> errors)
