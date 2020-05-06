@@ -260,7 +260,11 @@ class Interpreter:
             pass
         elif node.type == 'function_call':
             try:
-                self.function_call(node, 0)
+                if isinstance(node.children.get('return'), list):
+                    val = self.function_call(node, 1, node.value)
+                    self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(node.children.get('return')[0].value, val)
+                else:
+                    self.function_call(node, 0)
             except InterpreterApplicationCall:
                 print(self.error.up(self.error_types['ApplicationCall'], node))
         elif node.type == 'func_list':

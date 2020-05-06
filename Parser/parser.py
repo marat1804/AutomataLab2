@@ -294,7 +294,8 @@ class MyParser(object):
                          | VARIABLE call_list
                          | ret_list ASSIGNMENT VARIABLE call_list
                          | ret_list ASSIGNMENT VARIABLE
-                         | variable ASSIGNMENT VARIABLE call_list"""
+                         | variable ASSIGNMENT VARIABLE call_list
+                         | type VARIABLE EQ VARIABLE call_list"""
         if len(p) == 2:
             p[0] = SyntaxTreeNode('function_call', value=p[1], lineno=p.lineno(1), lexpos=p.lexpos(1))
         elif len(p) == 3:
@@ -303,6 +304,9 @@ class MyParser(object):
             p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
         elif len(p) == 5:
             p[0] = SyntaxTreeNode('function_call', value=p[3], children={'return': p[1], 'call': p[4]}, lineno=p.lineno(2), lexpos=p.lexpos(2))
+        elif len(p) == 6:
+            p[0] = SyntaxTreeNode('function_call', value=p[4], children={'return': [p[1], p[2]], 'call': p[5]},
+                                  lineno=p.lineno(2), lexpos=p.lexpos(2))
 
     def p_ret_list(self, p):
         """ret_list : variable
