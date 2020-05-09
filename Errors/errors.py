@@ -25,7 +25,7 @@ class Error_handler:
         sys.stderr.write(f'Error {self.types[int(err_type)]}: ')
         if self.type == 0:
             sys.stderr.write(f' incorrect syntax at '
-                             f'{self.node.child[0].lineno} line \n')
+                             f'{self.node.children[0].lineno} line \n')
             return
         elif self.type == 1:
             sys.stderr.write(f'No "main" function detected\n')
@@ -73,6 +73,9 @@ class Error_handler:
             if node.type == 'function_call':
                 sys.stderr.write(f'Type of variables in function "{self.node.value}" at line '
                                  f'{self.node.lineno} do not match\n')
+            if node.type == 'declaration':
+                sys.stderr.write(f'Bad types for declaration "{self.node.children[0].value}" at line '
+                                 f'{self.node.value.lineno}\n')
         elif self.type == 11:
             sys.stderr.write(f'Incorrect bool matrix/vector at line '
                              f'{self.node.lineno}\n')

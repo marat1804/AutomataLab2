@@ -132,6 +132,8 @@ class Interpreter:
                 print(self.error.up(self.error_types['IndexError'], node))
             except InterpreterBoolIndexError:
                 print(self.error.up(self.error_types['BoolError'], node))
+            except InterpreterTypeError:
+                print(self.error.up(self.error_types['TypeError'], node))
         elif node.type == 'expr_list':
             L = []
             for ch in node.children:
@@ -365,12 +367,6 @@ class Interpreter:
                 new_expr.reverse()
                 new_expr.append('#')
                 return new_expr
-            '''
-            if len(expr) == 3 and isinstance(expr[2], list) and isinstance(expr[0], Variable):
-                temp = expr[2]
-                del expr[2]
-                expr = [expr, temp]
-            '''
             return expr
 
     def check_type(self, type, exp):
@@ -476,7 +472,7 @@ class Interpreter:
             res.append([Variable('int', 0) for j in range(l)])
         for i in range(l):
             for j in range(l):
-                for k in range(l):
+                for k in range(len(expr2.value)):
                     res[i][j].value += expr1.value[i][k].value * expr2.value[k][j].value
         return Variable('mint', res)
 
@@ -815,6 +811,7 @@ class Interpreter:
             raise InterpreterNameError
 
     def function_call(self, node, index, name=None):
+        """Looking if we returning to assign or just function call"""
         func_name = ''
         if index == 0:
             func_name = node.value
@@ -830,6 +827,7 @@ class Interpreter:
         func_param = None
         func_ret = None
         # print("I'm in " + func_name)
+        """Getting values that function got"""
         try:
             if isinstance(param, SyntaxTreeNode):
                 if func_param is None:
@@ -845,6 +843,7 @@ class Interpreter:
             print(self.error.up(self.error_types['UndeclaredError'], node))
             return None
         # print('TO FUNC - ', func_param)
+        """Forming return list"""
         if index == 0:
             if isinstance(returning, SyntaxTreeNode):
                 if func_ret is None:
@@ -861,6 +860,7 @@ class Interpreter:
         # print('from FUNC - ', func_ret)
         self.scope += 1
         self.symbol_table.append(dict())
+        """Adding for recursion checking"""
         if '#'.join(func_name) not in self.symbol_table[0].keys():
             self.symbol_table[0]['#' + func_name] = 1
         else:
@@ -873,6 +873,7 @@ class Interpreter:
         get = func_subtree.children.get('param')
         get_list = None
         common_list = {}
+        """Forming what function MUST get"""
         if get is not None:
             if get_list is None:
                 get_list = {}
@@ -895,6 +896,7 @@ class Interpreter:
                             get_list[i[0]] = i[1]
                             common_list[i[0]] = i[2]
         # print('GOT - ', get_list, common_list)
+        """Checking what we got and what we must get"""
         try:
             if get_list is not None and func_param is not None:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
@@ -928,6 +930,7 @@ class Interpreter:
         ret = func_subtree.children.get('return')
         return_dict = {}
         return_list = []
+        """Adding values for symbol table"""
         if isinstance(ret, SyntaxTreeNode):
             r = ret.children
             while len(r) == 3:
@@ -951,6 +954,7 @@ class Interpreter:
             return None
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
+        """Returning"""
         try:
             if index == 0:
                 if func_ret is not None:
@@ -1043,7 +1047,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/test.txt', 'r').read()
+        prog = open('Tests/math.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             for symbol_table in i.symbol_table:
