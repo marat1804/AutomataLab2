@@ -229,22 +229,21 @@ class MyParser(object):
         p[0] = SyntaxTreeNode('for', children={'var': SyntaxTreeNode('variable', p[2], children=[]),
                                                'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1),
                               lexpos=p.lexpos(1))
-    '''
     def p_for_error(self, p):
-        """for : FOR error"""
+        """for : FOR VARIABLE EQ expression COLON expression error"""
         p[0] = SyntaxTreeNode('error', value="Wrong for", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
         sys.stderr.write(f'>>> Wrong for\n')
-    '''
+
     def p_if(self, p):
         """if : IF expression BEGINIF NL stmt_list ENDIF
               | IF expression BEGIN NL stmt_list END"""
         p[0] = SyntaxTreeNode('if', children={'condition': p[2], 'body': p[5]}, lineno=p.lineno(1), lexpos=p.lexpos(1))
-    '''
+
     def p_if_error(self, p):
-        """if : IF error"""
+        """if : IF expression error"""
         p[0] = SyntaxTreeNode('error', value="Wrong if", children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
         sys.stderr.write(f'>>> Wrong if\n')
-    '''
+
     def p_return_list(self, p):
         """return_list : return_list COMMA type VARIABLE
                         | type VARIABLE"""
@@ -348,11 +347,11 @@ if __name__ == '__main__':
     a = os.getcwd().split('/')
     del a[len(a) - 1]
     s = '/'.join(a)
-    s += '/Tests/righthand.txt'
+    s += '/Tests/test.txt'
     f = open(s, 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    #tree, func_table, ok = parser.parse(txt)
-    tree = parser.parser.parse(txt, debug=True)
+    tree, func_table, ok = parser.parse(txt)
+    #tree = parser.parser.parse(txt, debug=True)
     tree.print()

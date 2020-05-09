@@ -1042,8 +1042,8 @@ if __name__ == '__main__':
     n = int(input())
     if n == 0:
         i = Interpreter()
-        prog = open('TechTask/test2.txt', 'r').read()
-       # prog = open('Tests/test.txt', 'r').read()
+        #prog = open('TechTask/test2.txt', 'r').read()
+        prog = open('Tests/test.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             for symbol_table in i.symbol_table:

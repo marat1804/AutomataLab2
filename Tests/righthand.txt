@@ -2,7 +2,6 @@ function main() begin
     bool exitFound = false
     exitFound <- findPath
     int toExit = wall
-    move(toExit)
 end
 
 bool res = function findPath() begin
@@ -33,4 +32,6 @@ bool res = function findPath() begin
             i <- 1
         endif
     endfor
+    int toExit = wall
+    move(toExit)
 end
