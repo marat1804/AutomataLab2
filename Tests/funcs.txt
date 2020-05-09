@@ -1,0 +1,41 @@
+function main () begin
+    int n = 1
+    vint v = {1,2,3}
+    mint m = {{1,2},{3,4}}
+    int res_1 = add_2
+    int res_2 = add_2 n
+    vint res_3 = add_v_2 3, v
+    vint res_4 = add_v_2
+    mint res_5 = add_m_2 2,2,m
+    mint res_6 = add_m_2 2, 2
+    mint res_7 = add_m_1
+end
+
+int res = function add_2 (int n = 0) begin
+    res <- n + 2
+end
+
+vint res = function add_v_2 (int size = 3,vint v = {3,4,5}) begin
+    for i=0:size-1 beginfor
+        v(i) <- v(i) + 2
+    endfor
+    res <- v
+end
+
+mint res = function add_m_2 (int m, int n,mint v) begin
+    for i=0:m-1 beginfor
+        for j=0:n-1 beginfor
+            v(i,j) <- v(i,j) + 2
+        endfor
+    endfor
+    res <- v
+end
+
+mint res = function add_m_1 (int m=2, int n=2, mint v = {{1,2},{3, 4}}) begin
+for i=0:m-1 beginfor
+        for j=0:n-1 beginfor
+            v(i,j) <- v(i,j) + 1
+        endfor
+    endfor
+    res <- v
+end

@@ -68,14 +68,14 @@ class Error_handler:
                              f'{self.node.lineno} \n')
         elif self.type == 10:
             if node.type == 'assignment':
-                sys.stderr.write(f'Bad types at assignment "{self.node.value.value}" at line '
+                sys.stderr.write(f'Bad values at assignment "{self.node.value.value}" at line '
                                  f'{self.node.value.lineno}\n')
             if node.type == 'function_call':
                 sys.stderr.write(f'Type of variables in function "{self.node.value}" at line '
                                  f'{self.node.lineno} do not match\n')
             if node.type == 'declaration':
-                sys.stderr.write(f'Bad types for declaration "{self.node.children[0].value}" at line '
-                                 f'{self.node.value.lineno}\n')
+                sys.stderr.write(f'Bad values for declaration "{self.node.children[0].value}" at line '
+                                 f'{self.node.lineno}\n')
         elif self.type == 11:
             sys.stderr.write(f'Incorrect bool matrix/vector at line '
                              f'{self.node.lineno}\n')

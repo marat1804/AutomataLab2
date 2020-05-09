@@ -266,7 +266,8 @@ class Interpreter:
                 ret = node.children.get('return')
                 if isinstance(ret, list):
                     val = self.function_call(node, 1, node.value)
-                    self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(node.children.get('return')[0].value, val)
+                    if val is not None:
+                        self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(node.children.get('return')[0].value, val)
                 else:
                     self.function_call(node, 0)
             except InterpreterApplicationCall:
@@ -370,7 +371,7 @@ class Interpreter:
             return expr
 
     def check_type(self, type, exp):
-        var = ['bool', 'int']
+        var = ['bool', 'int', 'cbool', 'cint']
         if type.find('m') != -1 and exp.type.find('m') != -1:
             return self.check_matrix(type, exp)
         elif type.find('v') != -1 and exp.type.find('v') != -1:
@@ -483,7 +484,7 @@ class Interpreter:
         val = self.converser.converse('int', value)
         for i in range(size):
             m[i][i] = val
-        return m
+        return Variable('mint', m)
 
     def element_mul(self, var1, var2):
         expr1 = self.interpreter_node(var1)
@@ -836,8 +837,10 @@ class Interpreter:
                     p = self.interpreter_node(item)
                     if isinstance(p, list):
                         for key in p:
+                            key = self.make_copy(key)
                             func_param.append(key)
                     else:
+                        p = self.make_copy(p)
                         func_param.append(p)
         except InterpreterNameError:
             print(self.error.up(self.error_types['UndeclaredError'], node))
@@ -885,7 +888,7 @@ class Interpreter:
                     elif len(p) == 3:
                         get_list[p[0]] = p[1]
                         if isinstance(p[2], list):
-                            common_list[p[0]] = self.list_of_smth(self.transform_list(p[2]))
+                            common_list[p[0]] = self.list_of_smth(p[2])
                         else:
                             common_list[p[0]] = p[2]
                 else:
@@ -944,9 +947,9 @@ class Interpreter:
             for k, v in return_dict.items():
                 var = Variable('int', 0)
                 if v.find('m') != -1:
-                    var = Variable('mint', [[0, 0], [0, 0]])
+                    var = Variable('mint', [[var, var], [var, var]])
                 elif v.find('v') != -1:
-                    var = Variable('vint', [0, 0])
+                    var = Variable('vint', [var, var])
                 a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
         if func_ret is not None and len(return_list) != len(func_ret):
@@ -964,7 +967,7 @@ class Interpreter:
                 self.symbol_table[0]['#' + func_name] -= 1
                 self.symbol_table.pop()
             else:
-                ret__ = self.symbol_table[self.scope-1][return_list[0]]
+                ret__ = self.symbol_table[self.scope+1][return_list[0]]
                 self.symbol_table[0]['#' + func_name] -= 1
                 self.symbol_table.pop()
                 return ret__
@@ -1015,6 +1018,20 @@ class Interpreter:
     def move(self, expression):
         return self.robot.move(expression)
 
+    def make_copy(self, var):
+        if var.type.find('v') != -1:
+            res = []
+            for i in var.value:
+                res.append(Variable(var.type[1:], i.value))
+            return Variable(var.type, res)
+        elif var.type.find('m') != -1:
+            res = [[] for i in range(len(var.value))]
+            for i in range(len(var.value)):
+                for j in var.value[i]:
+                    res[i].append(Variable(var.type[1:], j.value))
+            return Variable(var.type, res)
+        return var
+
 
 def createte_robot(descriptor):
     with open(descriptor) as file:
@@ -1047,7 +1064,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/cycle_and_conditions.txt', 'r').read()
+        prog = open('Tests/funcs.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             for symbol_table in i.symbol_table:

@@ -121,7 +121,9 @@ class MyParser(object):
                 | type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET"""
         if len(p) == 3:
             p[0] = SyntaxTreeNode('func', children=[p[1], p[2]])
-        elif len(p) == 5:
+        elif len(p) == 5 and p[4].type == 'const':
+            p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[4]])
+        elif len(p) == 5 and p[4].type == 'decl_list':
             p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[4]])
         elif len(p) == 7:
             p[0] = SyntaxTreeNode('func', children=[p[1], p[2], p[5]])
@@ -229,6 +231,7 @@ class MyParser(object):
         p[0] = SyntaxTreeNode('for', children={'var': SyntaxTreeNode('variable', p[2], children=[]),
                                                'from': p[4], 'to': p[6], 'body': p[9]}, lineno=p.lineno(1),
                               lexpos=p.lexpos(1))
+
     def p_for_error(self, p):
         """for : FOR VARIABLE EQ expression COLON expression error"""
         p[0] = SyntaxTreeNode('error', value="Wrong for", children=p[2], lineno=p.lineno(1), lexpos=p.lexpos(1))
@@ -347,11 +350,11 @@ if __name__ == '__main__':
     a = os.getcwd().split('/')
     del a[len(a) - 1]
     s = '/'.join(a)
-    s += '/Tests/test.txt'
+    s += '/Tests/funcs.txt'
     f = open(s, 'r')
     txt = f.read()
     f.close()
     print(f'INPUT: {txt}')
-    tree, func_table, ok = parser.parse(txt)
-    #tree = parser.parser.parse(txt, debug=True)
+    #tree, func_table, ok = parser.parse(txt)
+    tree = parser.parser.parse(txt, debug=True)
     tree.print()

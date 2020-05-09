@@ -11,6 +11,7 @@ function main() begin
     mint mat3 = {{1,2},{3,4}}
     mint mat4 = {{1,2},{3,4}}
     mint matmul_2 = mat1 * mat3
+    mint matmul_3 = mat3 * 3
     mint elemmul_1 = mat1 .* mat2
     mint elemmul_2 = mat3 .* mat4
     mint transpose = mat3'
@@ -29,4 +30,8 @@ function main() begin
     int error = mat1
     n1 <- mat1
     mint error_matrix = {{1,2},{3,4, 5}}
+    cint const = 5
+    const <- 4
+    cvint const_vector = {1,2,3,4}
+    const_vector <- {1,2,3}
 end
