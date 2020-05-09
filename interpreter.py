@@ -785,7 +785,7 @@ class Interpreter:
         to_ = self.interpreter_node(node.children['to'])
         try:
             self.symbol_table[self.scope][variable] = Variable('int', from_.value)
-            while self.symbol_table[self.scope][variable].value < to_.value:
+            while self.symbol_table[self.scope][variable].value <= to_.value:
                 self.interpreter_node(node.children['body'])
                 self.symbol_table[self.scope][variable].value += 1
             if flag:
@@ -1047,7 +1047,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/math.txt', 'r').read()
+        prog = open('Tests/cycle_and_conditions.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             for symbol_table in i.symbol_table:

@@ -12,7 +12,7 @@ bool res = function findPath() begin
     bool noexit = false
     for i = 0:5 beginfor
         if noexit beginif
-            i <- 5
+            i <- 6
             res <- true
         endif
         if !noexit beginif
