@@ -1,0 +1,9 @@
+function main () begin
+    int t
+    int r = 0
+    r <-
+    if 2 > 0
+        r <- 1
+    for i= 1:5
+        r<- r + 1
+end
