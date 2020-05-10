@@ -125,15 +125,17 @@ class Interpreter:
             try:
                 self.declare_variable(declaration_type, declaration_child)
             except InterpreterRedeclarationError:
-                print(self.error.up(self.error_types['RedeclarationError'], node))
+                self.error.up(self.error_types['RedeclarationError'], node)
             except InterpreterValueError:
-                print(self.error.up(self.error_types['ValueError'], node))
+                self.error.up(self.error_types['ValueError'], node)
             except InterpreterIndexError:
-                print(self.error.up(self.error_types['IndexError'], node))
+                self.error.up(self.error_types['IndexError'], node)
             except InterpreterBoolIndexError:
-                print(self.error.up(self.error_types['BoolError'], node))
+                self.error.up(self.error_types['BoolError'], node)
             except InterpreterTypeError:
-                print(self.error.up(self.error_types['TypeError'], node))
+                self.error.up(self.error_types['TypeError'], node)
+            except InterpreterNameError:
+                self.error.up(self.error_types['UndeclaredError'], node)
         elif node.type == 'expr_list':
             L = []
             for ch in node.children:
@@ -162,7 +164,7 @@ class Interpreter:
             var = node.value.value
             index = None
             if var not in self.symbol_table[self.scope].keys():
-                print(self.error.up(self.error_types['UndeclaredError'], node))
+                self.error.up(self.error_types['UndeclaredError'], node)
             else:
                 if node.value.type == 'indexing':
                     index = self.interpreter_node(node.value.children)
@@ -171,17 +173,17 @@ class Interpreter:
                     expression = self.interpreter_node(node.children)
                     self.assign(_type, var, expression, index)
                 except InterpreterTypeError:
-                    print(self.error.up(self.error_types['TypeError'], node))
+                    self.error.up(self.error_types['TypeError'], node)
                 except InterpreterConverseError:
-                    print(self.error.up(self.error_types['ConverseError'], node))
+                    self.error.up(self.error_types['ConverseError'], node)
                 except InterpreterValueError:
-                    print(self.error.up(self.error_types['ValueError'], node))
+                    self.error.up(self.error_types['ValueError'], node)
                 except InterpreterNameError:
-                    print(self.error.up(self.error_types['UndeclaredError'], node))
+                    self.error.up(self.error_types['UndeclaredError'], node)
                 except InterpreterIndexError:
-                    print(self.error.up(self.error_types['IndexError'], node))
+                    self.error.up(self.error_types['IndexError'], node)
                 except InterpreterBoolIndexError:
-                    print(self.error.up(self.error_types['BoolError'], node))
+                    self.error.up(self.error_types['BoolError'], node)
 
         elif node.type == 'bin_op':
             if node.value == '+':
@@ -235,30 +237,30 @@ class Interpreter:
             try:
                 self.op_if(node)
             except InterpreterConverseError:
-                print(self.error.up(self.error_types['ConverseError'], node))
+                self.error.up(self.error_types['ConverseError'], node)
             except InterpreterTypeError:
-                print(self.error.up(self.error_types['TypeError'], node))
+                self.error.up(self.error_types['TypeError'], node)
             except InterpreterValueError:
-                print(self.error.up(self.error_types['ValueError'], node))
+                self.error.up(self.error_types['ValueError'], node)
             except InterpreterIndexError:
-                print(self.error.up(self.error_types['IndexError'], node))
+                self.error.up(self.error_types['IndexError'], node)
             except InterpreterBoolIndexError:
-                print(self.error.up(self.error_types['BoolError'], node))
+                self.error.up(self.error_types['BoolError'], node)
         elif node.type == 'for':
             try:
                 self.op_for(node)
             except InterpreterConverseError:
-                print(self.error.up(self.error_types['ConverseError'], node))
+                self.error.up(self.error_types['ConverseError'], node)
             except InterpreterTypeError:
-                print(self.error.up(self.error_types['TypeError'], node))
+                self.error.up(self.error_types['TypeError'], node)
             except InterpreterValueError:
-                print(self.error.up(self.error_types['ValueError'], node))
+                self.error.up(self.error_types['ValueError'], node)
             except InterpreterIndexError:
-                print(self.error.up(self.error_types['IndexError'], node))
+                self.error.up(self.error_types['IndexError'], node)
             except InterpreterBoolIndexError:
-                print(self.error.up(self.error_types['BoolError'], node))
+                self.error.up(self.error_types['BoolError'], node)
             except InterpreterNameError:
-                print(self.error.up(self.error_types['UndeclaredError'], node))
+                self.error.up(self.error_types['UndeclaredError'], node)
         elif node.type == 'function_description':
             pass
         elif node.type == 'function_call':
@@ -271,7 +273,9 @@ class Interpreter:
                 else:
                     self.function_call(node, 0)
             except InterpreterApplicationCall:
-                print(self.error.up(self.error_types['ApplicationCall'], node))
+                self.error.up(self.error_types['ApplicationCall'], node)
+            except InterpreterWrongParameters:
+                self.error.up(self.error_types['WrongParameters'], node)
         elif node.type == 'func_list':
             items = []
             for item in node.children:
@@ -819,8 +823,8 @@ class Interpreter:
         elif index == 1:
             func_name = name
         if func_name not in self.functions.keys() and func_name not in self.symbol_table[self.scope].keys():
-            print(self.error.up(self.error_types['FuncCallError'], node))
-            return None
+            self.error.up(self.error_types['FuncCallError'], node)
+            return
         if func_name == 'main':
             raise InterpreterApplicationCall
         param = node.children.get('call')
@@ -843,8 +847,8 @@ class Interpreter:
                         p = self.make_copy(p)
                         func_param.append(p)
         except InterpreterNameError:
-            print(self.error.up(self.error_types['UndeclaredError'], node))
-            return None
+            self.error.up(self.error_types['UndeclaredError'], node)
+            return
         # print('TO FUNC - ', func_param)
         """Forming return list"""
         if index == 0:
@@ -905,8 +909,8 @@ class Interpreter:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
                     if len(get_list.keys()) > (len(func_param)+len(common_list.keys())):
                         # print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
-                        print(self.error.up(self.error_types['WrongParameters'], node))
-                        return None
+                        self.error.up(self.error_types['WrongParameters'], node)
+                        return
                     else:
                         for i in common_list.values():
                             func_param.append(i)
@@ -928,8 +932,8 @@ class Interpreter:
                         i += 1
                         self.symbol_table[self.scope][k] = a
         except InterpreterTypeError:
-            print(self.error.up(self.error_types['TypeError'], node))
-            return None
+            self.error.up(self.error_types['TypeError'], node)
+            return
         ret = func_subtree.children.get('return')
         return_dict = {}
         return_list = []
@@ -953,8 +957,8 @@ class Interpreter:
                 a = self.check_type(v, var)
                 self.symbol_table[self.scope][k] = a
         if func_ret is not None and len(return_list) != len(func_ret):
-            print(self.error.up(self.error_types['WrongParameters'], node))
-            return None
+            self.error.up(self.error_types['WrongParameters'], node)
+            return
         self.interpreter_node(func_subtree.children['body'])
         self.scope -= 1
         """Returning"""
@@ -974,7 +978,7 @@ class Interpreter:
         except InterpreterTypeError:
             self.symbol_table[0]['#' + func_name] -= 1
             self.symbol_table.pop()
-            print(self.error.up(self.error_types['TypeError'], node))
+            self.error.up(self.error_types['TypeError'], node)
 
     def transform_list(self, L):
         new_L = []
@@ -1064,9 +1068,10 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         #prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/syntaxerrors.txt', 'r').read()
+        prog = open('Tests/some_errors.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
+            print('Symbol table:')
             for symbol_table in i.symbol_table:
                 for k, v in symbol_table.items():
                     print(k, v)

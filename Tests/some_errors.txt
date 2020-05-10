@@ -1,0 +1,14 @@
+function main () begin
+    int t = 0
+    int t = 1
+    t<- r + 1
+    int q = r +1
+    main
+    app
+    int m = {1,2,3}
+    app_1
+end
+
+function app (int n, int m) begin
+    int t = 1
+end
