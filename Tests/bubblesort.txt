@@ -1,21 +1,22 @@
-bool result = function bubblesort (vint vector, int size) begin
-int temp = 0
-for i = 0:size-2 beginfor
-for j = 0: size-2 beginfor
-if vector(j)<vector(j+1) beginif
-temp <- vector(j+1)
-vector(j+1) <- vector(j)
-vector(j) <- temp
-endif
-endfor
-endfor
-result <- true
-size <- 5
+bool result, vint v = function bubblesort (vint vector, int size) begin
+    int temp = 0
+    for i = 0:size-2 beginfor
+        for j = 0: size-2 beginfor
+            if vector(j)<vector(j+1) beginif
+                temp <- vector(j+1)
+                vector(j+1) <- vector(j)
+                vector(j) <- temp
+            endif
+        endfor
+    endfor
+    v <- vector
+    result <- true
+    size <- 5
 end
 
 function main() begin
-vint vector = {2, 4, 5, 1, 7, 9}
-int size = 6
-bool res = false
-res <- bubblesort vector, size
+    vint vector = {2, 4, 5, 1, 7, 9}
+    int size = 6
+    bool res = false
+    res, vector <- bubblesort vector, size
 end

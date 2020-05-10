@@ -76,6 +76,7 @@ class Interpreter:
         self.tree = None
         self.functions = None
         self.robot = None
+        self.exit_found = False
         self.error = Error_handler()
         self.error_types = {'UnexpectedError': 0,
                             'NoStartPoint': 1,
@@ -1022,7 +1023,10 @@ class Interpreter:
         return self.robot.wall()
 
     def exit(self):
-        return self.robot.exit()
+        result = self.robot.exit()
+        if result:
+            self.exit_found = True
+        return result
 
     def right(self):
         return self.robot.right()
@@ -1091,8 +1095,12 @@ if __name__ == '__main__':
         i = Interpreter()
         prog = open('Tests/righthand.txt', 'r').read()
         res = i.interpreter(program=prog, robot=robot)
-        print(i.robot)
         if res:
             for symbol_table in i.symbol_table:
                 for k, v in symbol_table.items():
                     print(k, v)
+        if i.exit_found:
+            print("\n\n========== EXIT HAS BEEN FOUND ==========\n\n")
+        else:
+            print("\n\n========== EXIT HAS NOT BEEN FOUND ==========\n\n")
+        print('\nRobot:', i.robot)

@@ -8,30 +8,76 @@ bool res = function findPath() begin
     int turn = 0
     int x = 0
     int y = 0
+    int uminus = x - 1
     int temp = 0
     bool noexit = false
     for i = 0:5 beginfor
         if noexit beginif
             i <- 6
-            res <- true
         endif
         if !noexit beginif
             right
+            turn <- rot_right turn
             temp <- wall
             if temp < 1 beginif
                 left
+                turn <- rot_left turn
             endif
             temp <- wall
             if temp < 1 beginif
                 left
+                turn <- rot_left turn
             endif
             if temp > 0 beginif
                 move(1)
+                x, y <- move_x_y turn, x, y
             endif
             noexit <- exit
             i <- 1
         endif
+        if x > uminus and x < 1 beginif
+            if y > uminus and y < 1 beginif
+                noexit <- true
+            endif
+        endif
     endfor
     int toExit = wall
-    move(toExit)
+    res <- false
+    if exit beginif
+        move(toExit)
+        res <- true
+    endif
+end
+
+int t = function rot_right (int turn) begin
+    turn <- turn + 1
+    if turn > 3 beginif
+        turn <- 0
+    endif
+    t <- turn
+end
+
+int t = function rot_left (int turn) begin
+    turn <- turn - 1
+    if turn < 0 beginif
+        turn <- 3
+    endif
+    t <- turn
+end
+
+int n, int m = function move_x_y (int turn, int x, int y) begin
+    if turn < 1 beginif
+        x <- x + 1
+    endif
+    if turn < 2 and turn > 0 beginif
+        y <- y + 1
+    endif
+    if turn < 3 and turn > 1 beginif
+        x <- x - 1
+    endif
+    if turn < 4 and turn > 2 beginif
+        y <- y - 1
+    endif
+    n <- x
+    m <- y
 end
