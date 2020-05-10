@@ -26,6 +26,12 @@ class Variable:
     def __repr__(self):
         return f'{self.type} {self.value}'
 
+    def __eq__(self, other):
+        if isinstance(other, Variable):
+            return (self.type == other.type and
+                    self.value == other.value)
+        return NotImplemented
+
 
 class TypeConverser:
     def __init__(self):
@@ -1042,7 +1048,7 @@ class Interpreter:
         return var
 
 
-def createte_robot(descriptor):
+def create_robot(descriptor):
     with open(descriptor) as file:
         text = file.read()
     text = text.split('\n')
@@ -1073,7 +1079,7 @@ if __name__ == '__main__':
     if n == 0:
         i = Interpreter()
         # prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/fib.txt', 'r').read()
+        prog = open('Tests/math.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             print('Symbol table:')
@@ -1081,7 +1087,7 @@ if __name__ == '__main__':
                 for k, v in symbol_table.items():
                     print(k, v)
     elif n == 1:
-        robot = createte_robot('Tests/map')
+        robot = create_robot('Tests/map')
         i = Interpreter()
         prog = open('Tests/righthand.txt', 'r').read()
         res = i.interpreter(program=prog, robot=robot)
