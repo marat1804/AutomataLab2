@@ -269,7 +269,8 @@ class Interpreter:
                 if isinstance(ret, list):
                     val = self.function_call(node, 1, node.value)
                     if val is not None:
-                        self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(node.children.get('return')[0].value, val)
+                        self.symbol_table[self.scope][node.children.get('return')[1]] = self.check_type(
+                            node.children.get('return')[0].value, val)
                 else:
                     self.function_call(node, 0)
             except InterpreterApplicationCall:
@@ -442,7 +443,8 @@ class Interpreter:
             self.symbol_table[self.scope][var] = self.check_var(type, expression)
         elif index is not None:
             if type.find('m') != -1:
-                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = self.check_type(type[1:], expression)
+                self.symbol_table[self.scope][var].value[index[0].value][index[1].value] = self.check_type(type[1:],
+                                                                                                           expression)
             elif type.find('v') != -1:
                 self.symbol_table[self.scope][var].value[index.value] = self.check_type(type[1:], expression)
         else:
@@ -645,7 +647,9 @@ class Interpreter:
                     if value[i][j].value:
                         res[i].append(self.symbol_table[self.scope][var].value[i][j])
             return Variable(type, res)
-        elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1 or isinstance(index, list) and type.find('v') != -1\
+        elif isinstance(index, Variable) and index.type.find('v') != -1 and type.find('v') != -1 or isinstance(index,
+                                                                                                               list) and type.find(
+            'v') != -1 \
                 and index[0].type == index[1].type == 'bool':
             m = len(self.symbol_table[self.scope][var].value)
             if not isinstance(index, Variable):
@@ -827,6 +831,15 @@ class Interpreter:
             return
         if func_name == 'main':
             raise InterpreterApplicationCall
+        """Adding for recursion checking"""
+        if '#'+func_name not in self.symbol_table[0].keys():
+            self.symbol_table[0]['#' + func_name] = 1
+        else:
+            self.symbol_table[0]['#' + func_name] += 1
+        if self.symbol_table[0]['#' + func_name] > 1000:
+            self.symbol_table.pop()
+            self.scope -= 1
+            raise RecursionError from None
         param = node.children.get('call')
         returning = node.children.get('return')
         func_param = None
@@ -867,15 +880,6 @@ class Interpreter:
         # print('from FUNC - ', func_ret)
         self.scope += 1
         self.symbol_table.append(dict())
-        """Adding for recursion checking"""
-        if '#'.join(func_name) not in self.symbol_table[0].keys():
-            self.symbol_table[0]['#' + func_name] = 1
-        else:
-            self.symbol_table[0]['#' + func_name] += 1
-        if self.symbol_table[0]['#' + func_name] > 1000:
-            self.symbol_table.pop()
-            self.scope -= 1
-            raise RecursionError from None
         func_subtree = self.functions[func_name] or self.symbol_table[self.scope - 1][func_name]
         get = func_subtree.children.get('param')
         get_list = None
@@ -907,7 +911,7 @@ class Interpreter:
         try:
             if get_list is not None and func_param is not None:
                 if len(get_list.keys()) != len(func_param) and len(get_list.keys()) != 0:
-                    if len(get_list.keys()) > (len(func_param)+len(common_list.keys())):
+                    if len(get_list.keys()) > (len(func_param) + len(common_list.keys())):
                         # print(len(get_list.keys()), len(func_param)+len(common_list.keys()))
                         self.error.up(self.error_types['WrongParameters'], node)
                         return
@@ -966,12 +970,13 @@ class Interpreter:
             if index == 0:
                 if func_ret is not None:
                     for i in range(len(return_list)):
-                        a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type, self.symbol_table[self.scope+1][return_list[i]])
+                        a = self.check_type(self.symbol_table[self.scope][func_ret[i]].type,
+                                            self.symbol_table[self.scope + 1][return_list[i]])
                         self.symbol_table[self.scope][func_ret[i]] = a
                 self.symbol_table[0]['#' + func_name] -= 1
                 self.symbol_table.pop()
             else:
-                ret__ = self.symbol_table[self.scope+1][return_list[0]]
+                ret__ = self.symbol_table[self.scope + 1][return_list[0]]
                 self.symbol_table[0]['#' + func_name] -= 1
                 self.symbol_table.pop()
                 return ret__
@@ -1067,8 +1072,8 @@ if __name__ == '__main__':
     n = int(input())
     if n == 0:
         i = Interpreter()
-        #prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/some_errors.txt', 'r').read()
+        # prog = open('TechTask/test2.txt', 'r').read()
+        prog = open('Tests/fib.txt', 'r').read()
         res = i.interpreter(program=prog)
         if res:
             print('Symbol table:')
@@ -1085,4 +1090,3 @@ if __name__ == '__main__':
             for symbol_table in i.symbol_table:
                 for k, v in symbol_table.items():
                     print(k, v)
-
