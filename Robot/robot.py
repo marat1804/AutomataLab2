@@ -31,9 +31,12 @@ class Robot:
         return f'''\n x = {self.x}\n y = {self.y}\n turn: {look[str(self.turn)]}'''
 
     def show(self):
-        for row in self.map:
-            for cell in row:
-                print(cell.type, end=' ')
+        for i in range(len(self.map)):
+            for j in range(len(self.map[0])):
+                if i == self.y and j == self.x:
+                    print('ROBOT', end='  ')
+                else:
+                    print(self.map[i][j].type, end='  ')
             print()
 
     def wall(self):

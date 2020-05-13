@@ -42,7 +42,30 @@ bool res = function findPath() begin
         endif
         if x > uminus and x < 1 beginif
             if y > uminus and y < 1 beginif
-                noexit <- true
+                if count > 9 beginif
+                    noexit <- true
+                endif
+                if count < 10 beginif
+                    count <- count + 1
+                    if count < 5 beginif
+                        left
+                        turn <- rot_left turn
+                    endif
+                    if count > 5 beginif
+                        right
+                        turn <- rot_right turn
+                    endif
+                    temp <- wall
+                    for i=1:temp beginfor
+                        move(1)
+                        x, y <- move_x_y turn, x, y
+                    endfor
+                    x<-0
+                    y<-0
+                    left
+                    turn <- rot_left turn
+                    i <- 0
+                endif
             endif
         endif
     endfor

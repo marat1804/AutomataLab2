@@ -1081,6 +1081,9 @@ if __name__ == '__main__':
     prog_names = ['Tests/bubblesort.txt', 'Tests/fib.txt', 'Tests/cycle_and_conditions.txt', 'Tests/funcs.txt',
                   'Tests/index.txt', 'Tests/math.txt', 'Tests/nomain.txt', 'Tests/badrecursion.txt', 'Tests/syntax_errors.txt',
                   'Tests/some_errors.txt']
+    maps = ['Tests/Map/simple_map', 'Tests/Map/medium_map', 'Tests/Map/noexit', 'Tests/Map/middle', 'Tests/Map/island',
+            'Tests/Map/two_island']
+    algo = ['Tests/righthand.txt', 'Tests/modified.txt']
     print("What do you want to do? \n 0 - Run the algorithm \n 1 - Start the robot \n")
     n = int(input())
     if n == 0:
@@ -1099,16 +1102,27 @@ if __name__ == '__main__':
                     for k, v in symbol_table.items():
                         print(k, v)
     elif n == 1:
-        robot = create_robot('Tests/Map/noexit')
-        i = Interpreter()
-        prog = open('Tests/modified.txt', 'r').read()
-        res = i.interpreter(program=prog, robot=robot)
-        if res:
-            for symbol_table in i.symbol_table:
-                for k, v in symbol_table.items():
-                    print(k, v)
-        if i.exit_found:
-            print("\n\n========== EXIT HAS BEEN FOUND ==========\n\n")
+        print("Please choose the map: \n 0 - Simple map \n 1 - Medium map \n 2 - No exit map \n 3 - Start in the middle \n"
+              " 4 - Island \n 5 - Two islands \n")
+        number = int(input())
+        print("Please choose the algo: \n 0 - Right hand \n 1 - Modified \n")
+        number_2 = int(input())
+        if number not in range(6) or number_2 not in range(2):
+            print("Bad number!")
         else:
-            print("\n\n========== EXIT HAS NOT BEEN FOUND ==========\n\n")
-        print('\nRobot:', i.robot)
+            robot = create_robot(maps[number])
+            i = Interpreter()
+            prog = open(algo[number_2], 'r').read()
+            print(robot.show())
+            res = i.interpreter(program=prog, robot=robot)
+            if res:
+                for symbol_table in i.symbol_table:
+                    for k, v in symbol_table.items():
+                        print(k, v)
+            if i.exit_found:
+                print("\n\n========== EXIT HAS BEEN FOUND ==========\n\n")
+            else:
+                print("\n\n========== EXIT HAS NOT BEEN FOUND ==========\n\n")
+            print('\nRobot:', i.robot)
+            print('\nMap: ')
+            i.robot.show()
