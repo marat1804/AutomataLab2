@@ -1078,22 +1078,30 @@ def create_robot(descriptor):
 
 
 if __name__ == '__main__':
-    print('0/1?')
+    prog_names = ['Tests/bubblesort.txt', 'Tests/fib.txt', 'Tests/cycle_and_conditions.txt', 'Tests/funcs.txt',
+                  'Tests/index.txt', 'Tests/math.txt', 'Tests/nomain.txt', 'Tests/badrecursion.txt', 'Tests/syntax_errors.txt',
+                  'Tests/some_errors.txt']
+    print("What do you want to do? \n 0 - Run the algorithm \n 1 - Start the robot \n")
     n = int(input())
     if n == 0:
         i = Interpreter()
-        # prog = open('TechTask/test2.txt', 'r').read()
-        prog = open('Tests/math.txt', 'r').read()
-        res = i.interpreter(program=prog)
-        if res:
-            print('Symbol table:')
-            for symbol_table in i.symbol_table:
-                for k, v in symbol_table.items():
-                    print(k, v)
+        print("What do you want to run ? \n 0 - Bubblesort \n 1 - Fibonacci number \n 2 - Cycles \n 3 - Functions examples \n"
+              " 4 - Indexing \n 5 - Math and logic \n 6 - No main error \n 7 - Bad recursion \n 8 - Syntax errors \n 9 - Errors")
+        number = int(input())
+        if number not in range(10):
+            print("Bad number!")
+        else:
+            prog = open(prog_names[number], 'r').read()
+            res = i.interpreter(program=prog)
+            if res:
+                print('Symbol table:')
+                for symbol_table in i.symbol_table:
+                    for k, v in symbol_table.items():
+                        print(k, v)
     elif n == 1:
-        robot = create_robot('Tests/map')
+        robot = create_robot('Tests/Map/noexit')
         i = Interpreter()
-        prog = open('Tests/righthand.txt', 'r').read()
+        prog = open('Tests/modified.txt', 'r').read()
         res = i.interpreter(program=prog, robot=robot)
         if res:
             for symbol_table in i.symbol_table:
