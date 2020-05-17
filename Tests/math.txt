@@ -5,6 +5,8 @@ function main() begin
     int res2 = m + 5
     int res3 = m - n
     mint mat1 = {{1,2,3},{4,5,6}}
+    vint vec1 = {1,2,3}
+    vint vec2 = {4,5,6}
     mint mat2 = {{1,2}, {3,4}, {5,6}}
     mint matmul_1 = mat1 * mat2
     mint matres2 = mat2 * mat1
@@ -14,6 +16,7 @@ function main() begin
     mint matmul_3 = mat3 * 3
     mint elemmul_1 = mat1 .* mat2
     mint elemmul_2 = mat3 .* mat4
+    vint elemmul_3 = vec1 .* vec2
     mint transpose = mat3'
     int elemsum = sum(mat3)
     int n1 = 0110

@@ -60,7 +60,7 @@ class MyParser(object):
                                   lexpos=p.lexpos(2))
 
     def p_decl_error(self, p):
-        """declaration : type VARIABLE NL"""
+        """declaration : type VARIABLE error"""
         p[0] = SyntaxTreeNode('error', value="Wrong declaration", children=p[2], lineno=p.lineno(2), lexpos=p.lexpos(2))
         sys.stderr.write(f'>>> Wrong declaration\n')
 

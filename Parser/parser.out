@@ -15,7 +15,7 @@ Rule 9     statement -> function NL
 Rule 10    statement -> function_call NL
 Rule 11    declaration -> type VARIABLE EQ expression
 Rule 12    declaration -> type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-Rule 13    declaration -> type VARIABLE NL
+Rule 13    declaration -> type VARIABLE error
 Rule 14    decl_list -> L_FIGBRACKET expr_list R_FIGBRACKET
 Rule 15    decl_list -> decl_list COMMA L_FIGBRACKET decl_list R_FIGBRACKET
 Rule 16    decl_list -> expr_list
@@ -147,7 +147,7 @@ MINUS                : 44
 MOVE                 : 72
 MUL_ELEM             : 46
 MUL_MATRIX           : 45
-NL                   : 4 5 6 7 8 9 10 13 80 81 83 84 90 91 92 93 94 95
+NL                   : 4 5 6 7 8 9 10 80 81 83 84 90 91 92 93 94 95
 PLUS                 : 43
 RBRACKET             : 48 60 72 90 91 92 93 94 95
 RIGHT                : 73
@@ -161,7 +161,7 @@ VARIABLE             : 11 12 13 35 36 37 38 59 60 80 81 82 86 87 90 91 92 93 94 
 VBOOL                : 29
 VINT                 : 23
 WALL                 : 75
-error                : 79 82 85
+error                : 13 79 82 85
 
 Nonterminals, with rules where they appear
 
@@ -209,7 +209,7 @@ state 0
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -315,7 +315,7 @@ state 2
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -485,7 +485,7 @@ state 11
 
     (11) declaration -> type . VARIABLE EQ expression
     (12) declaration -> type . VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> type . VARIABLE NL
+    (13) declaration -> type . VARIABLE error
     (94) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
     (95) function -> type . VARIABLE EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
     (101) function_call -> type . VARIABLE EQ VARIABLE call_list
@@ -1115,7 +1115,7 @@ state 46
 
     (11) declaration -> type VARIABLE . EQ expression
     (12) declaration -> type VARIABLE . EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> type VARIABLE . NL
+    (13) declaration -> type VARIABLE . error
     (94) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET func_list RBRACKET BEGIN NL stmt_list END
     (95) function -> type VARIABLE . EQ FUNCTION VARIABLE LBRACKET RBRACKET BEGIN NL stmt_list END
     (101) function_call -> type VARIABLE . EQ VARIABLE call_list
@@ -1123,7 +1123,7 @@ state 46
 
   ! shift/reduce conflict for EQ resolved as shift
     EQ              shift and go to state 70
-    NL              shift and go to state 71
+    error           shift and go to state 71
     COMMA           reduce using rule 87 (return_list -> type VARIABLE .)
 
   ! EQ              [ reduce using rule 87 (return_list -> type VARIABLE .) ]
@@ -1796,9 +1796,9 @@ state 70
 
 state 71
 
-    (13) declaration -> type VARIABLE NL .
+    (13) declaration -> type VARIABLE error .
 
-    NL              reduce using rule 13 (declaration -> type VARIABLE NL .)
+    NL              reduce using rule 13 (declaration -> type VARIABLE error .)
 
 
 state 72
@@ -3904,7 +3904,7 @@ state 137
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -4004,7 +4004,7 @@ state 138
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -4468,7 +4468,7 @@ state 160
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -4567,7 +4567,7 @@ state 161
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -4915,7 +4915,7 @@ state 177
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5136,7 +5136,7 @@ state 187
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5235,7 +5235,7 @@ state 188
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5444,7 +5444,7 @@ state 194
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5544,7 +5544,7 @@ state 195
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5651,7 +5651,7 @@ state 197
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5750,7 +5750,7 @@ state 198
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5873,7 +5873,7 @@ state 202
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -5972,7 +5972,7 @@ state 203
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6071,7 +6071,7 @@ state 204
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6171,7 +6171,7 @@ state 205
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6270,7 +6270,7 @@ state 206
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6385,7 +6385,7 @@ state 209
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6484,7 +6484,7 @@ state 210
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6597,7 +6597,7 @@ state 213
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error
@@ -6703,7 +6703,7 @@ state 215
     (10) statement -> . function_call NL
     (11) declaration -> . type VARIABLE EQ expression
     (12) declaration -> . type VARIABLE EQ L_FIGBRACKET decl_list R_FIGBRACKET
-    (13) declaration -> . type VARIABLE NL
+    (13) declaration -> . type VARIABLE error
     (77) assignment -> . variable ASSIGNMENT expression
     (78) assignment -> . variable ASSIGNMENT L_FIGBRACKET decl_list R_FIGBRACKET
     (79) assignment -> . variable ASSIGNMENT error

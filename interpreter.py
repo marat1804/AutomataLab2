@@ -1113,7 +1113,6 @@ if __name__ == '__main__':
             robot = create_robot(maps[number])
             i = Interpreter()
             prog = open(algo[number_2], 'r').read()
-            print(robot.show())
             res = i.interpreter(program=prog, robot=robot)
             if res:
                 for symbol_table in i.symbol_table:
