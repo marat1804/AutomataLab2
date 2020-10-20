@@ -1,16 +1,21 @@
 import sys
 from Parser.parser import MyParser
 from SyntaxTree.SyntaxTree import SyntaxTreeNode
-from Errors.errors import Error_handler, InterpreterRedeclarationError
-from Errors.errors import InterpreterApplicationCall
-from Errors.errors import InterpreterConverseError
-from Errors.errors import InterpreterIndexError
-from Errors.errors import InterpreterWrongParameters
-from Errors.errors import InterpreterNameError
-from Errors.errors import InterpreterValueError
-from Errors.errors import InterpreterTypeError
-from Errors.errors import InterpreterBoolIndexError
-from Robot.robot import Robot, Cell, cells
+from Errors.errors import \
+    Error_handler, \
+    InterpreterRedeclarationError,\
+    InterpreterApplicationCall,\
+    InterpreterConverseError,\
+    InterpreterIndexError,\
+    InterpreterWrongParameters,\
+    InterpreterNameError,\
+    InterpreterValueError,\
+    InterpreterTypeError,\
+    InterpreterBoolIndexError
+from Robot.robot import \
+    Robot, \
+    Cell, \
+    cells
 
 
 class Variable:
@@ -37,17 +42,17 @@ class TypeConverser:
     def __init__(self):
         pass
 
-    def converse(self, type, var):
-        if type == var.type:
+    def converse(self, typeVar, var):
+        if typeVar == var.type:
             return var
-        elif type == 'bool':
-            if var.type == 'int':
-                return self.int_to_bool(var)
-        elif type == 'int':
+        elif typeVar == 'int':
             if var.type == 'bool':
                 return self.bool_to_int(var)
-        elif type.find(var.type) != -1:
-            return Variable(type, var.value)
+        elif typeVar == 'bool':
+            if var.type == 'int':
+                return self.int_to_bool(var)
+        elif typeVar.find(var.type) != -1:
+            return Variable(typeVar, var.value)
 
     @staticmethod
     def int_to_bool(var):
@@ -62,6 +67,23 @@ class TypeConverser:
             return Variable('int', 1)
         else:
             return Variable('int', 0)
+
+
+def make_copy(var):
+    if var.type.find('v') != -1:
+        result = []
+        for j in var.value:
+            result.append(Variable(var.type[1:], j.value))
+        return Variable(var.type, result)
+    elif var.type.find('m') != -1:
+        result = [[] for _ in range(len(var.value))]
+        for elem in range(len(var.value)):
+            for j in var.value[elem]:
+                result[elem].append(
+                    Variable(var.type[1:], j.value)
+                )
+        return Variable(var.type, result)
+    return var
 
 
 class Interpreter:
@@ -861,10 +883,10 @@ class Interpreter:
                     p = self.interpreter_node(item)
                     if isinstance(p, list):
                         for key in p:
-                            key = self.make_copy(key)
+                            key = make_copy(key)
                             func_param.append(key)
                     else:
-                        p = self.make_copy(p)
+                        p = make_copy(p)
                         func_param.append(p)
         except InterpreterNameError:
             self.error.up(self.error_types['UndeclaredError'], node)
@@ -1037,20 +1059,6 @@ class Interpreter:
     def move(self, expression):
         return self.robot.move(expression)
 
-    def make_copy(self, var):
-        if var.type.find('v') != -1:
-            res = []
-            for i in var.value:
-                res.append(Variable(var.type[1:], i.value))
-            return Variable(var.type, res)
-        elif var.type.find('m') != -1:
-            res = [[] for i in range(len(var.value))]
-            for i in range(len(var.value)):
-                for j in var.value[i]:
-                    res[i].append(Variable(var.type[1:], j.value))
-            return Variable(var.type, res)
-        return var
-
 
 def create_robot(descriptor):
     with open(descriptor) as file:
@@ -1061,35 +1069,58 @@ def create_robot(descriptor):
     x = int(robot_info[0])
     y = int(robot_info[1])
     turn = int(robot_info[2])
-    map = [0] * int(map_size[0])
+    tmpMap = [0] * int(map_size[0])
 
-    for i in range(int(map_size[0])):
-        map[i] = [0] * int(map_size[1])
-    for i in range(int(map_size[0])):
+    for cell in range(int(map_size[0])):
+        tmpMap[cell] = [0] * int(map_size[1])
+    for cell in range(int(map_size[0])):
         for j in range(int(map_size[1])):
-            map[i][j] = Cell("EMPTY")
+            tmpMap[cell][j] = Cell("EMPTY")
     pos = 0
     while len(text) > 0:
         line = list(text.pop(0))
         line = [Cell(cells[i]) for i in line]
-        map[pos] = line
+        tmpMap[pos] = line
         pos += 1
     return Robot(x=x, y=y, turn=turn, map=map)
 
 
 if __name__ == '__main__':
-    prog_names = ['Tests/bubblesort.txt', 'Tests/fib.txt', 'Tests/cycle_and_conditions.txt', 'Tests/funcs.txt',
-                  'Tests/index.txt', 'Tests/math.txt', 'Tests/nomain.txt', 'Tests/badrecursion.txt', 'Tests/syntax_errors.txt',
+    prog_names = ['Tests/bubblesort.txt',
+                  'Tests/fib.txt',
+                  'Tests/cycle_and_conditions.txt',
+                  'Tests/funcs.txt',
+                  'Tests/index.txt',
+                  'Tests/math.txt',
+                  'Tests/nomain.txt',
+                  'Tests/badrecursion.txt',
+                  'Tests/syntax_errors.txt',
                   'Tests/some_errors.txt']
-    maps = ['Tests/Map/simple_map', 'Tests/Map/medium_map', 'Tests/Map/noexit', 'Tests/Map/middle', 'Tests/Map/island',
+    maps = ['Tests/Map/simple_map',
+            'Tests/Map/medium_map',
+            'Tests/Map/noexit',
+            'Tests/Map/middle',
+            'Tests/Map/island',
             'Tests/Map/two_island']
-    algo = ['Tests/righthand.txt', 'Tests/modified.txt']
-    print("What do you want to do? \n 0 - Run the algorithm \n 1 - Start the robot \n")
+    algo = ['Tests/righthand.txt',
+            'Tests/modified.txt']
+    print("What do you want to do? \n "
+          "0 - Run the algorithm \n "
+          "1 - Start the robot \n")
     n = int(input())
     if n == 0:
         i = Interpreter()
-        print("What do you want to run ? \n 0 - Bubblesort \n 1 - Fibonacci number \n 2 - Cycles \n 3 - Functions examples \n"
-              " 4 - Indexing \n 5 - Math and logic \n 6 - No main error \n 7 - Bad recursion \n 8 - Syntax errors \n 9 - Errors")
+        print("What do you want to run ? \n "
+              "0 - Bubblesort \n "
+              "1 - Fibonacci number \n "
+              "2 - Cycles \n "
+              "3 - Functions examples \n "
+              "4 - Indexing \n "
+              "5 - Math and logic \n"
+              "6 - No main error \n "
+              "7 - Bad recursion \n "
+              "8 - Syntax errors \n"
+              "9 - Errors")
         number = int(input())
         if number not in range(10):
             print("Bad number!")
@@ -1102,8 +1133,13 @@ if __name__ == '__main__':
                     for k, v in symbol_table.items():
                         print(k, v)
     elif n == 1:
-        print("Please choose the map: \n 0 - Simple map \n 1 - Medium map \n 2 - No exit map \n 3 - Start in the middle \n"
-              " 4 - Island \n 5 - Two islands \n")
+        print("Please choose the map: \n "
+              "0 - Simple map \n "
+              "1 - Medium map \n "
+              "2 - No exit map \n "
+              "3 - Start in the middle \n"
+              " 4 - Island \n "
+              "5 - Two islands \n")
         number = int(input())
         print("Please choose the algo: \n 0 - Right hand \n 1 - Modified \n")
         number_2 = int(input())
